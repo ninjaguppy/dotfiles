@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: longsubscript
+# uuid: 0006
+# key: __
+# condition: (and (texmathp) 'auto)
+# --
+_{$1} $0

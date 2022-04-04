@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Inner Product
+# uuid: 0017
+# key: ip
+# condition: (and (texmathp) 'auto)
+# --
+\left\langle $1,$2\right\rangle $0

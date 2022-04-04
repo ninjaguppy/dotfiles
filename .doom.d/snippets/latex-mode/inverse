@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: inverse
+# uuid: 0012
+# key: invs
+# condition: (and (texmathp) 'auto)
+# --
+^{-1}

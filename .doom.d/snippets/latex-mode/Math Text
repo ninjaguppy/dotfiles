@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Math Text
+# uuid: 0007
+# key: tt
+# condition: (and 'texmathp 'auto)
+# --
+\\text{$0}

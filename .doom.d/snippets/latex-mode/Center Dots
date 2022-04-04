@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Center Dots
+# uuid: 0020
+# key: cdd
+# condition: t
+# --
+\cdots

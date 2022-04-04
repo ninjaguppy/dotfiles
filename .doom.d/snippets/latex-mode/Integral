@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Integral
+# uuid: 0037
+# key: iint
+# condition: (and (texmathp) 'auto)
+# --
+\\int

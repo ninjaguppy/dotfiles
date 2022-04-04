@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: generated
+# uuid: 0016
+# key: gen
+# condition: t
+# --
+\langle $1 \rangle $0

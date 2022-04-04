@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: Array
+# uuid: 0033
+# key: arr
+# condition: t
+# --
+\[
+\\begin{array}{$1}
+    $0
+\end{array}
+\]

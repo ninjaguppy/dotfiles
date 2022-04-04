@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Sylow psubgroup
+# uuid: 0029
+# key: spg
+# condition: t
+# --
+Sylow \\(${1:p}\\)-subgroup

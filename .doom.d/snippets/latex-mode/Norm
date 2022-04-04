@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Norm
+# uuid: 0040
+# key: norm
+# condition: t
+# --
+\| $1 \| $0

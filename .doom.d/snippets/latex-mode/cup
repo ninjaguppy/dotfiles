@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: cup
+# uuid: 0023
+# key: UU
+# condition: (and (texmathp) 'auto)
+# --
+\cup

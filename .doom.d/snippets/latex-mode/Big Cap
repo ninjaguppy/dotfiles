@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Big Cap
+# uuid: 0021
+# key: nnn
+# condition: (and (texmathp) 'auto)
+# --
+\bigcap_{${1:i \in ${2: I}}} $0

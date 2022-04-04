@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Normal
+# uuid: 0028
+# key: <!
+# condition: (and (texmathp) 'auto)
+# --
+\lhd

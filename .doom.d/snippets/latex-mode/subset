@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: subset
+# uuid: 0014
+# key: cc
+# condition: (and (texmathp) 'auto)
+# --
+\subset

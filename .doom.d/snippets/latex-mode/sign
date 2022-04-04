@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: sign
+# uuid: 0019
+# key: sign
+# condition: t
+# --
+\text{sign}

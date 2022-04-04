@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Lp Space
+# uuid: 0038
+# key: LL
+# condition: t
+# --
+\\mathcal{L}^{${1:p}}(${2:\\RR})

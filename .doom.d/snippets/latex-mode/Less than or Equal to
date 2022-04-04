@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Less than or Equal to
+# uuid: 0036
+# key: <=
+# condition: (and (texmathp) 'auto)
+# --
+\\leq

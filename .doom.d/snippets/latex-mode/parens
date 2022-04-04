@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: parens
+# uuid: 0011
+# key: ()
+# condition: (and (texmathp) 'auto)
+# --
+\left( ${1:${VISUAL}} \right) $0

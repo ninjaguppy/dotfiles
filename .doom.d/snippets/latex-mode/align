@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: align
+# uuid: 0032
+# key: ali
+# condition: t
+# --
+\\begin{align*}
+    $0
+\\end{align*}

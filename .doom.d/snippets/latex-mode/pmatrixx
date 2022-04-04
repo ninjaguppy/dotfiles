@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: pmatrixx
+# uuid: 0009
+# key: pmat
+# condition: (and (texmathp) 'auto)
+# --
+\begin{pmatrix} $1 \end{pmatrix} $0

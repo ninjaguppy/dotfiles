@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: bmatrix
+# uuid: 0010
+# key: bmat
+# condition: t
+# --
+\begin{bmatrix} $1 \end{bmatrix} $0

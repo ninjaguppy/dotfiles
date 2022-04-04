@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: set
+# uuid: 0013
+# key: set
+# condition: (and (texmathp) 'auto)
+# --
+\\{$1\\} $0

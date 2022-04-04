@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Big Function
+# uuid: 0030
+# key: bigfun
+# condition: t
+# --
+\begin{align*}
+	$1: $2 &\longrightarrow $3 \\\\
+	$4 &\longmapsto $1($4) = $0
+.\end{align*}

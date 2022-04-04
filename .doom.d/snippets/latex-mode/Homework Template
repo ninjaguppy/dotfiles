@@ -1,0 +1,58 @@
+# -*- mode: snippet -*-
+# name: Homework Template
+# uuid: 0004
+# key: hwtemp
+# condition: t
+# --
+\documentclass[11pt]{exam}
+
+%opening
+\pagestyle{headandfoot}
+\runningheadrule
+\runningheader{Lucas Kerbs}
+              {${1:Math $2: Homework $3}, Page \thepage\ of \numpages}
+              {\today}
+\runningfooter{}{}{}
+
+%load packages
+\usepackage{amsmath,amsfonts,amssymb,amsthm, mathtools, mathrsfs, faktor, bbm}
+\usepackage{wrapfig}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{enumerate}
+\usepackage[margin=1.0in]{geometry}
+
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\incfig}[1]{%
+\def\svgwidth{0.5\columnwidth}
+\import{./images/}{#1.pdf_tex}
+}
+
+%General shortcuts
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\Id}{\mathbbm{1}}
+\newcommand{\wms}{\textsc{wms} }
+\newcommand{\wma}{\textsc{wma} }
+\newcommand{\wwlog}{\textsc{wlog} }
+\newcommand{\Arg}{\text{Arg }}
+\newcommand{\Log}{\text{Log }}
+\renewcommand\qedsymbol{$\blacksquare$}
+
+\begin{document}
+\begin{center} {\LARGE ${1:Math $2: Homework $3}\vspace{2mm}\\\ Lucas Kerbs} \\\ \today \end{center}
+
+$0
+\end{document}

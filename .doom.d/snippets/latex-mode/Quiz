@@ -1,0 +1,73 @@
+# -*- mode: snippet -*-
+# name: Quiz
+# uuid: 0041
+# key: qztemp
+# condition: t
+# --
+\documentclass[12pt]{exam}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathmorphing,shapes}
+
+
+\usepackage{xcolor}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{multicol}
+
+\newcommand{\class}{Math 118}
+\newcommand{\term}{Winter 2022}
+\newcommand{\examnum}{Quiz 01}
+
+\pagestyle{head}
+% \firstpageheader{}{}{}
+\runningheader{\class}{\examnum\ - Page \thepage\ of \numpages}{}
+\runningheadrule
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+
+\begin{document}
+\noindent
+\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} r @{\extracolsep{6pt}} l}
+\textbf{\class} & \textbf{Name:} & \makebox[2in]{\hrulefill}\\
+\textbf{\term} &&\\
+\textbf{\examnum} &&\\
+\end{tabular*}\\
+\rule[2ex]{\textwidth}{2pt}
+
+Read at each question carefully, and show all your work for full credit. Make
+sure to box your solutions and organize your work as much as possible. Good
+luck, have fun.
+
+
+\begin{questions}
+%-------------------------------------------------------------
+% Question 1
+%-------------------------------------------------------------
+
+\question QUESTION 1
+
+\noaddpoints
+\begin{parts}
+    \part PART A
+    \vspace{12em}
+    \part PART B
+    \vspace{7em}
+\end{parts}
+
+%-------------------------------------------------------------
+% Question 2
+%-------------------------------------------------------------
+
+\question QUESTION 2
+\noaddpoints
+\begin{parts}
+    \part PART 1
+    \vspace{12em}
+    \part PART 2
+    \vspace{7em}
+\end{parts}
+ \end{questions}
+\end{document}

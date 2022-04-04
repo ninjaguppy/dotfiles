@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: power
+# uuid: 0005
+# key: td
+# condition: (and (texmathp) 'auto)
+# --
+^{$1} $0

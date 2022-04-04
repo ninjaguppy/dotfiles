@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: Solution
+# uuid: 0003
+# key: soln
+# condition: t
+# --
+\\begin\{proof\}[Solution:]
+    $0
+\\end\{proof\}

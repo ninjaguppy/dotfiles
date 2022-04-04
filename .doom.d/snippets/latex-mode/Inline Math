@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Inline Math
+# uuid: 0002
+# key: mk
+# condition: 'auto
+# --
+\$$0\$

@@ -12,7 +12,12 @@ fi
 
 # copy other dot files
 cp  $HOME/{.zshrc,.vimrc} .
-cp -R $HOME/.config/ ./.config/
+cp -r $HOME/.config/alacritty/ ./.config/alacritty/
+cp -r $HOME/.config/karabiner/ ./.config/karabiner/
+cp -r $HOME/.config/sketchybar/ ./.config/sketchybar/
+cp -r $HOME/.config/skhd/ ./.config/skhd/
+cp -r $HOME/.config/yabai/ ./.config/yabai/
+cp -r $HOME/.doom.d/ ./.doom.d/
 
 
 

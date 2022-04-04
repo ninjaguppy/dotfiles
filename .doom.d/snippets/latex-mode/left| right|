@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: left| right|
+# uuid: 0027
+# key: lr|
+# condition: t
+# --
+\left| ${1:${VISUAL}} \right| $0

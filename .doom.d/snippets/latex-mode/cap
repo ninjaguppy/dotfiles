@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: cap
+# uuid: 0024
+# key: Nn
+# condition: (and (texmathp) 'auto)
+# --
+\cap

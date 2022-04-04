@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Problem
+# uuid: 0001
+# key: prrob
+# condition: t
+# --
+\\paragraph\{Problem $1:\} $0

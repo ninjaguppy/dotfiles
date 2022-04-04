@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Mid
+# uuid: 0035
+# key: ||
+# condition: (and (texmathp) 'auto)
+# --
+\mid

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Factor Group
+# uuid: 0018
+# key: fak
+# condition: t
+# --
+\faktor{$1}{$2} $0
