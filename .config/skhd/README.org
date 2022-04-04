@@ -1,0 +1,112 @@
+#+title: Skhdrc
+#+PROPERTY: header-args :tangle skhdrc
+
+* About
+This is my SKHD config file. I use
+* NEIO Movement
+** Moving Focus and Swapping Windows
+
+#+BEGIN_SRC conf
+## move focus
+rcmd + rshift + ralt + rctrl - m : yabai -m window --focus west
+rcmd + rshift + ralt + rctrl - n : yabai -m window --focus south
+rcmd + rshift + ralt + rctrl - e : yabai -m window --focus north
+rcmd + rshift + ralt + rctrl - i : yabai -m window --focus east
+rcmd + rshift + ralt + rctrl - o : yabai -m window --swap first
+
+## swap window
+rcmd + rshift + ralt + rctrl + lalt - m : yabai -m window --swap west
+rcmd + rshift + ralt + rctrl + lalt - n : yabai -m window --swap south
+rcmd + rshift + ralt + rctrl + lalt - e : yabai -m window --swap north
+rcmd + rshift + ralt + rctrl + lalt - i : yabai -m window --swap east
+
+## Swap focus between monitors
+rcmd + rshift + ralt + rctrl + lshift - m : yabai -m display --focus west
+rcmd + rshift + ralt + rctrl + lshift - i : yabai -m display --focus east
+#+END_SRC
+
+** Resize Windows
+Note: This only works when the window you are resizing touches the edge of you
+monitor. It is set to do *two* actions---one of which doesn't occur since the
+window is touching an edge
+
+#+begin_src conf
+## Change the relative window size -- requires windows to always be touching the edge... i think
+rcmd + rshift + ralt + rctrl + lcmd - m : yabai -m window --resize left:-20:0 || yabai -m window --resize right:-20:0
+rcmd + rshift + ralt + rctrl + lcmd - n : yabai -m window --resize bottom:0:20 || yabai -m window --resize top:0:20
+rcmd + rshift + ralt + rctrl + lcmd - e : yabai -m window --resize top:0:-20 || yabai -m window --resize bottom:0:-20
+rcmd + rshift + ralt + rctrl + lcmd - i : yabai -m window --resize right:20:0 || yabai -m window --resize left:20:0
+#+end_src
+
+** Warping
+Warping a window intentionally breaks the window tree.
+
+#+begin_src conf
+rcmd + rshift + ralt + rctrl + lcmd + lalt - m : yabai -m window --warp west
+rcmd + rshift + ralt + rctrl + lcmd + lalt - n : yabai -m window --warp south
+rcmd + rshift + ralt + rctrl + lcmd + lalt - e : yabai -m window --warp north
+rcmd + rshift + ralt + rctrl + lcmd + lalt - i : yabai -m window --warp east
+#+end_src
+
+* Moving Focus *Between* Spaces
+
+Focus next space by mission-control index if one exists, otherwise go to the other side of the stack
+
+#+begin_src conf
+rcmd + rshift + ralt + rctrl - h : yabai -m space --focus next || yabai -m space --focus first
+rcmd + rshift + ralt + rctrl - k : yabai -m space --focus prev || yabai -m space --focus last
+#+end_src
+
+Send window to monitor and follow focus
+#+begin_src conf
+rcmd + rshift + ralt + rctrl + lcmd - k : /Users/lucaskerbs/CustomScripts/SwitchSpaces/moveWindowLeftAndFollowFocus.sh
+rcmd + rshift + ralt + rctrl + lcmd - h : /Users/lucaskerbs/CustomScripts/SwitchSpaces/moveWindowRightAndFollowFocus.sh
+rcmd + rshift + ralt + rctrl + lalt - h : yabai -m window --space next || yabai -m window --space first; yabai -m space --focus next || yabai -m space --focus first
+rcmd + rshift + ralt + rctrl + lalt - k : yabai -m window --space prev || yabai -m window --space last; yabai -m space --focus prev || yabai -m space --focus last
+#+end_src
+
+* Stacks
+Stacks are tricky. First we make shortcuts to /create/ stacks
+
+#+begin_src conf
+rcmd + rshift + ralt + rctrl + lctrl + lalt - m : yabai -m window west --stack $(yabai -m query --windows --window | jq -r '.id')
+rcmd + rshift + ralt + rctrl + lctrl + lalt - n : yabai -m window south --stack $(yabai -m query --windows --window | jq -r '.id')
+rcmd + rshift + ralt + rctrl + lctrl + lalt - e : yabai -m window north --stack $(yabai -m query --windows --window | jq -r '.id')
+rcmd + rshift + ralt + rctrl + lctrl + lalt - i : yabai -m window east --stack $(yabai -m query --windows --window | jq -r '.id')
+#+end_src
+
+Now we make shortcuts to move /within/ those stackes
+
+#+begin_src conf
+rcmd + rshift + ralt + rctrl + lctrl - n : yabai -m window --focus stack.next || yabai -m window --focus stack.first
+rcmd + rshift + ralt + rctrl + lctrl - e : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
+#+end_src
+
+* Launchers
+Hotkeys to launch applications (most of these are actually handled through
+Keyboard Maestro). The only one in SKHD handles opening the terminal.
+
+#+begin_src conf
+hyper - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+#+end_src
+
+* Other
+These do what they say!
+
+#+begin_src conf
+## rotate tree 90
+hyper - r : yabai -m space --rotate 90
+## re-balace the tree
+hyper - b : yabai -m space --balance
+
+# mirror tree y-axis
+hyper - y : yabai -m space --mirror y-axis
+## mirror tree x-axis
+hyper - x : yabai -m space --mirror x-axis
+
+## toggle window fullscreen zoom
+hyper - j : yabai -m window --toggle zoom-fullscreen
+
+## Get name of current window
+hyper - w : yabai -m query --windows --window | jq .title
+#+end_src
