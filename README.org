@@ -1,0 +1,6 @@
+#+title: Readme
+* Hello! Welcome!
+Here are my dotfiles! I cannot promise that they are any good, but if you need
+them hopefully they will be useful!
+
+** TODO tangle all of these configs so they are even easier to read!
