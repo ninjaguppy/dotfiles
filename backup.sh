@@ -11,7 +11,8 @@ fi
 
 
 # copy other dot files
-cp  $HOME/{.zshrc,.vimrc,.config/} .
+cp  $HOME/{.zshrc,.vimrc} .
+cp -R $HOME/.config/ ./.config/
 
 
 

@@ -1,0 +1,64 @@
+noremap ß $
+nmap <C-k> <Esc>:m .+1<CR>==gn
+nmap <C-l> <Esc>:m .-2<CR>==gn
+
+"Fix moving around"
+    nnoremap m h|
+    xnoremap m h|
+    onoremap m h|
+
+    nnoremap n j|
+    xnoremap n j|
+    onoremap n j|
+
+    nnoremap e k|
+    xnoremap e k|
+    onoremap e k|
+
+    nnoremap i l|
+    xnoremap i l|
+    onoremap i l|
+
+
+
+"Fix Insert and Undo"
+    nnoremap u i
+    xnoremap u i
+
+    nnoremap l u
+
+
+"Jump to bottom of row"
+    nnoremap I L
+    xnoremap I L
+    onoremap I L
+
+
+"Change Case"
+    xnoremap l u
+    xnoremap L U
+
+"The t-f-j rotation from evil-colemak-basics"
+    nnoremap f e
+    xnoremap f e
+    onoremap f e
+
+    nnoremap F E
+    xnoremap F E
+    onoremap F E
+
+    nnoremap t f
+    xnoremap t f
+    onoremap t f
+
+    nnoremap T F
+    xnoremap T F
+    onoremap T F
+
+    nnoremap j t
+    xnoremap j t
+    onoremap j t
+
+    nnoremap J T
+    xnoremap J T
+    onoremap J T

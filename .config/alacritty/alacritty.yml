@@ -1,0 +1,158 @@
+window:
+  dimensions:
+    columns: 250
+    lines: 78
+  padding:
+    x: 15
+    y: 15
+  decorations: none
+  opacity: .9
+scrolling:
+  history: 10000
+  multiplier: 3
+window.dynamic_title: true
+
+# Font Customization
+font:
+  normal:
+    family: JetBrains Mono
+    style: Regular
+  bold:
+    family: JetBrains Mono
+    style: Bold
+  italic:
+    family: JetBrains Mono
+    style: Italic
+  size: 14
+  offset:
+    x: 0
+    y: 0
+  glyph_offset:
+    x: 0
+    y: 0
+  use_thin_strokes: false
+  debug:
+    persistent_logging: false
+draw_bold_text_with_bright_colors: true
+
+# Colors (Monokai Pro)
+colors:
+#   Default colors
+  primary:
+    background: '0x2c2525'
+    foreground: '0xfff1f3'
+
+#   Normal colors
+  normal:
+    black:   '0x2c2525'
+    red:     '0xfd6883'
+    green:   '0xadda78'
+    yellow:  '0xf9cc6c'
+    blue:    '0xf38d70'
+    magenta: '0xa8a9eb'
+    cyan:    '0x85dacc'
+    white:   '0xfff1f3'
+
+#   Bright colors
+  bright:
+    black:   '0x72696a'
+    red:     '0xfd6883'
+    green:   '0xadda78'
+    yellow:  '0xf9cc6c'
+    blue:    '0xf38d70'
+    magenta: '0xa8a9eb'
+    cyan:    '0x85dacc'
+    white:   '0xfff1f3'
+
+# Colors (Doom One)
+#colors:
+  # Default colors
+  #primary:
+    #background: '0x282c34'
+    #foreground: '0xbbc2cf'
+
+  # Normal colors
+  #normal:
+    ##black:   '0x282c34'
+    #red:     '0xff6c6b'
+    #green:   '0x98be65'
+    #yellow:  '0xecbe7b'
+    #blue:    '0x51afef'
+    #magenta: '0xc678dd'
+    #cyan:    '0x46d9ff'
+    #white:   '0xbbc2cf'
+##colors:
+  ## Default colors
+  ##primary:
+    #background: '0x181818'
+    #foreground: '0xd8d8d8'
+
+  # Normal colors
+  #normal:
+    #black:   '0x181818'
+    #red:     '0xab4642'
+    #green:   '0xa1b56c'
+    #yellow:  '0xf7ca88'
+    #blue:    '0x7cafc2'
+    #magenta: '0xba8baf'
+    #cyan:    '0x86c1b9'
+    #white:   '0xd8d8d8'
+
+  # Bright colors
+  #bright:
+    #black:   '0x585858'
+    #red:     '0xab4642'
+    #green:   '0xa1b56c'
+    #yellow:  '0xf7ca88'
+    #blue:    '0x7cafc2'
+    #magenta: '0xba8baf'
+    #cyan:    '0x86c1b9'
+    #white:   '0xf8f8f8'
+#
+  #indexed_colors:
+    #- { index: 16, color: '0xdc9656' }
+    #- { index: 17, color: '0xa16946' }
+    #- { index: 18, color: '0x282828' }
+    #- { index: 19, color: '0x383838' }
+    #- { index: 20, color: '0xb8b8b8' }
+    #- { index: 21, color: '0xe8e8e8' }
+
+  #selection:
+    #text: '0xffffff'
+    #background: '0xdc3232'
+    #white:   '0xffffff'
+
+cursor:
+  style: Block
+  unfocused_hollow: true
+
+key_bindings:
+  - { key: N, mods: Control, action: SpawnNewInstance }
+
+# BEGIN ACE
+#colors:
+#  primary:
+#    background: '#04011C'
+#    foreground: '#c8bfe5'
+#  cursor:
+#    text:       '#04011C'
+#    cursor:     '#c8bfe5'
+#  normal:
+#    black:      '#04011C'
+#    red:        '#534C9B'
+#    green:      '#474EA1'
+#    yellow:     '#B25DAB'
+#    blue:       '#D95B9F'
+#    magenta:    '#D28994'
+#    cyan:       '#F39D9B'
+#    white:      '#c8bfe5'
+#  bright:
+#    black:      '#8c85a0'
+#    red:        '#534C9B'
+#    green:      '#474EA1'
+#    yellow:     '#B25DAB'
+#    blue:       '#D95B9F'
+#    magenta:    '#D28994'
+#    cyan:       '#F39D9B'
+#    white:      '#c8bfe5'
+# END ACE

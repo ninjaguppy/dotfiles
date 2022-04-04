@@ -1,0 +1,29 @@
+{"title":"Home Row Taps",
+ "rules": [
+     {
+         "description":"Shift and 'Z'"
+         ,"manipulators": [
+         {
+             "type":"device_if",
+             "identifiers": [
+                 {
+                     "vendor_id": 1452
+                 }
+             ]
+             "from":{
+                 "key_code":"left_shift"
+             },
+             "to_if_alone":[
+                 {"repeat":true,
+                  "key_code":"z"
+                 }
+             ],"to_if_held_down":[
+                 {
+                     "repeat":true,"key_code":"left_shift","lazy":false
+                 }
+             ]
+         }
+         ]
+     }
+ ]
+}
