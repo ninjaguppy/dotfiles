@@ -164,7 +164,7 @@ function push() {
 
 
 alias clear="clear && neofetch && quote"
-alias backdots="cd ~/Projects/dotfiles/ && ./backup.sh"
+alias backdots="cd ~/Projects/dotfiles/ && ./backup.sh && cd ~/"
 #neofetch
 
 GEN=$(shuf -i 1-2 -n 1)
