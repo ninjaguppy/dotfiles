@@ -3,4 +3,7 @@
 Here are my dotfiles! I cannot promise that they are any good, but if you need
 them hopefully they will be useful!
 
+NOTE: I type with a Colemak-DH layout, so my dotfiles (particularly skhd)
+reflect this.
+
 TODO: tangle all of these configs so they are even easier to read!
