@@ -1,6 +1,17 @@
 #+title: Skhdrc
 #+PROPERTY: header-args :tangle skhdrc
 
+* TABLE OF CONTENTS :toc:
+- [[#about][About]]
+- [[#neio-movement][NEIO Movement]]
+  - [[#moving-focus-and-swapping-windows][Moving Focus and Swapping Windows]]
+  - [[#resize-windows][Resize Windows]]
+  - [[#warping][Warping]]
+- [[#moving-focus-between-spaces][Moving Focus *Between* Spaces]]
+- [[#stacks][Stacks]]
+- [[#launchers][Launchers]]
+- [[#other][Other]]
+
 * About
 This is my SKHD config file. I use
 * NEIO Movement

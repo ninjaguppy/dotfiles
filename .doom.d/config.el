@@ -313,13 +313,17 @@ List of keybindings (SPC h b b)")
   (dired-sidebar-toggle-sidebar)
   (ibuffer-sidebar-toggle-sidebar))
 
-(setq evil-goggles-duration 0.1
-        evil-goggles-pulse t ; too slow
+(use-package evil-goggles
+  :init
+  (setq evil-goggles-duration 0.1
+        evil-goggles-pulse nil ; too slow
         ;; evil-goggles provides a good indicator of what has been affected.
         ;; delete/change is obvious, so I'd rather disable it for these.
         evil-goggles-enable-delete t
         evil-goggles-enable-change t)
-(evil-goggles-use-diff-faces)
+  :config
+  (evil-goggles-mode)
+  (evil-goggles-use-diff-faces))
 
 (defun server-shutdown ()
   "Save buffers, Quit, and Shutdown (kill) server"
@@ -341,6 +345,17 @@ List of keybindings (SPC h b b)")
        :desc "Toggle line highlight in frame" "h" #'hl-line-mode
        :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
+
+(map! :leader
+      (:prefix ("=" . "open file")
+       :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Org/agenda.org"))
+       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
+       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
+       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el"))))
+
+(define-globalized-minor-mode global-rainbow-mode rainbow-mode
+  (lambda () (rainbow-mode 1)))
+(global-rainbow-mode 1 )
 
 (remove-hook 'doom-first-input-hook 'evil-snipe-mode)
 (setq projectile-project-search-path '("~/Dropbox/Graduate School/"

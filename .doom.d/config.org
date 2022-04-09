@@ -1,7 +1,34 @@
-
-#+title: Skhdrc
+#+title: Doom Emacs Config
 #+PROPERTY: header-args :tangle config.el
 
+* TABLE OF CONTENTS :toc:
+- [[#intro][Intro]]
+  - [[#fonts][Fonts]]
+  - [[#themes][Themes]]
+  - [[#line-numbers][Line Numbers]]
+  - [[#line-breaking][Line Breaking]]
+  - [[#transparency][Transparency]]
+  - [[#icons][Icons]]
+- [[#colemak-mod-dh][Colemak Mod-DH]]
+- [[#org-mode][Org-Mode]]
+  - [[#org-roam][Org-Roam]]
+  - [[#org-latex][Org-Latex]]
+- [[#latex-config][LaTeX Config]]
+  - [[#bibtex][Bibtex]]
+  - [[#snippets][Snippets]]
+  - [[#cd-latex][CD-Latex]]
+  - [[#folding][Folding]]
+- [[#dashboard][Dashboard]]
+- [[#dired-ibuffer-sidebar][Dired-iBuffer sidebar]]
+- [[#smaller-packages][Smaller Packages]]
+  - [[#evil-goggles][Evil Goggles]]
+  - [[#daemon][Daemon]]
+  - [[#company][Company]]
+  - [[#ispell][iSpell]]
+  - [[#toggling][Toggling]]
+  - [[#openers][Openers]]
+  - [[#rainbow-mode][Rainbow Mode]]
+  - [[#other][Other]]
 
 * Intro
 Some functionality uses this to identify you, e.g. GPG configuration, email
@@ -442,14 +469,18 @@ Another thing that I am playing with. We create a side-bar with a ~dired~ and
 ** Evil Goggles
 This package adds a little highlight whenever you do a big-boy change
 #+begin_src elisp
- (setq evil-goggles-duration 0.1
-        evil-goggles-pulse t ; too slow
+(use-package evil-goggles
+  :init
+  (setq evil-goggles-duration 0.1
+        evil-goggles-pulse nil ; too slow
         ;; evil-goggles provides a good indicator of what has been affected.
         ;; delete/change is obvious, so I'd rather disable it for these.
         evil-goggles-enable-delete t
         evil-goggles-enable-change t)
-(evil-goggles-use-diff-faces)
-#+end_src
+  :config
+  (evil-goggles-mode)
+  (evil-goggles-use-diff-faces))
+ #+end_src
 
 ** Daemon
 We want a simple command to save all buffers and then shutdown the daemon
@@ -486,6 +517,27 @@ Some simple code that adds things under ~leader-t~ to toggle various things
        :desc "Toggle line highlight in frame" "h" #'hl-line-mode
        :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
+#+end_src
+** Openers
+Keybindings to open files that I work with all the time using the find-file
+command, which is the interactive file search that opens with ~C-x C-f~ in GNU
+Emacs or ~SPC f f~ in Doom Emacs.  These keybindings use find-file
+non-interactively since we specify exactly what file to open.  The format I use
+for these bindings is ~SPC =~ plus ~key~ since Doom Emacs does not use ~SPC =~.
+#+begin_src elisp
+(map! :leader
+      (:prefix ("=" . "open file")
+       :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Org/agenda.org"))
+       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
+       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
+       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el"))))
+#+end_src
+** Rainbow Mode
+Get those good good colors!
+#+begin_src elisp
+(define-globalized-minor-mode global-rainbow-mode rainbow-mode
+  (lambda () (rainbow-mode 1)))
+(global-rainbow-mode 1 )
 #+end_src
 ** Other
 These are things that I added at one point but I'm really not sure what is going
