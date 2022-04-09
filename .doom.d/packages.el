@@ -63,3 +63,4 @@
 (package! dired-sidebar)
 (package! dashboard)
 (package! evil-colemak-basics)
+(package! ivy-bibtex)

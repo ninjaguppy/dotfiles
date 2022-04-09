@@ -32,6 +32,7 @@ yabai -m rule --add app="^TeamViewer$" sticky=off layer=above manage=off
 yabai -m rule --add app="^Font Book$" sticky=off layer=above manage=off
 yabai -m rule --add app="Fantastical" manage=off
 yabai -m rule --add app="^Spotify$" manage=off
+yabai -m rule --add app="^Rocket$" manage=off
 yabai -m rule --add app="^Discord$" opacity=1
 yabai -m rule --add title="Emacs Everywhere" manage=off opacity=0.95
 #yabai -m rule --add app="^iTerm2$" manage=off

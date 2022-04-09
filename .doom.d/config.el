@@ -1,86 +1,32 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Lucas Kerbs"
       user-mail-address "lucaskerbs@gmail.com")
-
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;;
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-;;(setq doom-theme ' doom-monokai-pro)
-;;(setq doom-theme 'doom-horizon)
-(require 'ewal-doom-themes)
-(setq doom-theme 'doom-monokai-pro)
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Dropbox/Slipbox/")
-(setq org-roam-directory "~/Dropbox/Slipbox/")
 (setq default-directory "~/Dropbox/Graduate School/")
 
+(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
+      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 14)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 24))
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
 
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-;;
+(setq doom-theme 'doom-monokai-pro)
+;;(setq doom-theme 'doom-horizon)
+(require 'ewal-doom-themes)
 
-;; Here is code that (I hope) gets evil-tex and colemak to play nicely
+(setq display-line-numbers-type 'relative)
+
+(add-hook 'text-mode-hook  'auto-fill-mode)
+(setq-default fill-column 80)
+
+(set-frame-parameter (selected-frame) 'alpha '(90 . 75))
+(add-to-list 'default-frame-alist '(alpha . (90 . 75)))
+
+(use-package all-the-icons
+  :if (display-graphic-p))
+;;(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 (setq evil-tex-toggle-override-m nil)
 
@@ -89,8 +35,6 @@
     (evil-tex-dispatch-single-key ?t #'evil-tex-read-and-execute-toggle
                                   'evil-tex-m-functions)))
 
-
-;; Load colemak basics and enable movement between windows.
 (require 'evil-colemak-basics)
 (use-package evil-colemak-basics
   :config
@@ -112,21 +56,15 @@
   (define-key evil-window-map "k" 'evil-window-new)
   (define-key evil-window-map "\C-k" 'evil-window-new)
 
-;; auto break columns
-  (add-hook 'text-mode-hook  'auto-fill-mode)
-  (setq-default fill-column 80)
+(setq org-directory "~/Dropbox/Slipbox/")
+(setq org-roam-directory "~/Dropbox/Slipbox/")
 
-;; org-roam config
 (setq org-roam-db-update-method 'immediate)
-(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
- ;old setup:
- ;(setq org-roam-capture-templates '(("d" "default" plain #'org-roam-capture--get-point "%?":file-name "%<%Y-%m-%d>-${slug}" :head "#+title: ${title}\n#+STARTUP: latexpreview\n#+ROAM_TAGS: \n#+created: %u\n" :unnarrowed t )))
- (setq org-roam-capture-templates '(("d" "default" plain "%?"
+(setq org-roam-capture-templates '(("d" "default" plain "%?"
     :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
                                "#+title: ${title}\n")
                                 :unnarrowed t)))
- (setq org-highlight-latex-and-related '(latex script entities))
-;; Org-Roam side Window
+
 (add-to-list 'display-buffer-alist
     '("\\*org-roam\\*"
         (display-buffer-in-side-window)
@@ -138,26 +76,23 @@
                               (no-delete-other-windows . t)))))
 ;; (setq org-roam-buffer nil)
 
+(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+ (setq org-highlight-latex-and-related '(latex script entities))
 
-;; Activate org and LaTeX yas expansion in org-mode buffers."
 (defun my-org-latex-yas ()
   (yas-minor-mode)
   (yas-activate-extra-mode 'latex-mode))
-;;(require 'org-fragtog-mode)
 (add-hook 'org-mode-hook #'my-org-latex-yas)
+
 (add-hook 'org-mode-hook 'org-fragtog-mode)
 
-;;Make frames/windows transparent
-(set-frame-parameter (selected-frame) 'alpha '(90 . 75))
-(add-to-list 'default-frame-alist '(alpha . (90 . 75)))
-
+(require 'latex)
 (add-hook 'latex-mode-hook #'TeX-latex-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;; Latex Things ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq TeX-electric-sub-and-superscript nil)
 
-;;Latex / Autosnippets Config
+(setq bibtex-completion-bibliography '("~/Dropbox/Biblio/main.bib"))
+
 (defun my-yas-try-expanding-auto-snippets ()
     (when (and (boundp 'yas-minor-mode) yas-minor-mode)
       (let ((yas-buffer-local-condition ''(require-snippet-condition . auto)))
@@ -177,9 +112,10 @@
                     ;;        (yas-expand-snippet "\\frac{$1}{$2}$0"))
                     "Span" (lambda () (interactive)
                              (yas-expand-snippet "\\Span($1)$0"))))
-(require 'latex)
 
-(setq TeX-electric-sub-and-superscript nil)
+(map! :map cdlatex-mode-map
+    :i "TAB" #'cdlatex-tab)
+
 (setq cdlatex-math-symbol-alist
  '(
    ( ?c  ("\\chi"                 "\\circ"                "\\cos"))
@@ -188,10 +124,8 @@
    ( ?x  ("\\xi"                  "\\otimes"              ""))
     ))
 
-;; Make the folds a bit nicer (stolen)
 (after! latex
   (setcar (assoc "⋆" LaTeX-fold-math-spec-list) "★")) ;; make \star bigger
-
 (setq TeX-fold-math-spec-list
       `(;; missing/better symbols
         ("≤" ("le"))
@@ -322,25 +256,8 @@ Such special cases should be remapped to another value, as given in `string-offs
   "Return t if TESTSTRING appears to be a single token, nil otherwise"
   (if (string-match-p "^\\\\?\\w+$" teststring) t nil))
 
-(use-package all-the-icons
-  :if (display-graphic-p))
-;;(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-
 (setq fancy-splash-image "~/.doom.d/cute-doom/doom_512.png")
-(use-package evil-goggles
-  ;;ensure t
-  :config
-  (evil-goggles-mode)
 
-  ;; optionally use diff-mode's faces; as a result, deleted text
-  ;; will be highlighed with `diff-removed` face which is typically
-  ;; some red color (as defined by the color theme)
-  ;; other faces such as `diff-added` will be used for other actions
-  (evil-goggles-use-diff-faces))
-
-
-
-;;Dashboard
 (use-package dashboard
   :init      ;; tweak dashboard config before loading it
   (setq dashboard-set-heading-icons t)
@@ -366,38 +283,17 @@ List of keybindings (SPC h b b)")
   (dashboard-setup-startup-hook)
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book"))))
-  (setq doom-fallback-buffer "*dashboard*")
 
-;; define function to shutdown emacs server instance
-(defun server-shutdown ()
-  "Save buffers, Quit, and Shutdown (kill) server"
-  (interactive)
-  (save-some-buffers)
-  (kill-emacs)
-  )
+(setq doom-fallback-buffer "*dashboard*")
 
-;;Fonts
-(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 14)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 24))
-(after! doom-themes
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t))
-(custom-set-faces!
-  '(font-lock-comment-face :slant italic)
-  '(font-lock-keyword-face :slant italic))
-
-;; Setting up the side-bar---dired and a list of buffers
 (use-package ibuffer-sidebar
   :load-path "~/.emacs.d/fork/ibuffer-sidebar"
-  ;;:ensure nil
   :commands (ibuffer-sidebar-toggle-sidebar)
   :config
   (setq ibuffer-sidebar-use-custom-font t)
   (setq ibuffer-sidebar-face `(:family "Helvetica" :height 140)))
 (use-package dired-sidebar
   :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
-  ;;:ensure t
   :commands (dired-sidebar-toggle-sidebar)
   :init
   (add-hook 'dired-sidebar-mode-hook
@@ -409,7 +305,6 @@ List of keybindings (SPC h b b)")
   (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
 
   (setq dired-sidebar-subtree-line-prefix "__")
-  ;;(setq dired-sidebar-theme 'vscode)
   (setq dired-sidebar-use-term-integration t)
   (setq dired-sidebar-use-custom-font t))
 (defun sidebar-toggle ()
@@ -418,17 +313,27 @@ List of keybindings (SPC h b b)")
   (dired-sidebar-toggle-sidebar)
   (ibuffer-sidebar-toggle-sidebar))
 
-;; Other things that don't have a home
+(setq evil-goggles-duration 0.1
+        evil-goggles-pulse t ; too slow
+        ;; evil-goggles provides a good indicator of what has been affected.
+        ;; delete/change is obvious, so I'd rather disable it for these.
+        evil-goggles-enable-delete t
+        evil-goggles-enable-change t)
+(evil-goggles-use-diff-faces)
+
+(defun server-shutdown ()
+  "Save buffers, Quit, and Shutdown (kill) server"
+  (interactive)
+  (save-some-buffers)
+  (kill-emacs)
+  )
+
+(after! company
+ (setq company-idle-delay 1.5
+       company-minimum-prefix-length 5))
+
 (setq ispell-program-name "/usr/local/bin/ispell")
-(remove-hook 'doom-first-input-hook 'evil-snipe-mode)
-(setq projectile-project-search-path '("~/Dropbox/Graduate School/" "~/Dropbox/PhD Applications/"))
 
-;; Lets get company working...
- (after! company
-  (setq company-idle-delay 2
-        company-minimum-prefix-length 5))
-
-;;Things to test
 (map! :leader
       :desc "Comment or uncomment lines" "TAB TAB" #'comment-line
       (:prefix ("t" . "toggle")
@@ -437,4 +342,7 @@ List of keybindings (SPC h b b)")
        :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
 
-;;(setq emacs-everywhere-paste-p t)
+(remove-hook 'doom-first-input-hook 'evil-snipe-mode)
+(setq projectile-project-search-path '("~/Dropbox/Graduate School/"
+                                       "~/Dropbox/PhD Applications/"
+                                       "~/Projects/"))

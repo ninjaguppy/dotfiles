@@ -42,7 +42,11 @@ rcmd + rshift + ralt + rctrl + lctrl + lalt - i : yabai -m window east --stack $
 rcmd + rshift + ralt + rctrl + lctrl - n : yabai -m window --focus stack.next || yabai -m window --focus stack.first
 rcmd + rshift + ralt + rctrl + lctrl - e : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
 
+## Open Terminal
 hyper - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+
+## Emacs Everywhere (eventually)
+## hyper - t : emacsclient --eval "(emacs-everywhere)"
 
 ## rotate tree 90
 hyper - r : yabai -m space --rotate 90

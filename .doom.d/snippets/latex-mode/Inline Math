@@ -4,4 +4,4 @@
 # key: mk
 # condition: 'auto
 # --
-\$$0\$
+\\($0\\)

@@ -87,7 +87,11 @@ Hotkeys to launch applications (most of these are actually handled through
 Keyboard Maestro). The only one in SKHD handles opening the terminal.
 
 #+begin_src conf
+## Open Terminal
 hyper - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+
+## Emacs Everywhere (eventually)
+## hyper - t : emacsclient --eval "(emacs-everywhere)"
 #+end_src
 
 * Other
