@@ -1,0 +1,171 @@
+#+title: Yabai Config
+#+PROPERTY: header-args :tangle yabairc
+
+* TABLE OF CONTENTS :toc:
+- [[#introduction][Introduction]]
+- [[#setup][Setup]]
+  - [[#scripting-addition][Scripting Addition]]
+  - [[#layout][Layout]]
+  - [[#spaces][Spaces]]
+  - [[#appliction-settings][Appliction Settings]]
+- [[#global-config][Global Config]]
+  - [[#mouse][Mouse]]
+  - [[#child--splits][Child + Splits]]
+  - [[#borders][Borders]]
+  - [[#window-settings][Window Settings]]
+  - [[#signals][Signals]]
+- [[#end][End]]
+
+* Introduction
+This is my yabai configuration file. There isn't all that much here but such is life.
+Just in case this is needed
+* Setup
+We start with the weird thing at the top of every shell script just in case we
+need it
+#+begin_src sh
+#!/usr/bin/env sh
+#+end_src
+
+** Scripting Addition
+I use the Scripting Addition for some extra functionality. We need to load that
+whenever yabai start
+#+begin_src sh
+sudo yabai --load-sa
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+#+end_src
+
+** Layout
+We want the general fallback to me binary space partitioning
+#+begin_src sh
+yabai -m config layout bsp
+#+end_src
+
+** Spaces
+I have a standard space layout for my laptop -- this could use some work for my
+docked setup (eg want music on other monitor)
+
+#+begin_src sh
+yabai -m space 1 --label comms
+yabai -m space 2 --label code
+yabai -m space 3 --label web
+yabai -m space 4 --label todo
+yabai -m space 5 --label idle
+yabai -m space 6 --label music
+#+end_src
+
+** Appliction Settings
+
+There are certian applications that I want to work a specific way -- this
+ensures that they play nice
+#+begin_src sh
+yabai -m rule --add app="^System Preferences$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Karabiner-Elements$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Keka$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
+yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Timery$" sticky=on layer=above manage=off
+yabai -m rule --add app="^CleanShot X$" layer=above manage=eff
+yabai -m rule --add app="^Path Finder$" manage=off sticky=on layer=above
+yabai -m rule --add app="^TeamViewer$" sticky=off layer=above manage=off
+yabai -m rule --add app="^Font Book$" sticky=off layer=above manage=off
+yabai -m rule --add app="Fantastical" manage=off
+yabai -m rule --add app="^Spotify$" manage=off
+yabai -m rule --add app="^Rocket$" manage=off
+yabai -m rule --add app="^Discord$" opacity=1
+yabai -m rule --add title="Emacs Everywhere" manage=off opacity=0.95
+yabai -m rule --add app="^Flux$" manage=off
+yabai -m rule --add app="^Time Out$" manage=off
+yabai -m rule --add app="^perl_client_app$" manage=off
+yabai -m rule --add app="^console$" manage=off
+yabai -m rule --add app="^Harvest$" manage=off
+yabai -m rule --add app="^CiscoSparkHelper$" manage=off
+yabai -m rule --add app="^Logi Options$" manage=off
+yabai -m rule --add app="^Cisco Webex Start$" manage=off
+yabai -m rule --add app="^Private Internet Access$" manage=off
+#+end_src
+
+* Global Config
+** Mouse
+Set the mouse behavior
+#+begin_src sh
+yabai -m config focus_follows_mouse off
+yabai -m config mouse_follows_focus off
+## set mouse interaction modifier key (default: fn)
+yabai -m config mouse_modifier ctrl
+## set modifier + right-click drag to resize window (default: resize)
+yabai -m config mouse_action2 resize
+## set modifier + left-click drag to resize window (default: move)
+yabai -m config mouse_action1 move
+#+end_src
+
+** Child + Splits
+#+begin_src sh
+yabai -m config window_placement second_child
+yabai -m config window_topmost off
+yabai -m config auto_balance off
+yabai -m config split_ratio 0.50
+#+end_src
+
+** Borders
+We want a small border around each panel/frame!
+#+begin_src sh
+yabai -m config top_padding 8
+yabai -m config bottom_padding 40
+yabai -m config left_padding 8
+yabai -m config right_padding 8
+yabai -m config window_gap 6
+#+end_src
+
+As well as space for a bar on the /bottom/ of the screen
+#+begin_src sh
+yabai -m config external_bar main: 0:28
+#+end_src
+
+** Window Settings
+We want nonfocused windows to have slightly lighter transparencies, but we need
+to treat emacs a little bit differently
+#+begin_src sh
+yabai -m config window_opacity on
+yabai -m config active_window_opacity 1.0
+yabai -m config normal_window_opacity 0.75
+yabai -m config window_shadow float
+yabai -m rule --add app="Emacs" opacity=0.75
+#+end_src
+
+We also want a nice little border around every window with a slightly different
+color on the active window
+#+begin_src sh
+yabai -m config window_border                on
+yabai -m config window_border_width          5
+yabai -m config active_window_border_color   0xffff9966
+yabai -m config normal_window_border_color   0xff534c9b
+#+end_src
+
+** Signals
+These first two I understand. We want =sketcybar= to update whenever yabai
+messes with a window
+#+begin_src sh
+yabai -m signal --add event=window_focused action="sketchybar -m --trigger window_focus"
+yabai -m signal --add event=window_resized action="sketchybar -m --trigger window_focus"
+#+end_src
+
+This signal is not one that I understand but I assume it is there for a reason
+#+begin_src sh
+yabai -m signal --add event=application_terminated action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
+#+end_src
+
+This script just doesn't work and I really couldn't say why
+#+begin_src sh
+yabai -m signal --add event=window_destroyed action="zsh /Users/lucaskerbs/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
+#+end_src
+
+* End
+Lastly, we echo a little thing so that if run from a terminal we know that it
+all worked
+#+begin_src sh
+echo "yabai configuration loaded.."
+#+end_src
