@@ -274,15 +274,14 @@ List of keybindings (SPC h b b)")
   (setq dashboard-startup-banner "~/.doom.d/cute-doom/doom_512.png")
   (setq dashboard-banner-logo-title "Journey Before Destination!")
   (setq dashboard-center-content nil) ;; set to 't' for centered content
- (setq dashboard-items '((recents . 5)
+  (setq dashboard-items '((recents . 5)
                           (bookmarks . 5)
                           (projects . 3)
                           (registers . 5)))
-  ;;:ensure t
-  :config
-  (dashboard-setup-startup-hook)
-  (dashboard-modify-heading-icons '((recents . "file-text")
-                                    (bookmarks . "book"))))
+   :config
+   (dashboard-setup-startup-hook)
+   (dashboard-modify-heading-icons '((recents . "file-text")
+                                     (bookmarks . "book"))))
 
 (setq doom-fallback-buffer "*dashboard*")
 
@@ -332,9 +331,9 @@ List of keybindings (SPC h b b)")
   (kill-emacs)
   )
 
- (after! company
+(after! company
   (setq company-idle-delay 1.5
-        company-minimum-prefix-length 5))
+       company-minimum-prefix-length 5))
 
 (setq ispell-program-name "/usr/local/bin/ispell")
 
@@ -357,7 +356,11 @@ List of keybindings (SPC h b b)")
   (lambda () (rainbow-mode 1)))
 (global-rainbow-mode 1 )
 
-(remove-hook 'doom-first-input-hook 'evil-snipe-mode)
+(after! evil-snipe
+  (setq evil-snipe-scope 'visible
+        evil-snipe-spillover-scope 'whole-visible))
+
+;;(remove-hook 'doom-first-input-hook 'evil-snipe-mode)
 (setq projectile-project-search-path '("~/Dropbox/Graduate School/"
                                        "~/Dropbox/PhD Applications/"
                                        "~/Projects/"))

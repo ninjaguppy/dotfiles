@@ -28,6 +28,7 @@
   - [[#toggling][Toggling]]
   - [[#openers][Openers]]
   - [[#rainbow-mode][Rainbow Mode]]
+  - [[#evil-snipe][Evil Snipe]]
   - [[#other][Other]]
 
 * Intro
@@ -418,15 +419,14 @@ List of keybindings (SPC h b b)")
   (setq dashboard-startup-banner "~/.doom.d/cute-doom/doom_512.png")
   (setq dashboard-banner-logo-title "Journey Before Destination!")
   (setq dashboard-center-content nil) ;; set to 't' for centered content
- (setq dashboard-items '((recents . 5)
+  (setq dashboard-items '((recents . 5)
                           (bookmarks . 5)
                           (projects . 3)
                           (registers . 5)))
-  ;;:ensure t
-  :config
-  (dashboard-setup-startup-hook)
-  (dashboard-modify-heading-icons '((recents . "file-text")
-                                    (bookmarks . "book"))))
+   :config
+   (dashboard-setup-startup-hook)
+   (dashboard-modify-heading-icons '((recents . "file-text")
+                                     (bookmarks . "book"))))
 #+end_src
 
 In the case that we are loading an ~emacsclient~ window, we want to open the
@@ -496,9 +496,9 @@ We want a simple command to save all buffers and then shutdown the daemon
 ** Company
 Comany is a completion engine. It is really nice but it gets in the way
 #+begin_src elisp
- (after! company
+(after! company
   (setq company-idle-delay 1.5
-        company-minimum-prefix-length 5))
+       company-minimum-prefix-length 5))
 #+end_src
 
 ** iSpell
@@ -543,11 +543,20 @@ Get those good good colors!
 (global-rainbow-mode 1 )
 #+end_src
 
+** Evil Snipe
+This is a new thing (as of 4-9-22). It seems like a good way to navigate round
+the buffer but I want a little larger range for my sniping
+#+begin_src elisp
+(after! evil-snipe
+  (setq evil-snipe-scope 'visible
+        evil-snipe-spillover-scope 'whole-visible))
+#+end_src
+
 ** Other
 These are things that I added at one point but I'm really not sure what is going
 on
 #+begin_src elisp
-(remove-hook 'doom-first-input-hook 'evil-snipe-mode)
+;;(remove-hook 'doom-first-input-hook 'evil-snipe-mode)
 (setq projectile-project-search-path '("~/Dropbox/Graduate School/"
                                        "~/Dropbox/PhD Applications/"
                                        "~/Projects/"))
