@@ -432,8 +432,10 @@ List of keybindings (SPC h b b)")
 In the case that we are loading an ~emacsclient~ window, we want to open the
 dashboard. Right now it doesn't work right all the time.
 #+begin_src elisp
-(setq doom-fallback-buffer "*dashboard*")
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+;;(setq doom-fallback-buffer "*dashboard*")
 #+end_src
+
 * Dired-iBuffer sidebar
 Another thing that I am playing with. We create a side-bar with a ~dired~ and
 ~ibuffer~ window.

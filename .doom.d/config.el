@@ -283,7 +283,8 @@ List of keybindings (SPC h b b)")
    (dashboard-modify-heading-icons '((recents . "file-text")
                                      (bookmarks . "book"))))
 
-(setq doom-fallback-buffer "*dashboard*")
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+;;(setq doom-fallback-buffer "*dashboard*")
 
 (use-package ibuffer-sidebar
   :load-path "~/.emacs.d/fork/ibuffer-sidebar"
