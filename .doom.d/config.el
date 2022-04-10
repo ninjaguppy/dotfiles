@@ -332,9 +332,9 @@ List of keybindings (SPC h b b)")
   (kill-emacs)
   )
 
-(after! company
- (setq company-idle-delay 1.5
-       company-minimum-prefix-length 5))
+ (after! company
+  (setq company-idle-delay 1.5
+        company-minimum-prefix-length 5))
 
 (setq ispell-program-name "/usr/local/bin/ispell")
 
@@ -349,9 +349,9 @@ List of keybindings (SPC h b b)")
 (map! :leader
       (:prefix ("=" . "open file")
        :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Org/agenda.org"))
-       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
-       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
-       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el"))))
+       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.doom.d/config.org"))
+       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.doom.d/init.el"))
+       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.doom.d/packages.el"))))
 
 (define-globalized-minor-mode global-rainbow-mode rainbow-mode
   (lambda () (rainbow-mode 1)))

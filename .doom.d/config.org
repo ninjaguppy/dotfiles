@@ -500,6 +500,7 @@ Comany is a completion engine. It is really nice but it gets in the way
   (setq company-idle-delay 1.5
         company-minimum-prefix-length 5))
 #+end_src
+
 ** iSpell
 Spell-check needs a home
 #+begin_src elisp
@@ -518,6 +519,7 @@ Some simple code that adds things under ~leader-t~ to toggle various things
        :desc "Toggle line highlight globally" "H" #'global-hl-line-mode
        :desc "Toggle truncate lines" "t" #'toggle-truncate-lines))
 #+end_src
+
 ** Openers
 Keybindings to open files that I work with all the time using the find-file
 command, which is the interactive file search that opens with ~C-x C-f~ in GNU
@@ -528,10 +530,11 @@ for these bindings is ~SPC =~ plus ~key~ since Doom Emacs does not use ~SPC =~.
 (map! :leader
       (:prefix ("=" . "open file")
        :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Org/agenda.org"))
-       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.config/doom/config.org"))
-       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.config/doom/init.el"))
-       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.config/doom/packages.el"))))
+       :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.doom.d/config.org"))
+       :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.doom.d/init.el"))
+       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.doom.d/packages.el"))))
 #+end_src
+
 ** Rainbow Mode
 Get those good good colors!
 #+begin_src elisp
@@ -539,6 +542,7 @@ Get those good good colors!
   (lambda () (rainbow-mode 1)))
 (global-rainbow-mode 1 )
 #+end_src
+
 ** Other
 These are things that I added at one point but I'm really not sure what is going
 on
