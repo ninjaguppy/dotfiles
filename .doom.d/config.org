@@ -207,6 +207,12 @@ information. For now there is just setting the link to my main =.bib= file
 (setq bibtex-completion-bibliography '("~/Dropbox/Biblio/main.bib"))
 #+end_src
 
+When searching with =ivy-bibtex=, we want hitting =RET= on a paper to inset the
+LaTeX citation
+#+begin_src elisp
+(setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
+#+end_src
+
 ** Snippets
 This gets certain snippets to expand automatically. Honestly I stole if from
 somewher and don't remember where/why.
@@ -433,7 +439,7 @@ In the case that we are loading an ~emacsclient~ window, we want to open the
 dashboard. Right now it doesn't work right all the time.
 #+begin_src elisp
 (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-;;(setq doom-fallback-buffer "*dashboard*")
+(setq doom-fallback-buffer "*dashboard*")
 #+end_src
 
 * Dired-iBuffer sidebar
@@ -558,7 +564,6 @@ the buffer but I want a little larger range for my sniping
 These are things that I added at one point but I'm really not sure what is going
 on
 #+begin_src elisp
-;;(remove-hook 'doom-first-input-hook 'evil-snipe-mode)
 (setq projectile-project-search-path '("~/Dropbox/Graduate School/"
                                        "~/Dropbox/PhD Applications/"
                                        "~/Projects/"))

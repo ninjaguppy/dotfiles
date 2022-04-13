@@ -5,14 +5,14 @@ sketchybar --add       item               messages right                        
                                           script="$PLUGIN_DIR/messages.sh"              \
                                           drawing=on                                    \
                                                                                         \
-           --add       item               mailIndicator right                           \
-           --set       mailIndicator      update_freq=30                                \
-                                          script="$PLUGIN_DIR/mailIndicator.sh"         \
-                                          icon.font="$FONT:Bold:16.0"                   \
-                                          icon=􀍜                                       \
-                                          label.padding_right=8                         \
-                                          background.padding_right=0                    \
-                                          label=!                                       \
+           #--add       item               mailIndicator right                           \
+           #--set       mailIndicator      update_freq=30                                \
+           #                               script="$PLUGIN_DIR/mailIndicator.sh"         \
+           #                               icon.font="$FONT:Bold:16.0"                   \
+           #                               icon=􀍜                                       \
+           #                               label.padding_right=8                         \
+           #                               background.padding_right=0                    \
+           #                               label=!                                       \
            #                                                                             \
            #--add       event              bluetooth_change "com.apple.bluetooth.status" \
            #--add       item               headphones right                              \

@@ -93,6 +93,8 @@
 
 (setq bibtex-completion-bibliography '("~/Dropbox/Biblio/main.bib"))
 
+(setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
+
 (defun my-yas-try-expanding-auto-snippets ()
     (when (and (boundp 'yas-minor-mode) yas-minor-mode)
       (let ((yas-buffer-local-condition ''(require-snippet-condition . auto)))
@@ -284,7 +286,7 @@ List of keybindings (SPC h b b)")
                                      (bookmarks . "book"))))
 
 (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-;;(setq doom-fallback-buffer "*dashboard*")
+(setq doom-fallback-buffer "*dashboard*")
 
 (use-package ibuffer-sidebar
   :load-path "~/.emacs.d/fork/ibuffer-sidebar"
@@ -361,7 +363,6 @@ List of keybindings (SPC h b b)")
   (setq evil-snipe-scope 'visible
         evil-snipe-spillover-scope 'whole-visible))
 
-;;(remove-hook 'doom-first-input-hook 'evil-snipe-mode)
 (setq projectile-project-search-path '("~/Dropbox/Graduate School/"
                                        "~/Dropbox/PhD Applications/"
                                        "~/Projects/"))

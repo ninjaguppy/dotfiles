@@ -72,7 +72,7 @@ yabai -m rule --add app="^CleanShot X$" layer=above manage=eff
 yabai -m rule --add app="^Path Finder$" manage=off sticky=on layer=above
 yabai -m rule --add app="^TeamViewer$" sticky=off layer=above manage=off
 yabai -m rule --add app="^Font Book$" sticky=off layer=above manage=off
-yabai -m rule --add app="Fantastical" manage=off
+yabai -m rule --add app="Fantastical" manage=off opacity=0.95
 yabai -m rule --add app="^Spotify$" manage=off
 yabai -m rule --add app="^Rocket$" manage=off
 yabai -m rule --add app="^Discord$" opacity=1
@@ -160,7 +160,7 @@ yabai -m signal --add event=application_terminated action="yabai -m query --wind
 
 This script just doesn't work and I really couldn't say why
 #+begin_src sh
-yabai -m signal --add event=window_destroyed action="zsh /Users/lucaskerbs/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
+yabai -m signal --add event=window_destroyed action="zsh ~/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
 #+end_src
 
 * End
