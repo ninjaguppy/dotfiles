@@ -41,29 +41,37 @@ sketchybar --add       event              window_focus                          
            --set    "Control Center,WiFi" update_freq=2                                 \
                                           icon.drawing=off                              \
                                           label.drawing=off                             \
-                                          background.padding_left=-4                    \
+                                          background.padding_left=2                    \
                                           background.padding_right=-4                   \
                                           click_script="sketchybar -m --set \"\$NAME\" popup.drawing=toggle; sketchybar --trigger wifi" \
-                                          popup.align=right                             \
+                                          popup.align=center                             \
                                                                                         \
            --add       item               wifi.details popup."Control Center,WiFi"      \
            --set       wifi.details       updates=on                                    \
                                           script="$PLUGIN_DIR/wifi.sh"                  \
-                                          label.padding_right=5                         \
+                                          label.padding_right=-3                        \
            --subscribe wifi.details       wifi                                          \
+                                                                                        \
+           --add       item               system.mic e                                  \
+           --set       system.mic         update_freq=100                               \
+                                          label.drawing=off                             \
+                                          background.padding_left=0                    \
+                                          background.padding_right=0                   \
+                                          script="$PLUGIN_DIR/mic.sh"                   \
+                                          click_script="$PLUGIN_DIR/mic_click.sh"       \
                                                                                         \
            --add       alias              "Control Center,Sound" e                      \
            --set   "Control Center,Sound" update_freq=2                                 \
                                           icon.drawing=off                              \
                                           label.drawing=off                             \
-                                          background.padding_left=-4                    \
+                                          background.padding_left=2                   \
                                           background.padding_right=-4                   \
                                           click_script="sketchybar --set \"\$NAME\" popup.drawing=toggle" \
                                           popup.horizontal=on                           \
-                                          popup.align=right                             \
+                                          popup.align=center                            \
                                                                                         \
-           --add       item               system.mic e                                  \
-           --set       system.mic         update_freq=100                               \
-                                          label.drawing=off                             \
-                                          script="$PLUGIN_DIR/mic.sh"                   \
-                                          click_script="$PLUGIN_DIR/mic_click.sh"       \
+           --add       item               spotify.name right                            \
+           --set       spotify.name       script="$PLUGIN_DIR/spotify.sh"                                \
+                                          label.drawing=on \
+                                          background.padding_right=-4                   \
+                                          label.padding_right=-4                  \

@@ -34,4 +34,5 @@ sketchybar --add       event              spotify_change $SPOTIFY_EVENT         
                                           script="$PLUGIN_DIR/spotify.sh"                                \
                                           updates=on                                                     \
                                           icon.highlight_color=0xff1DB954                                \
-           --subscribe spotify.repeat     mouse.clicked
+           --subscribe spotify.repeat     mouse.clicked                                                 \
+                                                                                                         \

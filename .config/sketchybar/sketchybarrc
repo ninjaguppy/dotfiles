@@ -121,7 +121,7 @@ source "$ITEM_DIR/cpu.sh"
 source "$ITEM_DIR/system.sh"
 source "$ITEM_DIR/spotify.sh"
 
-############## FINALIZING THE SETUP ##############
+ ############## FINALIZING THE SETUP ##############
 sketchybar --update
 
 echo "sketchybar configuration loaded.."

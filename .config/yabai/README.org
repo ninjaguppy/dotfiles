@@ -55,7 +55,7 @@ yabai -m space 6 --label music
 
 ** Appliction Settings
 
-There are certian applications that I want to work a specific way -- this
+There are certain applications that I want to work a specific way -- this
 ensures that they play nice
 #+begin_src sh
 yabai -m rule --add app="^System Preferences$" sticky=on layer=above manage=off
@@ -67,12 +67,13 @@ yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
 yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Timery$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Timery$" sticky=on manage=off
 yabai -m rule --add app="^CleanShot X$" layer=above manage=eff
 yabai -m rule --add app="^Path Finder$" manage=off sticky=on layer=above
 yabai -m rule --add app="^TeamViewer$" sticky=off layer=above manage=off
 yabai -m rule --add app="^Font Book$" sticky=off layer=above manage=off
 yabai -m rule --add app="Fantastical" manage=off opacity=0.95
+yabai -m rule --add app="^FaceTime$" manage=off sticky=on opacity=0.95
 yabai -m rule --add app="^Spotify$" manage=off
 yabai -m rule --add app="^Rocket$" manage=off
 yabai -m rule --add app="^Discord$" opacity=1
