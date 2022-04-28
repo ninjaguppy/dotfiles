@@ -64,3 +64,5 @@
 (package! dashboard)
 (package! evil-colemak-basics)
 (package! ivy-bibtex)
+(package! tree-sitter)
+(package! tree-sitter-langs)

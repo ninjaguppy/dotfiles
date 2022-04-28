@@ -67,6 +67,15 @@ Doom exposes five (optional) variables for controlling fonts in Doom:
 (require 'ewal-doom-themes)
 #+end_src
 
+We also want some nice synatx highlighting!
+#+begin_src elisp
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+#+end_src
+
 ** Line Numbers
 This determines the style of line numbers in effect. If set to `nil', line
 numbers are disabled. For relative line numbers, set this to `relative'.

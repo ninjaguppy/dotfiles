@@ -5,7 +5,7 @@ sketchybar --add       item               messages right                        
                                           script="$PLUGIN_DIR/messages.sh"              \
                                           drawing=on                                    \
                                                                                         \
-           #--add       item               mailIndicator right                           \
+           #--add       item               mailIndicator right
            #--set       mailIndicator      update_freq=30                                \
            #                               script="$PLUGIN_DIR/mailIndicator.sh"         \
            #                               icon.font="$FONT:Bold:16.0"                   \
@@ -25,14 +25,18 @@ sketchybar --add       alias              MeetingBar right                      
                                           background.padding_left=-6                    \
                                           update_freq=10                                \
                                                                                         \
-           --add       item               calendar.time right                           \
-           --set       calendar.time      update_freq=15                                \
-                                          icon.drawing=off                              \
-                                          script="$PLUGIN_DIR/time.sh"                  \
+           --add       alias              FuzzyTime right                              \
+           --set       FuzzyTime          background.padding_right=0                   \
+                                          background.padding_left=-8                    \
                                                                                         \
-           --clone     calendar.date      label_template                                \
+       #    --add       item               calendar.time right
+       #    --set       calendar.time      update_freq=15                                \
+       #                                   icon.drawing=off                              \
+       #                                   script="$PLUGIN_DIR/time.sh"                  \
+sketchybar --clone     calendar.date      label_template                                \
            --set       calendar.date      update_freq=60                                \
                                           position=right                                \
+                                          label.font="$FONT:Semibold:13.0"              \
                                           label=cal                                     \
                                           drawing=on                                    \
                                           background.padding_right=0                    \

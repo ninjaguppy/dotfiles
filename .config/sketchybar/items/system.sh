@@ -22,8 +22,8 @@ sketchybar --add       event              window_focus                          
                                           script="$PLUGIN_DIR/window_title.sh"          \
            --subscribe system.label       front_app_switched                            \
                                                                                         \
-           --add       alias              "Control Center,Battery" e                    \
-           --set "Control Center,Battery" update_freq=2                                 \
+           --add       alias              "Better Battery 2" e                    \
+           --set "Better Battery 2" update_freq=2                                 \
                                           drawing=$HAS_BATTERY                          \
                                           label.drawing=off                             \
                                           background.padding_right=-3                   \
@@ -31,7 +31,7 @@ sketchybar --add       event              window_focus                          
                                           click_script="sketchybar -m --set \"\$NAME\" popup.drawing=toggle; sketchybar --trigger battery" \
                                           popup.align=right                             \
                                                                                         \
-           --add       item               battery.details popup."Control Center,Battery"\
+           --add       item               battery.details popup."Better Battery 2"\
            --set       battery.details    updates=$HAS_BATTERY                          \
                                           script="$PLUGIN_DIR/battery.sh"               \
                                           label.padding_right=8                         \
@@ -75,3 +75,7 @@ sketchybar --add       event              window_focus                          
                                           label.drawing=on \
                                           background.padding_right=-4                   \
                                           label.padding_right=-4                  \
+                                                                                \
+           --add       alias              Timery left \
+           --set       Timery             background.padding_right=-8                   \
+                                          background.padding_left=-6                    \

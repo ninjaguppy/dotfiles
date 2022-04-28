@@ -16,6 +16,12 @@
 ;;(setq doom-theme 'doom-horizon)
 (require 'ewal-doom-themes)
 
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
 (setq display-line-numbers-type 'relative)
 
 (add-hook 'text-mode-hook  'auto-fill-mode)

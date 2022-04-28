@@ -115,15 +115,15 @@ yabai -m config split_ratio 0.50
 We want a small border around each panel/frame!
 #+begin_src sh
 yabai -m config top_padding 8
-yabai -m config bottom_padding 40
+yabai -m config bottom_padding 8
 yabai -m config left_padding 8
 yabai -m config right_padding 8
 yabai -m config window_gap 6
 #+end_src
 
-As well as space for a bar on the /bottom/ of the screen
+As well as space for a bar on the /bottom/ and the /top/of the screen
 #+begin_src sh
-yabai -m config external_bar main: 0:28
+yabai -m config external_bar all:32:0
 #+end_src
 
 ** Window Settings
