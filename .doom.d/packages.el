@@ -66,3 +66,4 @@
 (package! ivy-bibtex)
 (package! tree-sitter)
 (package! tree-sitter-langs)
+(package! imenu-list)

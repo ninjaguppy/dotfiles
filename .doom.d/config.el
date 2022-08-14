@@ -1,6 +1,6 @@
 (setq user-full-name "Lucas Kerbs"
       user-mail-address "lucaskerbs@gmail.com")
-(setq default-directory "~/Dropbox/Graduate School/")
+(setq default-directory "~/Dropbox/math/")
 
 (setq doom-font (font-spec :family "JetBrains Mono" :size 14)
       doom-variable-pitch-font (font-spec :family "Ubuntu" :size 14)
@@ -292,7 +292,13 @@ List of keybindings (SPC h b b)")
                                      (bookmarks . "book"))))
 
 (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-(setq doom-fallback-buffer "*dashboard*")
+(setq doom-fallback-buffer-master "*dashboard*")
+
+ (defun new-workspace ()
+   "Open a new workspace and open the dashboard at the same time"
+   (interactive)
+   (+workspace/new)
+   (dashboard-refresh-buffer))
 
 (use-package ibuffer-sidebar
   :load-path "~/.emacs.d/fork/ibuffer-sidebar"
@@ -369,6 +375,8 @@ List of keybindings (SPC h b b)")
   (setq evil-snipe-scope 'visible
         evil-snipe-spillover-scope 'whole-visible))
 
-(setq projectile-project-search-path '("~/Dropbox/Graduate School/"
+(setq projectile-project-search-path '("~/Dropbox/math/"
                                        "~/Dropbox/PhD Applications/"
                                        "~/Projects/"))
+
+

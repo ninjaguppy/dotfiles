@@ -106,7 +106,7 @@ sketchybar --bar                height=32                                       
                                 background.padding_left=$SEGMENT_SPACING                          \
                                 background.padding_right=0                                        \
                                 drawing=off
-
+sketchybar --bar notch_width=235
 
 source "$ITEM_DIR/apple.sh"
 source "$ITEM_DIR/yabai.sh"

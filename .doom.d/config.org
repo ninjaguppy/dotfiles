@@ -37,7 +37,7 @@ clients, file templates and snippets. It is optional.
 #+begin_src elisp
 (setq user-full-name "Lucas Kerbs"
       user-mail-address "lucaskerbs@gmail.com")
-(setq default-directory "~/Dropbox/Graduate School/")
+(setq default-directory "~/Dropbox/math/")
 #+end_src
 
 ** Fonts
@@ -448,7 +448,16 @@ In the case that we are loading an ~emacsclient~ window, we want to open the
 dashboard. Right now it doesn't work right all the time.
 #+begin_src elisp
 (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-(setq doom-fallback-buffer "*dashboard*")
+(setq doom-fallback-buffer-master "*dashboard*")
+#+end_src
+
+Command to make new buffers do the thing that we want
+#+begin_src elisp
+ (defun new-workspace ()
+   "Open a new workspace and open the dashboard at the same time"
+   (interactive)
+   (+workspace/new)
+   (dashboard-refresh-buffer))
 #+end_src
 
 * Dired-iBuffer sidebar
@@ -573,7 +582,12 @@ the buffer but I want a little larger range for my sniping
 These are things that I added at one point but I'm really not sure what is going
 on
 #+begin_src elisp
-(setq projectile-project-search-path '("~/Dropbox/Graduate School/"
+(setq projectile-project-search-path '("~/Dropbox/math/"
                                        "~/Dropbox/PhD Applications/"
                                        "~/Projects/"))
+#+end_src
+
+This is where I can play with other ideas
+#+begin_src elisp
+
 #+end_src

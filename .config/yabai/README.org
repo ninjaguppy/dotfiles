@@ -74,7 +74,7 @@ yabai -m rule --add app="^TeamViewer$" sticky=off layer=above manage=off
 yabai -m rule --add app="^Font Book$" sticky=off layer=above manage=off
 yabai -m rule --add app="Fantastical" manage=off opacity=0.95
 yabai -m rule --add app="^FaceTime$" manage=off sticky=on opacity=0.95
-yabai -m rule --add app="^Spotify$" manage=off
+#yabai -m rule --add app="^Spotify$" manage=off
 yabai -m rule --add app="^Rocket$" manage=off
 yabai -m rule --add app="^Discord$" opacity=1
 yabai -m rule --add title="Emacs Everywhere" manage=off opacity=0.95
@@ -154,14 +154,16 @@ yabai -m signal --add event=window_focused action="sketchybar -m --trigger windo
 yabai -m signal --add event=window_resized action="sketchybar -m --trigger window_focus"
 #+end_src
 
-This signal is not one that I understand but I assume it is there for a reason
+This signal is not one that I understand but I assume it is there for a reason.
+For now lets remove this one as well.
 #+begin_src sh
 yabai -m signal --add event=application_terminated action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
 #+end_src
 
-This script just doesn't work and I really couldn't say why
+This script just doesn't work and I really couldn't say why --- for now I am
+removing it so see if that helps with anything.
 #+begin_src sh
-yabai -m signal --add event=window_destroyed action="zsh ~/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
+yabai -m signal --add event=window_destroyed action="bash ~/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
 #+end_src
 
 * End
