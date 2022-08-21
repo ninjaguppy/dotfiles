@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Red Comment
+# uuid: 0043
+# key: rcomm
+# condition: t
+# --
+\{\\color\{red\} $0\}

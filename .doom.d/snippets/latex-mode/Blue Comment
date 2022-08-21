@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Blue Comment
+# uuid: 0044
+# key: bcomm
+# condition: t
+# --
+\{\\color\{blue\} $0\}

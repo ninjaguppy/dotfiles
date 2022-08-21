@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: defn
+# uuid: 0042
+# key: defn
+# condition: t
+# --
+\\begin{definition}[${1:defn}]%\\label{def:${2:label}}
+    $0
+\\end{definition}

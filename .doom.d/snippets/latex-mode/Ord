@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Ord
+# uuid: 0045
+# key: ord
+# condition: t
+# --
+\\ord

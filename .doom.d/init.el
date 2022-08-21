@@ -193,3 +193,6 @@
 
 ;; Need to load the colemak layout *before* you initialize evil-colemak-basics
 (setq evil-colemak-basics-layout-mod 'mod-dh)
+
+;; This one tries to fix my stupid focus issue -- it did not work.
+(setq server-raise-frame nil)

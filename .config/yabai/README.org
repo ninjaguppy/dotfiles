@@ -13,6 +13,7 @@
   - [[#child--splits][Child + Splits]]
   - [[#borders][Borders]]
   - [[#window-settings][Window Settings]]
+  - [[#closing-windows][Closing Windows]]
   - [[#signals][Signals]]
 - [[#end][End]]
 
@@ -146,6 +147,16 @@ yabai -m config active_window_border_color   0xffff9966
 yabai -m config normal_window_border_color   0xff534c9b
 #+end_src
 
+** Closing Windows
+Most of the time, closing windows isn't an issue, but some of them don't play
+very nice. The following code makes it so that when you close a window, it
+focuses the last one you had open
+
+#+begin_src sh
+yabai -m signal --add event=window_destroyed action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
+yabai -m signal --add event=application_terminated action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
+#+end_src
+
 ** Signals
 These first two I understand. We want =sketcybar= to update whenever yabai
 messes with a window
@@ -154,16 +165,10 @@ yabai -m signal --add event=window_focused action="sketchybar -m --trigger windo
 yabai -m signal --add event=window_resized action="sketchybar -m --trigger window_focus"
 #+end_src
 
-This signal is not one that I understand but I assume it is there for a reason.
-For now lets remove this one as well.
+The following two scripts didn't work but I am leaving them in the off chance
+that I need them again one day.
 #+begin_src sh
-yabai -m signal --add event=application_terminated action="yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse"
-#+end_src
-
-This script just doesn't work and I really couldn't say why --- for now I am
-removing it so see if that helps with anything.
-#+begin_src sh
-yabai -m signal --add event=window_destroyed action="bash ~/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
+#yabai -m signal --add event=window_destroyed action="bash ~/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
 #+end_src
 
 * End

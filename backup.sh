@@ -35,6 +35,6 @@ echo What is the commit message?
 read -r commitmessage
 
 # push to Github
-git add -u;
+git add -A;
 git commit -m "$commitmessage";
 git push origin

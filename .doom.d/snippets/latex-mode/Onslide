@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: Onslide
+# uuid: 0048
+# key: ons
+# condition: t
+# --
+\\onslide<+->\{\}
