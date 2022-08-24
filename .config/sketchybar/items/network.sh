@@ -22,7 +22,6 @@ sketchybar --add       item               network.up left                 \
                                           associated_space=3              \
                                           update_freq=2                   \
                                           script="$PLUGIN_DIR/network.sh" \
-                                          lazy=on                         \
                                                                           \
            --add       item               network.down left               \
            --set       network.down       label.font="$FONT:Heavy:9"      \
@@ -34,7 +33,6 @@ sketchybar --add       item               network.up left                 \
                                                                           \
            --add       bracket            network                         \
                                           network.label                   \
-#                                          network.vpn                     \
                                           network.up                      \
                                           network.down                    \
                                                                           \

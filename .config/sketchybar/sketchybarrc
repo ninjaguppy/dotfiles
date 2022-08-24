@@ -48,7 +48,6 @@ sketchybar --bar                height=32                                       
                                 notch_width=0                                                     \
                                                                                                   \
            --default            drawing=on                                                        \
-                                lazy=off                                                          \
                                 updates=when_shown                                                \
                                 label.font="$FONT:Semibold:13.0"                                  \
                                 icon.font="$FONT:Bold:14.0"                                       \
@@ -107,6 +106,11 @@ sketchybar --bar                height=32                                       
                                 background.padding_right=0                                        \
                                 drawing=off
 sketchybar --bar notch_width=235
+sketchybar --add       event              window_focus                                  \
+           --add       event              monocle                                       \
+           --add       event              battery                                       \
+           --add       event              wifi                                          \
+                                                                                        \
 
 source "$ITEM_DIR/apple.sh"
 source "$ITEM_DIR/yabai.sh"
@@ -121,7 +125,7 @@ source "$ITEM_DIR/cpu.sh"
 source "$ITEM_DIR/system.sh"
 source "$ITEM_DIR/spotify.sh"
 
- ############## FINALIZING THE SETUP ##############
+############## FINALIZING THE SETUP ##############
 sketchybar --update
 
 echo "sketchybar configuration loaded.."

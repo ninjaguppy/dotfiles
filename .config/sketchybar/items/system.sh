@@ -1,20 +1,15 @@
 #!/usr/bin/env sh
 
-sketchybar --add       event              window_focus                                  \
-           --add       event              monocle                                       \
-           --add       event              battery                                       \
-           --add       event              wifi                                          \
-                                                                                        \
-           --add       item               system.yabai q                                \
-           --set       system.yabai       script="$PLUGIN_DIR/yabai.sh"                 \
-                                          icon.font="$FONT:Bold:16.0"                   \
-                                          label.drawing=off                             \
-                                          width=30                                      \
-                                          align=center                                  \
-                                          updates=on                                    \
-           --subscribe system.yabai       window_focus monocle mouse.clicked            \
-                                                                                        \
-           --clone     system.label       label_template                                \
+sketchybar --add       item               systemtwo.yabai q                                \
+          --set       systemtwo.yabai       script="$PLUGIN_DIR/yabai.sh"                 \
+                                         icon.font="$FONT:Bold:16.0"                   \
+                                         label.drawing=off                             \
+                                         width=30                                      \
+                                         align=center                                  \
+                                         updates=on                                    \
+          --subscribe system.yabai       window_focus monocle mouse.clicked            \
+
+sketchybar --clone     system.label       label_template                                \
            --set       system.label       label=sys                                     \
                                           position=q                                    \
                                           drawing=on                                    \
@@ -23,7 +18,7 @@ sketchybar --add       event              window_focus                          
            --subscribe system.label       front_app_switched                            \
                                                                                         \
            --add       alias              "Better Battery 2" e                    \
-           --set "Better Battery 2" update_freq=2                                 \
+           --set "Better Battery 2"       update_freq=2                                 \
                                           drawing=$HAS_BATTERY                          \
                                           label.drawing=off                             \
                                           background.padding_right=-3                   \

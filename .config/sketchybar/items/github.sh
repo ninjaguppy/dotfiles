@@ -13,7 +13,7 @@ sketchybar --add       event              brew_upgrade                          
            --set       github.bell        associated_space=2                       \
                                           update_freq=180                          \
                                           icon.font="$FONT:Bold:15.0"              \
-                                          icon=􀋙                                   \
+                                          icon=􀋙                                  \
                                           label=$LOADING                           \
                                           script="$PLUGIN_DIR/gitNotifications.sh" \
                                           click_script="sketchybar --set \$NAME popup.drawing=toggle" \
@@ -31,11 +31,11 @@ sketchybar --add       event              brew_upgrade                          
            --subscribe github.commits     git_push                                 \
                                                                                    \
            --add       item               packages left                            \
-           --set       packages           update_freq=18000                        \
+           --set       packages           associated_space=2                       \
+                                          update_freq=18000                        \
                                           script="$PLUGIN_DIR/package_monitor.sh"  \
                                           label=$LOADING                           \
-                                          icon=􀐛                                   \
-                                          associated_space=2                       \
+                                          icon=􀐛                                  \
            --subscribe packages           brew_upgrade mouse.clicked               \
                                                                                    \
            --add       bracket            github                                   \

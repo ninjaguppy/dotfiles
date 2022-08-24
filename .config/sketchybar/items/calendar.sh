@@ -5,21 +5,21 @@ sketchybar --add       item               messages right                        
                                           script="$PLUGIN_DIR/messages.sh"              \
                                           drawing=on                                    \
                                                                                         \
-           #--add       item               mailIndicator right
-           #--set       mailIndicator      update_freq=30                                \
-           #                               script="$PLUGIN_DIR/mailIndicator.sh"         \
-           #                               icon.font="$FONT:Bold:16.0"                   \
-           #                               icon=􀍜                                       \
-           #                               label.padding_right=8                         \
-           #                               background.padding_right=0                    \
-           #                               label=!                                       \
-           #                                                                             \
-           #--add       event              bluetooth_change "com.apple.bluetooth.status" \
-           #--add       item               headphones right                              \
-           #--set       headphones         icon=􀪷                                       \
-           #                              script="$PLUGIN_DIR/airpods_battery.sh"       \
-           #--subscribe headphones         bluetooth_change                              \
-           #                                                                            \
+#          #--add       item               mailIndicator right
+#          #--set       mailIndicator      update_freq=30                                \
+#          #                               script="$PLUGIN_DIR/mailIndicator.sh"         \
+#          #                               icon.font="$FONT:Bold:16.0"                   \
+#          #                               icon=􀍜                                       \
+#          #                               label.padding_right=8                         \
+#          #                               background.padding_right=0                    \
+#          #                               label=!                                       \
+#          #                                                                             \
+#          #--add       event              bluetooth_change "com.apple.bluetooth.status" \
+#          #--add       item               headphones right                              \
+#          #--set       headphones         icon=􀪷                                       \
+#          #                              script="$PLUGIN_DIR/airpods_battery.sh"       \
+#          #--subscribe headphones         bluetooth_change                              \
+#          #                                                                            \
 sketchybar --add       alias              MeetingBar right                              \
            --set       MeetingBar         background.padding_right=-8                   \
                                           background.padding_left=-6                    \
@@ -29,10 +29,10 @@ sketchybar --add       alias              MeetingBar right                      
            --set       FuzzyTime          background.padding_right=0                   \
                                           background.padding_left=-8                    \
                                                                                         \
-       #    --add       item               calendar.time right
-       #    --set       calendar.time      update_freq=15                                \
-       #                                   icon.drawing=off                              \
-       #                                   script="$PLUGIN_DIR/time.sh"                  \
+#      #    --add       item               calendar.time right
+#      #    --set       calendar.time      update_freq=15                                \
+#      #                                   icon.drawing=off                              \
+#      #                                   script="$PLUGIN_DIR/time.sh"                  \
 sketchybar --clone     calendar.date      label_template                                \
            --set       calendar.date      update_freq=60                                \
                                           position=right                                \
@@ -42,14 +42,8 @@ sketchybar --clone     calendar.date      label_template                        
                                           background.padding_right=0                    \
                                           script="$PLUGIN_DIR/date.sh"                  \
                                                                                         \
-           --add       item               messages right                                \
-           --set       messages           update_freq=10                                \
-                                          script="$PLUGIN_DIR/messages.sh"              \
-                                          drawing=on                                    \
-                                                                                        \
+                                                                                       \
            --add       bracket            calendar                                      \
-                                          headphones                                    \
-                                          mailIndicator                                 \
                                           messages                                      \
                                           MeetingBar                                    \
                                           calendar.date                                 \

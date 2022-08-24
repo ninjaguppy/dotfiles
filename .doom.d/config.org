@@ -224,7 +224,7 @@ LaTeX citation
 
 ** Snippets
 This gets certain snippets to expand automatically. Honestly I stole if from
-somewher and don't remember where/why.
+somewhere and don't remember where/why.
 #+begin_src elisp
 (defun my-yas-try-expanding-auto-snippets ()
     (when (and (boundp 'yas-minor-mode) yas-minor-mode)
