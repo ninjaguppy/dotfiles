@@ -6,7 +6,7 @@ PLUGIN_DIR="$HOME/.config/sketchybar/plugins" # Directory where all the plugin s
 LOADING=􀖇 # Icon displayed while an item is still initializing
 PADDINGS=3 # All paddings use this value (icon, label, background and bar paddings)
 FONT="SF Pro" # Needs to have Regular, Bold, Semibold, Heavy and Black variants
-BAR_COLOR=0xff2a2f38 # Black bar
+BAR_COLOR=0x15ffffff #clear bar
 ICON_COLOR=0xffe1e3e4 # Color of all icons
 LABEL_COLOR=0xffe1e3e4 # Color of all labels
 CONTRAST_COLOR=$ICON_COLOR #0xff2a2f38 # The color of elements in front of a background
@@ -36,7 +36,7 @@ sketchybar --bar                height=32                                       
                                 border_width=0                                                    \
                                 border_color=0xff555555                                           \
                                 margin=0                                                          \
-                                blur_radius=0                                                     \
+                                blur_radius=30                                                     \
                                 position=top                                                   \
                                 padding_left=5                                                    \
                                 padding_right=5                                                   \
@@ -126,6 +126,7 @@ source "$ITEM_DIR/system.sh"
 source "$ITEM_DIR/spotify.sh"
 
 ############## FINALIZING THE SETUP ##############
+sketchybar --bar sticky=on
 sketchybar --update
 
 echo "sketchybar configuration loaded.."

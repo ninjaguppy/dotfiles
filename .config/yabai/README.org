@@ -1,5 +1,6 @@
 #+title: Yabai Config
 #+PROPERTY: header-args :tangle yabairc
+#+auto_tangle: t
 
 * TABLE OF CONTENTS :toc:
 - [[#introduction][Introduction]]

@@ -67,3 +67,5 @@
 (package! tree-sitter)
 (package! tree-sitter-langs)
 (package! imenu-list)
+(package! org-super-agenda)
+(package! org-auto-tangle)

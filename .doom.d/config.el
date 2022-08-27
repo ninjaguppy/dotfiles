@@ -62,8 +62,34 @@
   (define-key evil-window-map "k" 'evil-window-new)
   (define-key evil-window-map "\C-k" 'evil-window-new)
 
-(setq org-directory "~/Dropbox/Slipbox/")
-(setq org-roam-directory "~/Dropbox/Slipbox/")
+(after! org
+  (setq org-ellipsis " ▼ "
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
+        org-superstar-itembullet-alist '((?+ . ?➤) (?- . ?✦)) ; changes +/- symbols in item lists
+        org-directory "~/Dropbox/Slipbox/"
+        org-roam-directory "~/Dropbox/Slipbox/"))
+
+(setq org-journal-dir "~/Dropbox/Slipbox/journal/")
+
+;;(use-package! org-super-agenda
+  ;;:after org-agenda
+  ;;:init
+  ;;(setq org-super-agenda-groups
+        ;;'((:name "Today"
+                                  ;;:time-grid t
+                                  ;;:scheduled today)
+                           ;;(:name "Due today"
+                                  ;;:deadline today)
+                           ;;(:name "Important"
+                                  ;;:priority "A")
+                           ;;(:name "Overdue"
+                                  ;;:deadline past)
+                           ;;(:name "Due soon"
+                                  ;;:deadline future)
+                           ;;(:name "Big Outcomes"
+                                  ;;:tag "bo"))
+  ;;:config
+  ;;(org-super-agenda-mode))
 
 (setq org-roam-db-update-method 'immediate)
 (setq org-roam-capture-templates '(("d" "default" plain "%?"
@@ -91,6 +117,10 @@
 (add-hook 'org-mode-hook #'my-org-latex-yas)
 
 (add-hook 'org-mode-hook 'org-fragtog-mode)
+
+(use-package! org-auto-tangle
+  :defer t
+        :hook (org-mode . org-auto-tangle-mode))
 
 (require 'latex)
 (add-hook 'latex-mode-hook #'TeX-latex-mode)

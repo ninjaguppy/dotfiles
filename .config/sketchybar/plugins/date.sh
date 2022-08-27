@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-sketchybar --set $NAME label="$(date '+%a %d. %b' | tr '[:upper:]' '[:lower:]')  􀥤 "
+sketchybar --set $NAME label="$(date '+%a %d. %b' | tr '[:upper:]' '[:lower:]')  􀥤"

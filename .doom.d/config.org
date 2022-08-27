@@ -11,8 +11,11 @@
   - [[#icons][Icons]]
 - [[#colemak-mod-dh][Colemak Mod-DH]]
 - [[#org-mode][Org-Mode]]
+  - [[#journal][Journal]]
+  - [[#super-agenda][Super Agenda]]
   - [[#org-roam][Org-Roam]]
   - [[#org-latex][Org-Latex]]
+  - [[#auto-tangle][Auto-tangle]]
 - [[#latex-config][LaTeX Config]]
   - [[#bibtex][Bibtex]]
   - [[#snippets][Snippets]]
@@ -143,12 +146,46 @@ Now we load ~evil-colemak-basics~ and create commads so that I can use the
 #+end_src
 
 * Org-Mode
-First we set the default Directories for ~org~ and ~org-roam~
+First we set the default Directories for ~org~ and ~org-roam~ as well as
+configure the things to look a little pretty
 #+begin_src elisp
-(setq org-directory "~/Dropbox/Slipbox/")
-(setq org-roam-directory "~/Dropbox/Slipbox/")
+(after! org
+  (setq org-ellipsis " ▼ "
+        org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
+        org-superstar-itembullet-alist '((?+ . ?➤) (?- . ?✦)) ; changes +/- symbols in item lists
+        org-directory "~/Dropbox/Slipbox/"
+        org-roam-directory "~/Dropbox/Slipbox/"))
 #+end_src
 
+** Journal
+Trying org-journal for daily research notes
+#+begin_src elisp
+(setq org-journal-dir "~/Dropbox/Slipbox/journal/")
+#+end_src
+** Super Agenda
+In order to do task management, we want org agenda to be a little bit better. I
+am not 100% sure what I want it to look like yet
+#+begin_src elisp
+;;(use-package! org-super-agenda
+  ;;:after org-agenda
+  ;;:init
+  ;;(setq org-super-agenda-groups
+        ;;'((:name "Today"
+                                  ;;:time-grid t
+                                  ;;:scheduled today)
+                           ;;(:name "Due today"
+                                  ;;:deadline today)
+                           ;;(:name "Important"
+                                  ;;:priority "A")
+                           ;;(:name "Overdue"
+                                  ;;:deadline past)
+                           ;;(:name "Due soon"
+                                  ;;:deadline future)
+                           ;;(:name "Big Outcomes"
+                                  ;;:tag "bo"))
+  ;;:config
+  ;;(org-super-agenda-mode))
+#+end_src
 ** Org-Roam
 
 First configure how often org-roam updates itself and the set the default header
@@ -196,6 +233,13 @@ previews
 (add-hook 'org-mode-hook 'org-fragtog-mode)
 #+end_src
 
+** Auto-tangle
+=org-auto-tangle= allows you to add the option =#+auto_tangle: t= in your Org file so that it automatically tangles when you save the document.
+#+begin_src elisp
+(use-package! org-auto-tangle
+  :defer t
+        :hook (org-mode . org-auto-tangle-mode))
+#+end_src
 * LaTeX Config
 First we make all the TeX-modes play nice
 #+begin_src elisp

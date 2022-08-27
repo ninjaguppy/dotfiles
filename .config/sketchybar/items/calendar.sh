@@ -25,10 +25,15 @@ sketchybar --add       alias              MeetingBar right                      
                                           background.padding_left=-6                    \
                                           update_freq=10                                \
                                                                                         \
-           --add       alias              FuzzyTime right                              \
-           --set       FuzzyTime          background.padding_right=0                   \
-                                          background.padding_left=-8                    \
-                                                                                        \
+           --clone     fuzztime           label_template                                 \
+           --set       fuzztime           position=right                                \
+                                          update_freq=45                                 \
+                                          label.font="$FONT:Semibold:13.0"              \
+                                          label=test                                     \
+                                          drawing=on                                    \
+                                          background.padding_right=0                    \
+                                          background.padding_left=-2                    \
+                                          script="$PLUGIN_DIR/fuzzytime.bash"             \
 #      #    --add       item               calendar.time right
 #      #    --set       calendar.time      update_freq=15                                \
 #      #                                   icon.drawing=off                              \
