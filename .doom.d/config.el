@@ -2,9 +2,24 @@
       user-mail-address "lucaskerbs@gmail.com")
 (setq default-directory "~/Dropbox/math/")
 
-(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 14)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 24))
+(setq undo-limit 100000000                         ; Raise undo-limit to 80Mb
+      evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
+      truncate-string-ellipsis "…"                ; Unicode ellispis are nicer than "...", and also save /precious/ space
+      password-cache-expiry nil                   ; I can trust my computers ... can't I?
+      scroll-margin 3)                            ; It's nice to maintain a little margin
+
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (consult-buffer))
+
+(setq doom-font (font-spec :family "JuliaMono" :size 15)
+      doom-big-font (font-spec :family "JuliaMono" :size 24)
+      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
+      doom-unicode-font (font-spec :family "JuliaMono")
+      doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -21,6 +36,16 @@
   (require 'tree-sitter-langs)
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(defun doom-modeline-conditional-buffer-encoding ()
+  "We expect the encoding to be LF UTF-8, so only show the modeline when this is not the case"
+  (setq-local doom-modeline-buffer-encoding
+              (unless (and (memq (plist-get (coding-system-plist buffer-file-coding-system) :category)
+                                 '(coding-category-undecided coding-category-utf-8))
+                           (not (memq (coding-system-eol-type buffer-file-coding-system) '(1 2))))
+                t)))
+
+(add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding)
 
 (setq display-line-numbers-type 'relative)
 
@@ -64,10 +89,189 @@
 
 (after! org
   (setq org-ellipsis " ▼ "
+        org-hide-emphasis-markers t
         org-superstar-headline-bullets-list '("◉" "●" "○" "◆" "●" "○" "◆")
         org-superstar-itembullet-alist '((?+ . ?➤) (?- . ?✦)) ; changes +/- symbols in item lists
         org-directory "~/Dropbox/Slipbox/"
         org-roam-directory "~/Dropbox/Slipbox/"))
+
+(after! org
+    (setq org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+          '(("google" . "http://www.google.com/search?q=")
+          ;("kmtrigger" . "")
+         ( "wiki" . "https://en.wikipedia.org/wiki/")))
+    (org-link-set-parameters "kmtrigger"  :follow (lambda (test) (browse-url (concat "kmtrigger://" test))))
+)
+
+(after! org
+   (setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "BLOG(b)" "WAIT(w)" "|" "DONE(d)" "KILL(k)"))
+         org-agenda-files (list "~/Dropbox/Slipbox/"
+                                "~/Dropbox/Slipbox/gtd/"
+                                "~/Dropbox/Slipbox/course work/")))
+
+(after! org
+(defun dt/org-colors-doom-one ()
+  "Enable Doom One colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#51afef" ultra-bold)
+         (org-level-2 1.1 "#c678dd" extra-bold)
+         (org-level-3 1.1 "#98be65" bold)
+         (org-level-4 1.1 "#da8548" semi-bold)
+         (org-level-5 1.1 "#5699af" normal)
+         (org-level-6 1.1 "#a9a1e1" normal)
+         (org-level-7 1.1 "#46d9ff" normal)
+         (org-level-8 1.1 "#ff6c6b" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-dracula ()
+  "Enable Dracula colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#8be9fd" ultra-bold)
+         (org-level-2 1.1 "#bd93f9" extra-bold)
+         (org-level-3 1.1 "#50fa7b" bold)
+         (org-level-4 1.1 "#ff79c6" semi-bold)
+         (org-level-5 1.1 "#9aedfe" normal)
+         (org-level-6 1.1 "#caa9fa" normal)
+         (org-level-7 1.1 "#5af78e" normal)
+         (org-level-8 1.1 "#ff92d0" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-gruvbox-dark ()
+  "Enable Gruvbox Dark colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#458588" ultra-bold)
+         (org-level-2 1.1 "#b16286" extra-bold)
+         (org-level-3 1.1 "#98971a" bold)
+         (org-level-4 1.1 "#fb4934" semi-bold)
+         (org-level-5 1.1 "#83a598" normal)
+         (org-level-6 1.1 "#d3869b" normal)
+         (org-level-7 1.1 "#d79921" normal)
+         (org-level-8 1.1 "#8ec07c" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-monokai-pro ()
+  "Enable Monokai Pro colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#78dce8" ultra-bold)
+         (org-level-2 1.1 "#ab9df2" extra-bold)
+         (org-level-3 1.1 "#a9dc76" bold)
+         (org-level-4 1.1 "#fc9867" semi-bold)
+         (org-level-5 1.1 "#ff6188" normal)
+         (org-level-6 1.1 "#ffd866" normal)
+         (org-level-7 1.1 "#78dce8" normal)
+         (org-level-8 1.1 "#ab9df2" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-nord ()
+  "Enable Nord colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#81a1c1" ultra-bold)
+         (org-level-2 1.1 "#b48ead" extra-bold)
+         (org-level-3 1.1 "#a3be8c" bold)
+         (org-level-4 1.1 "#ebcb8b" semi-bold)
+         (org-level-5 1.1 "#bf616a" normal)
+         (org-level-6 1.1 "#88c0d0" normal)
+         (org-level-7 1.1 "#81a1c1" normal)
+         (org-level-8 1.1 "#b48ead" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-oceanic-next ()
+  "Enable Oceanic Next colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#6699cc" ultra-bold)
+         (org-level-2 1.1 "#c594c5" extra-bold)
+         (org-level-3 1.1 "#99c794" bold)
+         (org-level-4 1.1 "#fac863" semi-bold)
+         (org-level-5 1.1 "#5fb3b3" normal)
+         (org-level-6 1.1 "#ec5f67" normal)
+         (org-level-7 1.1 "#6699cc" normal)
+         (org-level-8 1.1 "#c594c5" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-palenight ()
+  "Enable Palenight colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#82aaff" ultra-bold)
+         (org-level-2 1.1 "#c792ea" extra-bold)
+         (org-level-3 1.1 "#c3e88d" bold)
+         (org-level-4 1.1 "#ffcb6b" semi-bold)
+         (org-level-5 1.1 "#a3f7ff" normal)
+         (org-level-6 1.1 "#e1acff" normal)
+         (org-level-7 1.1 "#f07178" normal)
+         (org-level-8 1.1 "#ddffa7" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-solarized-dark ()
+  "Enable Solarized Dark colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#268bd2" ultra-bold)
+         (org-level-2 1.1 "#d33682" extra-bold)
+         (org-level-3 1.1 "#859900" bold)
+         (org-level-4 1.1 "#b58900" semi-bold)
+         (org-level-5 1.1 "#cb4b16" normal)
+         (org-level-6 1.1 "#6c71c4" normal)
+         (org-level-7 1.1 "#2aa198" normal)
+         (org-level-8 1.1 "#657b83" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-solarized-light ()
+  "Enable Solarized Light colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#268bd2" ultra-bold)
+         (org-level-2 1.1 "#d33682" extra-bold)
+         (org-level-3 1.1 "#859900" bold)
+         (org-level-4 1.1 "#b58900" semi-bold)
+         (org-level-5 1.1 "#cb4b16" normal)
+         (org-level-6 1.1 "#6c71c4" normal)
+         (org-level-7 1.1 "#2aa198" normal)
+         (org-level-8 1.1 "#657b83" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+(defun dt/org-colors-tomorrow-night ()
+  "Enable Tomorrow Night colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.1 "#81a2be" ultra-bold)
+         (org-level-2 1.1 "#b294bb" extra-bold)
+         (org-level-3 1.1 "#b5bd68" bold)
+         (org-level-4 1.1 "#e6c547" semi-bold)
+         (org-level-5 1.1 "#cc6666" normal)
+         (org-level-6 1.1 "#70c0ba" normal)
+         (org-level-7 1.1 "#b77ee0" normal)
+         (org-level-8 1.1 "#9ec400" normal)))
+    (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
+    (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
+
+;; Load our desired dt/org-colors-* theme on startup
+(dt/org-colors-monokai-pro))
 
 (setq org-journal-dir "~/Dropbox/Slipbox/journal/")
 
@@ -127,6 +331,12 @@
 
 (setq TeX-electric-sub-and-superscript nil)
 
+(after! tex
+  (map!
+   :map LaTeX-mode-map
+   :ei [C-return] #'LaTeX-insert-item)
+  (setq TeX-electric-math '("\\(" . "")))
+
 (setq bibtex-completion-bibliography '("~/Dropbox/Biblio/main.bib"))
 
 (setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
@@ -156,11 +366,36 @@
 
 (setq cdlatex-math-symbol-alist
  '(
-   ( ?c  ("\\chi"                 "\\circ"                "\\cos"))
-   ( ?e  ("\\varepsilon"          "\\epsilon"             "\\exp"))
-   ( ?+  ("\\cup"                 "\\oplus"               ""))
-   ( ?x  ("\\xi"                  "\\otimes"              ""))
-    ))
+   ( ?c  ("\\chi"           "\\circ"          "\\cos"))
+   ( ?_  ("\\downarrow"     ""                "\\inf"))
+   ( ?2  ("^2"              "\\sqrt{?}"       ""     ))
+   ( ?3  ("^3"              "\\sqrt[3]{?}"    ""     ))
+   ( ?e  ("\\varepsilon"    "\\epsilon"       "\\exp"))
+   ( ?+  ("\\cup"           "\\oplus"         ""     ))
+   ( ?x  ("\\xi"            "\\otimes"        ""     ))
+   ( ?U  ("\\Upsilon"       "\\cup"           "\\bigcup"     ))
+   ( ?N  ("\\nable"         "\\cap"           "\\bigcap")))
+ cdlatex-math-modify-alist
+ '( ;; my own stuff
+     (?B    "\\mathbb"        nil          t    nil  nil)
+     (?a    "\\abs"           nil          t    nil  nil)
+     (?S    "\\mathscr"       nil          t    nil  nil)
+     (?s    "\\sqrt"          nil          t    nil  nil)
+     (?F    "\\mathfrak"      nil          t    nil  nil)
+     ))
+
+(setq cdlatex-make-sub-superscript-roman-if-pressed-twice t)
+
+;; Making \( \) less visible
+(defface unimportant-latex-face
+  '((t :inherit font-lock-comment-face :weight extra-light))
+  "Face used to make \\(\\), \\[\\] less visible."
+  :group 'LaTeX-math)
+
+(font-lock-add-keywords
+ 'latex-mode
+ `(("\\\\[]()[]" 0 'unimportant-latex-face prepend))
+ 'end)
 
 (after! latex
   (setcar (assoc "⋆" LaTeX-fold-math-spec-list) "★")) ;; make \star bigger
@@ -324,11 +559,11 @@ List of keybindings (SPC h b b)")
 (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 (setq doom-fallback-buffer-master "*dashboard*")
 
- (defun new-workspace ()
-   "Open a new workspace and open the dashboard at the same time"
-   (interactive)
-   (+workspace/new)
-   (dashboard-refresh-buffer))
+(defun new-workspace ()
+  "Open a new workspace and open the dashboard at the same time"
+  (interactive)
+  (+workspace/new)
+  (dashboard-refresh-buffer))
 
 (use-package ibuffer-sidebar
   :load-path "~/.emacs.d/fork/ibuffer-sidebar"

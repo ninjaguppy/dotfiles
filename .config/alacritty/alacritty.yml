@@ -15,15 +15,15 @@ window.dynamic_title: true
 # Font Customization
 font:
   normal:
-    family: JetBrains Mono
+    family: JuliaMono
     style: Regular
   bold:
-    family: JetBrains Mono
+    family: JuliaMono
     style: Bold
   italic:
-    family: JetBrains Mono
+    family: JuliaMono
     style: Italic
-  size: 14
+  size: 15
   offset:
     x: 0
     y: 0

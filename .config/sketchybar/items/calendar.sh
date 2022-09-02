@@ -27,13 +27,14 @@ sketchybar --add       alias              MeetingBar right                      
                                                                                         \
            --clone     fuzztime           label_template                                 \
            --set       fuzztime           position=right                                \
-                                          update_freq=45                                 \
+                                          update_freq=1                                 \
                                           label.font="$FONT:Semibold:13.0"              \
                                           label=test                                     \
                                           drawing=on                                    \
                                           background.padding_right=0                    \
                                           background.padding_left=-2                    \
                                           script="$PLUGIN_DIR/fuzzytime.bash"             \
+           --subscribe fuzztime           timechange \
 #      #    --add       item               calendar.time right
 #      #    --set       calendar.time      update_freq=15                                \
 #      #                                   icon.drawing=off                              \

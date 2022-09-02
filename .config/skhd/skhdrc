@@ -63,3 +63,5 @@ hyper - j : yabai -m window --toggle zoom-fullscreen
 
 ## Get name of current window
 hyper - w : yabai -m query --windows --window | jq .title
+
+rcmd + rshift + ralt + rctrl - f : fuzz=`cat ~/Dropbox/.lkconfig/fuzzy.txt` && fuzz=$((($fuzz + 1) % 2)) && echo $fuzz > ~/Dropbox/.lkconfig/fuzzy.txt && sketchybar --trigger timechange

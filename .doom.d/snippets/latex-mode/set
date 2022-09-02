@@ -4,4 +4,4 @@
 # key: set
 # condition: (and (texmathp) 'auto)
 # --
-\\{$1\\} $0
+\\{$0\\}

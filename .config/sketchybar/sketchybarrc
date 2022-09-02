@@ -24,14 +24,14 @@ POPUP_BORDER_COLOR=0xff9dd274
 POPUP_BORDER_WIDTH=2
 POPUP_CORNER_RADIUS=4
 
-SHADOW=on
+SHADOW=off
 SHADOW_COLOR=0xff1a1f28
 SHADOW_DISTANCE=3
 SHADOW_ANGLE=35
 
 HAS_BATTERY=$(if [ "$(pmset -g batt | grep "Battery")" = "" ]; then echo "false"; else echo "true"; fi)
 
-sketchybar --bar                height=32                                                         \
+sketchybar --bar                height=38                                                         \
                                 corner_radius=0                                                   \
                                 border_width=0                                                    \
                                 border_color=0xff555555                                           \
@@ -85,7 +85,7 @@ sketchybar --bar                height=32                                       
                                 alias.shadow.drawing=$SHADOW                                      \
                                 icon.shadow.color=$SHADOW_COLOR                                   \
                                 label.shadow.color=$SHADOW_COLOR                                  \
-                                alias.shadow.color=0xff000000                                     \
+                                alias.shadow.color=$SHADOW_COLOR                                  \
                                 icon.shadow.distance=$SHADOW_DISTANCE                             \
                                 label.shadow.distance=$SHADOW_DISTANCE                            \
                                 alias.shadow.distance=$SHADOW_DISTANCE                            \
@@ -110,6 +110,7 @@ sketchybar --add       event              window_focus                          
            --add       event              monocle                                       \
            --add       event              battery                                       \
            --add       event              wifi                                          \
+           --add       event              timechange                                          \
                                                                                         \
 
 source "$ITEM_DIR/apple.sh"

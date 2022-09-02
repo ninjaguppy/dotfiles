@@ -1,5 +1,6 @@
 #+title: Skhdrc
 #+PROPERTY: header-args :tangle skhdrc
+#+auto_tangle: t
 
 * TABLE OF CONTENTS :toc:
 - [[#about][About]]
@@ -124,4 +125,10 @@ hyper - j : yabai -m window --toggle zoom-fullscreen
 
 ## Get name of current window
 hyper - w : yabai -m query --windows --window | jq .title
+#+end_src
+
+
+This last command toggles the fuzzy timer that lives in =sketchybar=
+#+begin_src conf
+rcmd + rshift + ralt + rctrl - f : fuzz=`cat ~/Dropbox/.lkconfig/fuzzy.txt` && fuzz=$((($fuzz + 1) % 2)) && echo $fuzz > ~/Dropbox/.lkconfig/fuzzy.txt && sketchybar --trigger timechange
 #+end_src
