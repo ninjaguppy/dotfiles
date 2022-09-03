@@ -529,6 +529,27 @@ Such special cases should be remapped to another value, as given in `string-offs
   "Return t if TESTSTRING appears to be a single token, nil otherwise"
   (if (string-match-p "^\\\\?\\w+$" teststring) t nil))
 
+;(setq TeX-view-program-list
+ ;'("sioyek"
+   ;("/Applications/sioyek.app/Contents/MacOS/sioyek %o"
+    ;(mode-io-correlate
+     ;,(concat
+       ;" --forward-search-file \"%b\""
+       ;" --forward-search-line %n"
+       ;" --inverse-search \"emacsclient +%2 %1\"")))
+   ;"sioyek"))
+;(add-to-list 'TeX-view-program-selection
+             ;'(output-pdf "sioyek"))
+
+(setq TeX-source-correlate-start-server t)
+
+(add-hook 'LaTeX-mode-hook (lambda ()
+  (push
+    '("latexmk" "latexmk -pvc -pdf %s" TeX-run-TeX nil t
+      :help "Run latexmk on file")
+    TeX-command-list)))
+(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+
 (setq fancy-splash-image "~/.doom.d/cute-doom/doom_512.png")
 
 (use-package dashboard

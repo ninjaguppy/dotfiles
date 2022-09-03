@@ -25,6 +25,7 @@
   - [[#snippets][Snippets]]
   - [[#cd-latex][CD-Latex]]
   - [[#folding][Folding]]
+  - [[#pdf][PDF]]
 - [[#dashboard][Dashboard]]
 - [[#dired-ibuffer-sidebar][Dired-iBuffer sidebar]]
 - [[#smaller-packages][Smaller Packages]]
@@ -724,6 +725,35 @@ Such special cases should be remapped to another value, as given in `string-offs
   (if (string-match-p "^\\\\?\\w+$" teststring) t nil))
 #+end_src
 
+** PDF
+Once we have a latex document we like, we want it to be able to open the pdf in
+=sioyek=, a customizable pdf viewer: -- this is broken right nwo and I'm not
+exactly sure why. An upcoming auctex release will add =sioyek= as a defaul option
+and that will make life easier
+#+begin_src elisp
+    ;(setq TeX-view-program-list
+     ;'("sioyek"
+       ;("/Applications/sioyek.app/Contents/MacOS/sioyek %o"
+        ;(mode-io-correlate
+         ;,(concat
+           ;" --forward-search-file \"%b\""
+           ;" --forward-search-line %n"
+           ;" --inverse-search \"emacsclient +%2 %1\"")))
+       ;"sioyek"))
+    ;(add-to-list 'TeX-view-program-selection
+                 ;'(output-pdf "sioyek"))
+#+end_src
+And it woud be cool to get synctex up and running
+#+begin_src elisp
+(setq TeX-source-correlate-start-server t)
+
+(add-hook 'LaTeX-mode-hook (lambda ()
+  (push
+    '("latexmk" "latexmk -pvc -pdf %s" TeX-run-TeX nil t
+      :help "Run latexmk on file")
+    TeX-command-list)))
+(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+#+end_src
 * Dashboard
 This package makes a nice(r) splash screen than the one that comes with the
 default doom. Just in case, let's set the ~doom-dashboard~ image to the one we
@@ -807,6 +837,7 @@ Another thing that I am playing with. We create a side-bar with a ~dired~ and
   (dired-sidebar-toggle-sidebar)
   (ibuffer-sidebar-toggle-sidebar))
 #+end_src
+
 * Smaller Packages
 ** Evil Goggles
 This package adds a little highlight whenever you do a big-boy change
