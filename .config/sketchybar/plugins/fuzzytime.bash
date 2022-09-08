@@ -33,9 +33,11 @@ then
     hour_phrase[11]="eleven"
     #Handle the rounding of the time
     roundedMinute=$((((($(date '+%-M') +2) / 5)*5)%60))
+    exactMinute=$(date '+%-M')
     minuteIndex=$((roundedMinute / 5))
     # Increase currHour by 1 if the index is >= 7
-    if [ $minuteIndex -ge 7 ];
+    # The second clause is could have an off-by-one error. Come back and change it if its wrong
+    if [ $minuteIndex -ge 7 ] || [ $exactMinute -ge 58 ];
     then
         currHour=$(((currHour + 1) % 12))
     fi

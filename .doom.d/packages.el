@@ -69,3 +69,11 @@
 (package! imenu-list)
 (package! org-super-agenda)
 (package! org-auto-tangle)
+(package! noflet)
+(package! doct
+  :recipe (:host github :repo "progfolio/doct")
+  :pin "8464809754f3316d5a2fdcf3c01ce1e8736b323b")
+(package! org-chef :pin "6a786e77e67a715b3cd4f5128b59d501614928af")
+(package! org-appear :recipe (:host github :repo "awth13/org-appear")
+  :pin "60ba267c5da336e75e603f8c7ab3f44e6f4e4dac")
+(package! org-modern)

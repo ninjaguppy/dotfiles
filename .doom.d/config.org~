@@ -3,8 +3,9 @@
 
 * TABLE OF CONTENTS :toc:
 - [[#intro][Intro]]
+  - [[#splitting-and-buffers][Splitting and Buffers]]
   - [[#fonts][Fonts]]
-  - [[#themes][Themes]]
+  - [[#theming][Theming]]
   - [[#line-numbers][Line Numbers]]
   - [[#line-breaking][Line Breaking]]
   - [[#transparency][Transparency]]
@@ -24,6 +25,7 @@
   - [[#snippets][Snippets]]
   - [[#cd-latex][CD-Latex]]
   - [[#folding][Folding]]
+  - [[#pdf][PDF]]
 - [[#dashboard][Dashboard]]
 - [[#dired-ibuffer-sidebar][Dired-iBuffer sidebar]]
 - [[#smaller-packages][Smaller Packages]]
@@ -46,6 +48,29 @@ clients, file templates and snippets. It is optional.
 (setq default-directory "~/Dropbox/math/")
 #+end_src
 
+We want to make some simple changes to basic functionality first
+#+begin_src elisp
+(setq undo-limit 100000000                         ; Raise undo-limit to 80Mb
+      evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
+      truncate-string-ellipsis "…"                ; Unicode ellispis are nicer than "...", and also save /precious/ space
+      password-cache-expiry nil                   ; I can trust my computers ... can't I?
+      scroll-margin 3
+      evil-move-cursor-back nil)                            ; It's nice to maintain a little margin
+#+end_src
+
+** Splitting and Buffers
+First we set which buffer we want to see when splitting
+#+begin_src elisp
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+#+end_src
+
+Now we prompt for input when splitting
+#+begin_src elisp
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (consult-buffer))
+#+end_src
 ** Fonts
 Doom exposes five (optional) variables for controlling fonts in Doom:
  - `doom-font' -- the primary font to use
@@ -55,9 +80,11 @@ Doom exposes five (optional) variables for controlling fonts in Doom:
  - `doom-unicode-font' -- for unicode glyphs
  - `doom-serif-font' -- for the `fixed-pitch-serif' face
 #+begin_src elisp
-(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
-      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 14)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 24))
+(setq doom-font (font-spec :family "JuliaMono" :size 15)
+      doom-big-font (font-spec :family "JuliaMono" :size 24)
+      doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
+      doom-unicode-font (font-spec :family "JuliaMono")
+      doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
@@ -66,20 +93,34 @@ Doom exposes five (optional) variables for controlling fonts in Doom:
   '(font-lock-keyword-face :slant italic))
 #+end_src
 
-** Themes
+** Theming
 #+begin_src elisp
 (setq doom-theme 'doom-monokai-pro)
 ;;(setq doom-theme 'doom-horizon)
 (require 'ewal-doom-themes)
 #+end_src
 
-We also want some nice synatx highlighting!
+We also want some nice syntax highlighting!
 #+begin_src elisp
 (use-package! tree-sitter
   :config
   (require 'tree-sitter-langs)
   (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+#+end_src
+*** Cleaning up the modeline
+
+The encoding is standard, so hide is most of the time!
+#+begin_src elisp
+(defun doom-modeline-conditional-buffer-encoding ()
+  "We expect the encoding to be LF UTF-8, so only show the modeline when this is not the case"
+  (setq-local doom-modeline-buffer-encoding
+              (unless (and (memq (plist-get (coding-system-plist buffer-file-coding-system) :category)
+                                 '(coding-category-undecided coding-category-utf-8))
+                           (not (memq (coding-system-eol-type buffer-file-coding-system) '(1 2))))
+                t)))
+
+(add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding)
 #+end_src
 
 ** Line Numbers
@@ -160,41 +201,368 @@ configure the things to look a little pretty
         org-directory "~/Dropbox/Slipbox/"
         org-roam-directory "~/Dropbox/Slipbox/"))
 #+end_src
+
+Now more stolen things :shrug:
+#+begin_src elisp
+(sp-local-pair
+ '(org-mode)
+ "<<" ">>"
+ :actions '(insert))
+#+end_src
+
 ** Links
 Set it up so that we open url-schemes from ~keyboard maestro~
 #+begin_src elisp
-(setq org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
-        '(("google" . "http://www.google.com/search?q=")
+(after! org
+    (setq org-link-abbrev-alist    ; This overwrites the default Doom org-link-abbrev-list
+          '(("google" . "http://www.google.com/search?q=")
           ;("kmtrigger" . "")
-          ("wiki" . "https://en.wikipedia.org/wiki/")))
-(org-link-set-parameters "kmtrigger"  :follow (lambda (test) (browse-url (concat "kmtrigger://" test))) :display 'full)
-
+         ( "wiki" . "https://en.wikipedia.org/wiki/")))
+    (org-link-set-parameters "kmtrigger"  :follow (lambda (test) (browse-url (concat "kmtrigger://" test))))
+)
 #+end_src
 
 ** Tasks
-TODO: write text
+TODO: Write about what this is supposed to be as soon as you know what its
+supposed to be lol
 #+begin_src elisp
 (after! org
-   (setq org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "BLOG(b)" "WAIT(w)" "|" "DONE(d)" "KILL(k)"))))
+   (setq
+       org-capture-todo-file "/gtd/inbox.org"
+
+        org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "BLOG(b)" "WAIT(w)" "|" "DONE(d)" "KILL(k)"))
+        org-agenda-files (list "~/Dropbox/Slipbox/"
+                               "~/Dropbox/Slipbox/gtd/"
+                               "~/Dropbox/Slipbox/course work/")))
+
+#+end_src
+*** Capture
+#+begin_src elisp
+(use-package! doct
+  :commands doct)
+#+end_src
+#+begin_src elisp
+(after! org-capture
+  (defvar +org-capture-recipies   "~/Dropbox/Slipbox/Other/recipies.org")
+  (defvar +org-capture-todo-files "~/Dropbox/Slipbox/gtd/inbox.org")
+
+  <<prettify-capture>>
+
+  (defun +doct-icon-declaration-to-icon (declaration)
+    "Convert :icon declaration to icon"
+    (let ((name (pop declaration))
+          (set  (intern (concat "all-the-icons-" (plist-get declaration :set))))
+          (face (intern (concat "all-the-icons-" (plist-get declaration :color))))
+          (v-adjust (or (plist-get declaration :v-adjust) 0.01)))
+      (apply set `(,name :face ,face :v-adjust ,v-adjust))))
+
+  (defun +doct-iconify-capture-templates (groups)
+    "Add declaration's :icon to each template group in GROUPS."
+    (let ((templates (doct-flatten-lists-in groups)))
+      (setq doct-templates (mapcar (lambda (template)
+                                     (when-let* ((props (nthcdr (if (= (length template) 4) 2 5) template))
+                                                 (spec (plist-get (plist-get props :doct) :icon)))
+                                       (setf (nth 1 template) (concat (+doct-icon-declaration-to-icon spec)
+                                                                      "\t"
+                                                                      (nth 1 template))))
+                                     template)
+                                   templates))))
+
+  (setq doct-after-conversion-functions '(+doct-iconify-capture-templates))
+
+
+  (defun set-org-capture-templates ()
+    (setq org-capture-templates
+          (doct `(("Personal todo" :keys "t"
+                   :icon ("checklist" :set "octicon" :color "green")
+                   :file +org-capture-todo-file
+                   :prepend t
+                   :headline "Inbox"
+                   :type entry
+                   :template ("* TODO %?"
+                              "%i %a"))
+                  ("Personal note" :keys "n"
+                   :icon ("sticky-note-o" :set "faicon" :color "green")
+                   :file +org-capture-todo-file
+                   :prepend t
+                   :headline "Inbox"
+                   :type entry
+                   :template ("* %?"
+                              "%i %a"))
+                  ("Email" :keys "e"
+                   :icon ("envelope" :set "faicon" :color "blue")
+                   :file +org-capture-todo-file
+                   :prepend t
+                   :headline "Inbox"
+                   :type entry
+                   :template ("* TODO %^{type|reply to|contact} %\\3 %? :email:"
+                              "Send an email %^{urgancy|soon|ASAP|anon|at some point|eventually} to %^{recipiant}"
+                              "about %^{topic}"
+                              "%U %i %a"))
+                  ("Interesting" :keys "i"
+                   :icon ("eye" :set "faicon" :color "lcyan")
+                   :file +org-capture-todo-file
+                   :prepend t
+                   :headline "Interesting"
+                   :type entry
+                   :template ("* [ ] %{desc}%? :%{i-type}:"
+                              "%i %a")
+                   :children (("Webpage" :keys "w"
+                               :icon ("globe" :set "faicon" :color "green")
+                               :desc "%(org-cliplink-capture) "
+                               :i-type "read:web")
+                              ("Article" :keys "a"
+                               :icon ("file-text" :set "octicon" :color "yellow")
+                               :desc ""
+                               :i-type "read:reaserch")
+                              ("\tRecipie" :keys "r"
+                               :icon ("spoon" :set "faicon" :color "dorange")
+                               :file +org-capture-recipies
+                               :headline "Unsorted"
+                               :template "%(org-chef-get-recipe-from-url)")
+                              ("Information" :keys "i"
+                               :icon ("info-circle" :set "faicon" :color "blue")
+                               :desc ""
+                               :i-type "read:info")
+                              ("Idea" :keys "I"
+                               :icon ("bubble_chart" :set "material" :color "silver")
+                               :desc ""
+                               :i-type "idea")))
+                  ("Tasks" :keys "k"
+                   :icon ("inbox" :set "octicon" :color "yellow")
+                   :file +org-capture-todo-file
+                   :prepend t
+                   :headline "Tasks"
+                   :type entry
+                   :template ("* TODO %? %^G%{extra}"
+                              "%i %a")
+                   :children (("General Task" :keys "k"
+                               :icon ("inbox" :set "octicon" :color "yellow")
+                               :extra "")
+                              ("Task with deadline" :keys "d"
+                               :icon ("timer" :set "material" :color "orange" :v-adjust -0.1)
+                               :extra "\nDEADLINE: %^{Deadline:}t")
+                              ("Scheduled Task" :keys "s"
+                               :icon ("calendar" :set "octicon" :color "orange")
+                               :extra "\nSCHEDULED: %^{Start time:}t")))
+                  ("Project" :keys "p"
+                   :icon ("repo" :set "octicon" :color "silver")
+                   :prepend t
+                   :type entry
+                   :headline "Inbox"
+                   :template ("* %{time-or-todo} %?"
+                              "%i"
+                              "%a")
+                   :file ""
+                   :custom (:time-or-todo "")
+                   :children (("Project-local todo" :keys "t"
+                               :icon ("checklist" :set "octicon" :color "green")
+                               :time-or-todo "TODO"
+                               :file +org-capture-project-todo-file)
+                              ("Project-local note" :keys "n"
+                               :icon ("sticky-note" :set "faicon" :color "yellow")
+                              :time-or-todo "%U"
+                               :file +org-capture-project-notes-file)
+                              ("Project-local changelog" :keys "c"
+                               :icon ("list" :set "faicon" :color "blue")
+                               :time-or-todo "%U"
+                               :heading "Unreleased"
+                               :file +org-capture-project-changelog-file)))
+                  ("\tCentralised project templates"
+                   :keys "o"
+                   :type entry
+                   :prepend t
+                   :template ("* %{time-or-todo} %?"
+                              "%i"
+                              "%a")
+                   :children (("Project todo"
+                               :keys "t"
+                               :prepend nil
+                               :time-or-todo "TODO"
+                               :heading "Tasks"
+                               :file +org-capture-central-project-todo-file)
+                              ("Project note"
+                               :keys "n"
+                               :time-or-todo "%U"
+                               :heading "Notes"
+                               :file +org-capture-central-project-notes-file)
+                              ("Project changelog"
+                               :keys "c"
+                               :time-or-todo "%U"
+                               :heading "Unreleased"
+                                :file +org-capture-central-project-changelog-file)))))))
+
+  (set-org-capture-templates)
+  (unless (display-graphic-p)
+    (add-hook 'server-after-make-frame-hook
+              (defun org-capture-reinitialise-hook ()
+                (when (display-graphic-p)
+                  (set-org-capture-templates)
+                  (remove-hook 'server-after-make-frame-hook
+                               #'org-capture-reinitialise-hook))))))
+  )
+#+end_src
+Now we make it look nice!
+#+name: prettify-capture
+#+begin_src emacs-lisp :noweb-ref none
+(defun org-capture-select-template-prettier (&optional keys)
+  "Select a capture template, in a prettier way than default
+Lisp programs can force the template by setting KEYS to a string."
+  (let ((org-capture-templates
+         (or (org-contextualize-keys
+              (org-capture-upgrade-templates org-capture-templates)
+              org-capture-templates-contexts)
+             '(("t" "Task" entry (file+headline "" "Tasks")
+                "* TODO %?\n  %u\n  %a")))))
+    (if keys
+        (or (assoc keys org-capture-templates)
+            (error "No capture template referred to by \"%s\" keys" keys))
+      (org-mks org-capture-templates
+               "Select a capture template\n━━━━━━━━━━━━━━━━━━━━━━━━━"
+               "Template key: "
+               `(("q" ,(concat (all-the-icons-octicon "stop" :face 'all-the-icons-red :v-adjust 0.01) "\tAbort")))))))
+(advice-add 'org-capture-select-template :override #'org-capture-select-template-prettier)
+
+(defun org-mks-pretty (table title &optional prompt specials)
+  "Select a member of an alist with multiple keys. Prettified.
+
+TABLE is the alist which should contain entries where the car is a string.
+There should be two types of entries.
+
+1. prefix descriptions like (\"a\" \"Description\")
+   This indicates that `a' is a prefix key for multi-letter selection, and
+   that there are entries following with keys like \"ab\", \"ax\"…
+
+2. Select-able members must have more than two elements, with the first
+   being the string of keys that lead to selecting it, and the second a
+   short description string of the item.
+
+The command will then make a temporary buffer listing all entries
+that can be selected with a single key, and all the single key
+prefixes.  When you press the key for a single-letter entry, it is selected.
+When you press a prefix key, the commands (and maybe further prefixes)
+under this key will be shown and offered for selection.
+
+TITLE will be placed over the selection in the temporary buffer,
+PROMPT will be used when prompting for a key.  SPECIALS is an
+alist with (\"key\" \"description\") entries.  When one of these
+is selected, only the bare key is returned."
+  (save-window-excursion
+    (let ((inhibit-quit t)
+          (buffer (org-switch-to-buffer-other-window "*Org Select*"))
+          (prompt (or prompt "Select: "))
+          case-fold-search
+          current)
+      (unwind-protect
+          (catch 'exit
+            (while t
+              (setq-local evil-normal-state-cursor (list nil))
+              (erase-buffer)
+              (insert title "\n\n")
+              (let ((des-keys nil)
+                    (allowed-keys '("\C-g"))
+                    (tab-alternatives '("\s" "\t" "\r"))
+                    (cursor-type nil))
+                ;; Populate allowed keys and descriptions keys
+                ;; available with CURRENT selector.
+                (let ((re (format "\\`%s\\(.\\)\\'"
+                                  (if current (regexp-quote current) "")))
+                      (prefix (if current (concat current " ") "")))
+                  (dolist (entry table)
+                    (pcase entry
+                      ;; Description.
+                      (`(,(and key (pred (string-match re))) ,desc)
+                       (let ((k (match-string 1 key)))
+                         (push k des-keys)
+                         ;; Keys ending in tab, space or RET are equivalent.
+                         (if (member k tab-alternatives)
+                             (push "\t" allowed-keys)
+                           (push k allowed-keys))
+                         (insert (propertize prefix 'face 'font-lock-comment-face) (propertize k 'face 'bold) (propertize "›" 'face 'font-lock-comment-face) "  " desc "…" "\n")))
+                      ;; Usable entry.
+                      (`(,(and key (pred (string-match re))) ,desc . ,_)
+                       (let ((k (match-string 1 key)))
+                         (insert (propertize prefix 'face 'font-lock-comment-face) (propertize k 'face 'bold) "   " desc "\n")
+                         (push k allowed-keys)))
+                      (_ nil))))
+                ;; Insert special entries, if any.
+                (when specials
+                  (insert "─────────────────────────\n")
+                  (pcase-dolist (`(,key ,description) specials)
+                    (insert (format "%s   %s\n" (propertize key 'face '(bold all-the-icons-red)) description))
+                    (push key allowed-keys)))
+                ;; Display UI and let user select an entry or
+                ;; a sub-level prefix.
+                (goto-char (point-min))
+                (unless (pos-visible-in-window-p (point-max))
+                  (org-fit-window-to-buffer))
+                (let ((pressed (org--mks-read-key allowed-keys
+                                                  prompt
+                                                  (not (pos-visible-in-window-p (1- (point-max)))))))
+                  (setq current (concat current pressed))
+                  (cond
+                   ((equal pressed "\C-g") (user-error "Abort"))
+                   ;; Selection is a prefix: open a new menu.
+                   ((member pressed des-keys))
+                   ;; Selection matches an association: return it.
+                   ((let ((entry (assoc current table)))
+                      (and entry (throw 'exit entry))))
+                   ;; Selection matches a special entry: return the
+                   ;; selection prefix.
+                   ((assoc current specials) (throw 'exit current))
+                   (t (error "No entry available")))))))
+        (when buffer (kill-buffer buffer))))))
+(advice-add 'org-mks :override #'org-mks-pretty)
+#+end_src
+**** Capture From Anywhere
+We want to be able to capture things from anywhere!
+#+begin_src elisp
+(defun timu-func-make-capture-frame ()
+  "Create a new frame and run `org-capture'."
+  (interactive)
+  (make-frame '((name . "capture")
+                (top . 250)
+                (left . 500)
+                (width . 80)
+                (height . 15)))
+  (select-frame-by-name "capture")
+  (delete-other-windows)
+  (require 'noflet)
+  (noflet ((switch-to-buffer-other-window (buf) (switch-to-buffer buf)))
+          (org-capture)))
+
+(defadvice org-capture-finalize
+    (after delete-capture-frame activate)
+  "Advise capture-finalize to close the frame."
+  (if (equal "capture" (frame-parameter nil 'name))
+      (delete-frame)))
+
+(defadvice org-capture-destroy
+    (after delete-capture-frame activate)
+  "Advise capture-destroy to close the frame."
+  (if (equal "capture" (frame-parameter nil 'name))
+      (delete-frame)))
+
 #+end_src
 
 ** Colors
 Shamelessly stolen from the dt config---this (should) make the colors in doom a
 bit nicer
 #+begin_src elisp
+(after! org
 (defun dt/org-colors-doom-one ()
   "Enable Doom One colors for Org headers."
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#51afef" ultra-bold)
-         (org-level-2 1.6 "#c678dd" extra-bold)
-         (org-level-3 1.5 "#98be65" bold)
-         (org-level-4 1.4 "#da8548" semi-bold)
-         (org-level-5 1.3 "#5699af" normal)
-         (org-level-6 1.2 "#a9a1e1" normal)
+       '((org-level-1 1.1 "#51afef" ultra-bold)
+         (org-level-2 1.1 "#c678dd" extra-bold)
+         (org-level-3 1.1 "#98be65" bold)
+         (org-level-4 1.1 "#da8548" semi-bold)
+         (org-level-5 1.1 "#5699af" normal)
+         (org-level-6 1.1 "#a9a1e1" normal)
          (org-level-7 1.1 "#46d9ff" normal)
-         (org-level-8 1.0 "#ff6c6b" normal)))
+         (org-level-8 1.1 "#ff6c6b" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
@@ -203,14 +571,14 @@ bit nicer
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#8be9fd" ultra-bold)
-         (org-level-2 1.6 "#bd93f9" extra-bold)
-         (org-level-3 1.5 "#50fa7b" bold)
-         (org-level-4 1.4 "#ff79c6" semi-bold)
-         (org-level-5 1.3 "#9aedfe" normal)
-         (org-level-6 1.2 "#caa9fa" normal)
+       '((org-level-1 1.1 "#8be9fd" ultra-bold)
+         (org-level-2 1.1 "#bd93f9" extra-bold)
+         (org-level-3 1.1 "#50fa7b" bold)
+         (org-level-4 1.1 "#ff79c6" semi-bold)
+         (org-level-5 1.1 "#9aedfe" normal)
+         (org-level-6 1.1 "#caa9fa" normal)
          (org-level-7 1.1 "#5af78e" normal)
-         (org-level-8 1.0 "#ff92d0" normal)))
+         (org-level-8 1.1 "#ff92d0" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
@@ -219,14 +587,14 @@ bit nicer
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#458588" ultra-bold)
-         (org-level-2 1.6 "#b16286" extra-bold)
-         (org-level-3 1.5 "#98971a" bold)
-         (org-level-4 1.4 "#fb4934" semi-bold)
-         (org-level-5 1.3 "#83a598" normal)
-         (org-level-6 1.2 "#d3869b" normal)
+       '((org-level-1 1.1 "#458588" ultra-bold)
+         (org-level-2 1.1 "#b16286" extra-bold)
+         (org-level-3 1.1 "#98971a" bold)
+         (org-level-4 1.1 "#fb4934" semi-bold)
+         (org-level-5 1.1 "#83a598" normal)
+         (org-level-6 1.1 "#d3869b" normal)
          (org-level-7 1.1 "#d79921" normal)
-         (org-level-8 1.0 "#8ec07c" normal)))
+         (org-level-8 1.1 "#8ec07c" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
@@ -235,14 +603,14 @@ bit nicer
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#78dce8" ultra-bold)
-         (org-level-2 1.6 "#ab9df2" extra-bold)
-         (org-level-3 1.5 "#a9dc76" bold)
-         (org-level-4 1.4 "#fc9867" semi-bold)
-         (org-level-5 1.3 "#ff6188" normal)
-         (org-level-6 1.2 "#ffd866" normal)
+       '((org-level-1 1.1 "#78dce8" ultra-bold)
+         (org-level-2 1.1 "#ab9df2" extra-bold)
+         (org-level-3 1.1 "#a9dc76" bold)
+         (org-level-4 1.1 "#fc9867" semi-bold)
+         (org-level-5 1.1 "#ff6188" normal)
+         (org-level-6 1.1 "#ffd866" normal)
          (org-level-7 1.1 "#78dce8" normal)
-         (org-level-8 1.0 "#ab9df2" normal)))
+         (org-level-8 1.1 "#ab9df2" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
@@ -251,14 +619,14 @@ bit nicer
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#81a1c1" ultra-bold)
-         (org-level-2 1.6 "#b48ead" extra-bold)
-         (org-level-3 1.5 "#a3be8c" bold)
-         (org-level-4 1.4 "#ebcb8b" semi-bold)
-         (org-level-5 1.3 "#bf616a" normal)
-         (org-level-6 1.2 "#88c0d0" normal)
+       '((org-level-1 1.1 "#81a1c1" ultra-bold)
+         (org-level-2 1.1 "#b48ead" extra-bold)
+         (org-level-3 1.1 "#a3be8c" bold)
+         (org-level-4 1.1 "#ebcb8b" semi-bold)
+         (org-level-5 1.1 "#bf616a" normal)
+         (org-level-6 1.1 "#88c0d0" normal)
          (org-level-7 1.1 "#81a1c1" normal)
-         (org-level-8 1.0 "#b48ead" normal)))
+         (org-level-8 1.1 "#b48ead" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
@@ -267,14 +635,14 @@ bit nicer
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#6699cc" ultra-bold)
-         (org-level-2 1.6 "#c594c5" extra-bold)
-         (org-level-3 1.5 "#99c794" bold)
-         (org-level-4 1.4 "#fac863" semi-bold)
-         (org-level-5 1.3 "#5fb3b3" normal)
-         (org-level-6 1.2 "#ec5f67" normal)
+       '((org-level-1 1.1 "#6699cc" ultra-bold)
+         (org-level-2 1.1 "#c594c5" extra-bold)
+         (org-level-3 1.1 "#99c794" bold)
+         (org-level-4 1.1 "#fac863" semi-bold)
+         (org-level-5 1.1 "#5fb3b3" normal)
+         (org-level-6 1.1 "#ec5f67" normal)
          (org-level-7 1.1 "#6699cc" normal)
-         (org-level-8 1.0 "#c594c5" normal)))
+         (org-level-8 1.1 "#c594c5" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
@@ -283,14 +651,14 @@ bit nicer
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#82aaff" ultra-bold)
-         (org-level-2 1.6 "#c792ea" extra-bold)
-         (org-level-3 1.5 "#c3e88d" bold)
-         (org-level-4 1.4 "#ffcb6b" semi-bold)
-         (org-level-5 1.3 "#a3f7ff" normal)
-         (org-level-6 1.2 "#e1acff" normal)
+       '((org-level-1 1.1 "#82aaff" ultra-bold)
+         (org-level-2 1.1 "#c792ea" extra-bold)
+         (org-level-3 1.1 "#c3e88d" bold)
+         (org-level-4 1.1 "#ffcb6b" semi-bold)
+         (org-level-5 1.1 "#a3f7ff" normal)
+         (org-level-6 1.1 "#e1acff" normal)
          (org-level-7 1.1 "#f07178" normal)
-         (org-level-8 1.0 "#ddffa7" normal)))
+         (org-level-8 1.1 "#ddffa7" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
@@ -299,14 +667,14 @@ bit nicer
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#268bd2" ultra-bold)
-         (org-level-2 1.6 "#d33682" extra-bold)
-         (org-level-3 1.5 "#859900" bold)
-         (org-level-4 1.4 "#b58900" semi-bold)
-         (org-level-5 1.3 "#cb4b16" normal)
-         (org-level-6 1.2 "#6c71c4" normal)
+       '((org-level-1 1.1 "#268bd2" ultra-bold)
+         (org-level-2 1.1 "#d33682" extra-bold)
+         (org-level-3 1.1 "#859900" bold)
+         (org-level-4 1.1 "#b58900" semi-bold)
+         (org-level-5 1.1 "#cb4b16" normal)
+         (org-level-6 1.1 "#6c71c4" normal)
          (org-level-7 1.1 "#2aa198" normal)
-         (org-level-8 1.0 "#657b83" normal)))
+         (org-level-8 1.1 "#657b83" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
@@ -315,14 +683,14 @@ bit nicer
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#268bd2" ultra-bold)
-         (org-level-2 1.6 "#d33682" extra-bold)
-         (org-level-3 1.5 "#859900" bold)
-         (org-level-4 1.4 "#b58900" semi-bold)
-         (org-level-5 1.3 "#cb4b16" normal)
-         (org-level-6 1.2 "#6c71c4" normal)
+       '((org-level-1 1.1 "#268bd2" ultra-bold)
+         (org-level-2 1.1 "#d33682" extra-bold)
+         (org-level-3 1.1 "#859900" bold)
+         (org-level-4 1.1 "#b58900" semi-bold)
+         (org-level-5 1.1 "#cb4b16" normal)
+         (org-level-6 1.1 "#6c71c4" normal)
          (org-level-7 1.1 "#2aa198" normal)
-         (org-level-8 1.0 "#657b83" normal)))
+         (org-level-8 1.1 "#657b83" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
@@ -331,19 +699,19 @@ bit nicer
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#81a2be" ultra-bold)
-         (org-level-2 1.6 "#b294bb" extra-bold)
-         (org-level-3 1.5 "#b5bd68" bold)
-         (org-level-4 1.4 "#e6c547" semi-bold)
-         (org-level-5 1.3 "#cc6666" normal)
-         (org-level-6 1.2 "#70c0ba" normal)
+       '((org-level-1 1.1 "#81a2be" ultra-bold)
+         (org-level-2 1.1 "#b294bb" extra-bold)
+         (org-level-3 1.1 "#b5bd68" bold)
+         (org-level-4 1.1 "#e6c547" semi-bold)
+         (org-level-5 1.1 "#cc6666" normal)
+         (org-level-6 1.1 "#70c0ba" normal)
          (org-level-7 1.1 "#b77ee0" normal)
-         (org-level-8 1.0 "#9ec400" normal)))
+         (org-level-8 1.1 "#9ec400" normal)))
     (set-face-attribute (nth 0 face) nil :font doom-variable-pitch-font :weight (nth 3 face) :height (nth 1 face) :foreground (nth 2 face)))
     (set-face-attribute 'org-table nil :font doom-font :weight 'normal :height 1.0 :foreground "#bfafdf"))
 
 ;; Load our desired dt/org-colors-* theme on startup
-(dt/org-colors-doom-one)
+(dt/org-colors-monokai-pro))
 #+end_src
 
 ** Journal
@@ -381,10 +749,14 @@ First configure how often org-roam updates itself and the set the default header
 for new org-roam documents
 #+begin_src elisp
 (setq org-roam-db-update-method 'immediate)
-(setq org-roam-capture-templates '(("d" "default" plain "%?"
-    :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n")
-                                :unnarrowed t)))
+(setq org-roam-capture-templates
+      '(("s" "slipbox" plain "%?"
+          :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                               "#+title: ${title}\n
+                                ,#+STARTUP: latexpreview\n")
+                                :unnarrowed t
+                                :jump-to-captured t))
+      )
 #+end_src
 
 Next we configure the side-window that is avaliable in org-roam buffers
@@ -442,6 +814,16 @@ gets disabled here.
 (setq TeX-electric-sub-and-superscript nil)
 #+end_src
 
+Okay so this makes it so that when you are in enumerate or itemize environments
+and you do ~C-Enter~ it insert =\item=
+#+begin_src elisp
+(after! tex
+  (map!
+   :map LaTeX-mode-map
+   :ei [C-return] #'LaTeX-insert-item)
+  (setq TeX-electric-math '("\\(" . "")))
+#+end_src
+
 ** Bibtex
 Eventually I'm sure there will be lost more that has to do with my Bibtex
 information. For now there is just setting the link to my main =.bib= file
@@ -497,14 +879,43 @@ Now we add to the settings under the =`= leader:
 #+begin_src elisp
 (setq cdlatex-math-symbol-alist
  '(
-   ( ?c  ("\\chi"                 "\\circ"                "\\cos"))
-   ( ?e  ("\\varepsilon"          "\\epsilon"             "\\exp"))
-   ( ?+  ("\\cup"                 "\\oplus"               ""))
-   ( ?x  ("\\xi"                  "\\otimes"              ""))
-    ))
+   ( ?c  ("\\chi"           "\\circ"          "\\cos"))
+   ( ?_  ("\\downarrow"     ""                "\\inf"))
+   ( ?2  ("^2"              "\\sqrt{?}"       ""     ))
+   ( ?3  ("^3"              "\\sqrt[3]{?}"    ""     ))
+   ( ?e  ("\\varepsilon"    "\\epsilon"       "\\exp"))
+   ( ?+  ("\\cup"           "\\oplus"         ""     ))
+   ( ?x  ("\\xi"            "\\otimes"        ""     ))
+   ( ?U  ("\\Upsilon"       "\\cup"           "\\bigcup"     ))
+   ( ?N  ("\\nable"         "\\cap"           "\\bigcap")))
+ cdlatex-math-modify-alist
+ '( ;; my own stuff
+     (?B    "\\mathbb"        nil          t    nil  nil)
+     (?a    "\\abs"           nil          t    nil  nil)
+     (?S    "\\mathscr"       nil          t    nil  nil)
+     (?s    "\\sqrt"          nil          t    nil  nil)
+     (?F    "\\mathfrak"      nil          t    nil  nil)
+     ))
+
+(setq cdlatex-make-sub-superscript-roman-if-pressed-twice t)
 #+end_src
 
 ** Folding
+
+This code should make the delimiters take up a lot less visual space!
+#+begin_src elisp
+;; Making \( \) less visible
+(defface unimportant-latex-face
+  '((t :inherit font-lock-comment-face :weight extra-light))
+  "Face used to make \\(\\), \\[\\] less visible."
+  :group 'LaTeX-math)
+
+(font-lock-add-keywords
+ 'latex-mode
+ `(("\\\\[]()[]" 0 'unimportant-latex-face prepend))
+ 'end)
+#+end_src
+
 This is just a thing that I am trying---it folds a bunch of the LaTeX commands
 to just give symbols when you aren't editing that section
 #+begin_src elisp
@@ -641,6 +1052,35 @@ Such special cases should be remapped to another value, as given in `string-offs
   (if (string-match-p "^\\\\?\\w+$" teststring) t nil))
 #+end_src
 
+** PDF
+Once we have a latex document we like, we want it to be able to open the pdf in
+=sioyek=, a customizable pdf viewer: -- this is broken right nwo and I'm not
+exactly sure why. An upcoming auctex release will add =sioyek= as a defaul option
+and that will make life easier
+#+begin_src elisp
+    ;(setq TeX-view-program-list
+     ;'("sioyek"
+       ;("/Applications/sioyek.app/Contents/MacOS/sioyek %o"
+        ;(mode-io-correlate
+         ;,(concat
+           ;" --forward-search-file \"%b\""
+           ;" --forward-search-line %n"
+           ;" --inverse-search \"emacsclient +%2 %1\"")))
+       ;"sioyek"))
+    ;(add-to-list 'TeX-view-program-selection
+                 ;'(output-pdf "sioyek"))
+#+end_src
+And it woud be cool to get synctex up and running
+#+begin_src elisp
+(setq TeX-source-correlate-start-server t)
+
+(add-hook 'LaTeX-mode-hook (lambda ()
+  (push
+    '("latexmk" "latexmk -pvc -pdf %s" TeX-run-TeX nil t
+      :help "Run latexmk on file")
+    TeX-command-list)))
+(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+#+end_src
 * Dashboard
 This package makes a nice(r) splash screen than the one that comes with the
 default doom. Just in case, let's set the ~doom-dashboard~ image to the one we
@@ -660,7 +1100,6 @@ Now we set all the rest of the startup-dashboard
 \nFind file               (SPC .)     \
 Open buffer list    (SPC b i)\
 \nFind recent files       (SPC f r)   \
-Open the eshell     (SPC e s)\
 \nOpen dired file manager (SPC d d)   \
 List of keybindings (SPC h b b)")
   ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
@@ -676,6 +1115,8 @@ List of keybindings (SPC h b b)")
    (dashboard-modify-heading-icons '((recents . "file-text")
                                      (bookmarks . "book"))))
 #+end_src
+
+We want a simple binding to do to the dashboard
 
 In the case that we are loading an ~emacsclient~ window, we want to open the
 dashboard. Right now it doesn't work right all the time.
@@ -724,6 +1165,7 @@ Another thing that I am playing with. We create a side-bar with a ~dired~ and
   (dired-sidebar-toggle-sidebar)
   (ibuffer-sidebar-toggle-sidebar))
 #+end_src
+
 * Smaller Packages
 ** Evil Goggles
 This package adds a little highlight whenever you do a big-boy change
@@ -791,7 +1233,10 @@ for these bindings is ~SPC =~ plus ~key~ since Doom Emacs does not use ~SPC =~.
        :desc "Edit agenda file" "a" #'(lambda () (interactive) (find-file "~/Org/agenda.org"))
        :desc "Edit doom config.org" "c" #'(lambda () (interactive) (find-file "~/.doom.d/config.org"))
        :desc "Edit doom init.el" "i" #'(lambda () (interactive) (find-file "~/.doom.d/init.el"))
-       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.doom.d/packages.el"))))
+       :desc "Edit doom packages.el" "p" #'(lambda () (interactive) (find-file "~/.doom.d/packages.el"))
+       :desc "Go to yabai config" "t" #'(lambda () (interactive) (find-file "~/.config/yabai/yabairc"))
+       :desc "Go to todo.org" "t" #'(lambda () (interactive) (find-file "~/Dropbox/Slipbox/gtd/todo.org"))
+       :desc "Go to inbox.org" "n" #'(lambda () (interactive) (find-file "~/Dropbox/Slipbox/gtd/inbox.org"))))
 #+end_src
 
 ** Rainbow Mode
