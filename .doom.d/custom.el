@@ -4,7 +4,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("1bddd01e6851f5c4336f7d16c56934513d41cc3d0233863760d1798e74809b4b" default))
+   '("2035a16494e06636134de6d572ec47c30e26c3447eafeb6d3a9e8aee73732396" "1bddd01e6851f5c4336f7d16c56934513d41cc3d0233863760d1798e74809b4b" default))
  '(package-selected-packages
    '(dired-sidebar all-the-icons-dired all-the-icons dashboard org-fragtog evil-colemak-basics)))
 (custom-set-faces
@@ -20,4 +20,5 @@
  '(evil-goggles-undo-redo-remove-face ((t (:inherit diff-removed))))
  '(evil-goggles-yank-face ((t (:inherit diff-changed))))
  '(font-lock-comment-face ((t (:slant italic))))
- '(font-lock-keyword-face ((t (:slant italic)))))
+ '(font-lock-keyword-face ((t (:slant italic))))
+ '(org-modern-statistics ((t (:inherit org-checkbox-statistics-todo)))))

@@ -5,7 +5,7 @@ window:
   padding:
     x: 15
     y: 15
-  decorations: none
+  decorations: buttonless
   opacity: .9
 scrolling:
   history: 10000

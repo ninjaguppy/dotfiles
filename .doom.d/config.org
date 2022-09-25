@@ -18,6 +18,7 @@
   - [[#pretty][Pretty]]
   - [[#journal][Journal]]
   - [[#super-agenda][Super Agenda]]
+  - [[#blogging][Blogging]]
   - [[#org-roam][Org-Roam]]
   - [[#org-latex][Org-Latex]]
   - [[#auto-tangle][Auto-tangle]]
@@ -97,7 +98,7 @@ Doom exposes five (optional) variables for controlling fonts in Doom:
 
 ** Theming
 #+begin_src elisp
-(setq doom-theme 'doom-monokai-pro)
+(setq doom-theme 'doom-monokai-classic)
 ;;(setq doom-theme 'doom-horizon)
 (require 'ewal-doom-themes)
 #+end_src
@@ -124,6 +125,7 @@ The encoding is standard, so hide is most of the time!
 
 (add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding)
 #+end_src
+
 
 ** Line Numbers
 This determines the style of line numbers in effect. If set to `nil', line
@@ -260,8 +262,10 @@ supposed to be lol
 (after! org
    (setq
        org-capture-todo-file "/gtd/inbox.org"
+       org-archive-location  "~/Dropbox/Slipbox/gtd/archive.org::* From %s"
 
-        org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "BLOG(b)" "WAIT(w)" "|" "DONE(d)" "KILL(k)"))
+        org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "WAIT(w)" "|" "DONE(d)" "KILL(k)")
+                            (sequence "BLOG(b)" "DRFT(d)" "|" "PBSH(p)"))
         org-agenda-files (list "~/Dropbox/Slipbox/"
                                "~/Dropbox/Slipbox/gtd/"
                                "~/Dropbox/Slipbox/course work/"))
@@ -914,6 +918,12 @@ am not 100% sure what I want it to look like yet
   ;;:config
   ;;(org-super-agenda-mode))
 #+end_src
+
+** Blogging
+I want to use ~ox-hugo~ in order to publish a blog (which I guess I have now). But
+I don't think that I need to do anything with it yet here so for now this is
+blank
+
 ** Org-Roam
 
 First configure how often org-roam updates itself and the set the default header
@@ -923,8 +933,7 @@ for new org-roam documents
 (setq org-roam-capture-templates
       '(("s" "slipbox" plain "%?"
           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n
-                                ,#+STARTUP: latexpreview\n")
+                               "#+title: ${title}\n#+STARTUP: latexpreview\n")
                                 :unnarrowed t
                                 :jump-to-captured t))
       )

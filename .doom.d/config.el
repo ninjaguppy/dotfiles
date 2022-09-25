@@ -28,7 +28,7 @@
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 
-(setq doom-theme 'doom-monokai-pro)
+(setq doom-theme 'doom-monokai-classic)
 ;;(setq doom-theme 'doom-horizon)
 (require 'ewal-doom-themes)
 
@@ -128,8 +128,10 @@
 (after! org
    (setq
        org-capture-todo-file "/gtd/inbox.org"
+       org-archive-location  "~/Dropbox/Slipbox/gtd/archive.org::* From %s"
 
-        org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "BLOG(b)" "WAIT(w)" "|" "DONE(d)" "KILL(k)"))
+        org-todo-keywords '((sequence "TODO(t)" "PROJ(p)" "WAIT(w)" "|" "DONE(d)" "KILL(k)")
+                            (sequence "BLOG(b)" "DRFT(d)" "|" "PBSH(p)"))
         org-agenda-files (list "~/Dropbox/Slipbox/"
                                "~/Dropbox/Slipbox/gtd/"
                                "~/Dropbox/Slipbox/course work/"))
@@ -853,8 +855,7 @@ is selected, only the bare key is returned."
 (setq org-roam-capture-templates
       '(("s" "slipbox" plain "%?"
           :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
-                               "#+title: ${title}\n
-                                #+STARTUP: latexpreview\n")
+                               "#+title: ${title}\n#+STARTUP: latexpreview\n")
                                 :unnarrowed t
                                 :jump-to-captured t))
       )

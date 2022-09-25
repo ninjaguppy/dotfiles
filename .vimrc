@@ -14,6 +14,8 @@
 " When started as "evim", evim.vim will already have done these settings, bail
 " out.
 "
+
+
 call plug#begin('~/.vin/plugged')
 Plug 'preservim/NERDTree'
 
@@ -43,26 +45,9 @@ Plug 'vim-airline/vim-airline'
     let g:airline#extensions#whitespace#enabled = 0
 Plug 'vifm/vifm.vim'
 
-Plug 'vimwiki/vimwiki'
-let wiki_1 = {}
-let wiki_1.path = '~/vimwiki/'
-let wiki_1.syntax = 'markdown'
-let wiki_1.ext = '.md'
-
-let g:vimwiki_list = [wiki_1]
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-let g:vimwiki_global_ext = 0
-"let g:vim_vimwiki_conceal = 1
-"let g:vim_vimwiki_math = 0
-
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzfvim'
 Plug 'michal-h21/vim-zettel'
-
- nnoremap <leader>zn :ZettelNew<space>
- let g:zettel_format = "%y%m%d-%H%M-%title"
- let g:vimwiki_markdown_link_ext = 1
- let g:vimwiki_table_mappings = 0
 
 setlocal spell
 set spelllang=en_us
@@ -114,13 +99,44 @@ augroup END
 
 hi clear Conceal
 
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
+" This is supposed to make it work with colemak:
+" The main magic is done by the following langmap setting.  Not only does it
+" make Colemak's "hnei" work like QWERTY's "hjkl", but it also covers mappings
+" like "gj", "zj", etc.
+"
+" THE ONLY CAVEAT IS THAT MOST MACROS WILL BE BROKEN!  Until this bug is fixed
+" in Vim, it is recommended to record a macro with an empty langmap.
+"
+" The t-f-j rotation is enabled by default but can be disabled using:
+"let g:colemak_basics_rotate_t_f_j = 0
+if get(g:, 'colemak_basics_rotate_t_f_j', 1)
+  set langmap=nN;jJ,eE;kK,iI;lL,kK;nN,uU;iI,lL;uU,fF;eE,tT;fF,jJ;tT
+else
+  set langmap=nN;jJ,eE;kK,iI;lL,kK;nN,uU;iI,lL;uU,jJ;eE
+endif
 
-nnoremap <C-i> <C-w>>
-nnoremap <C-o> <C-w><
+" Do not apply the langmap to characters resulting from a mapping.
+set nolangremap
+
+" Now, we only need to add few remappings not covered by langmap.  Note that
+" the langmap setting does not apply to "CTRL + <KEY>", but fortunately, these
+" mappings either have semantics different from those without "CTRL" or may be
+" disregarded as there are better alternatives covered by langmap (like
+" "CTRL-W CTRL-J", which is mapped to the same function as "CTRL-W j").
+
+" Disable timing out on mappings as it makes mapped key sequences unreliable:
+" any intermediate delay of more than 1 second would break them.
+set notimeout
+
+" Insert mode remappings.  See ":help i_CTRL-G_j" and ":help i_CTRL-G_k".
+inoremap <c-g>n <c-g>j
+inoremap <c-g><c-n> <c-g><c-j>
+inoremap <c-g>e <c-g>k
+inoremap <c-g><c-e> <c-g><c-k>
+" Due to some bug in Vim 8.0, the following two tautological lines are also
+" necessary for the Insert mode remappings to work.
+inoremap <c-g>j <c-g>j
+inoremap <c-g>k <c-g>k
 
 " Add optional packages.
 "

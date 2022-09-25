@@ -14,6 +14,7 @@
   - [[#child--splits][Child + Splits]]
   - [[#borders][Borders]]
   - [[#window-settings][Window Settings]]
+  - [[#animations][Animations]]
   - [[#closing-windows][Closing Windows]]
   - [[#signals][Signals]]
 - [[#end][End]]
@@ -32,8 +33,8 @@ need it
 I use the Scripting Addition for some extra functionality. We need to load that
 whenever yabai start
 #+begin_src sh
-sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
 #+end_src
 
 ** Layout
@@ -70,7 +71,7 @@ yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
 yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Timery$" sticky=on manage=off
-yabai -m rule --add app="^CleanShot X$" layer=above manage=eff
+yabai -m rule --add app="^CleanShot X$" layer=above manage=off border=off
 yabai -m rule --add app="^Path Finder$" manage=off sticky=on layer=above
 yabai -m rule --add app="^TeamViewer$" sticky=off layer=above manage=off
 yabai -m rule --add app="^Font Book$" sticky=off layer=above manage=off
@@ -90,6 +91,7 @@ yabai -m rule --add app="^CiscoSparkHelper$" manage=off
 yabai -m rule --add app="^Logi Options$" manage=off
 yabai -m rule --add app="^Cisco Webex Start$" manage=off
 yabai -m rule --add app="^Private Internet Access$" manage=off
+yabai -m rule --add app="^TV$" opacity=1
 #+end_src
 
 * Global Config
@@ -144,11 +146,19 @@ We also want a nice little border around every window with a slightly different
 color on the active window
 #+begin_src sh
 yabai -m config window_border                on
-yabai -m config window_border_width          5
+yabai -m config window_border_width          4
+yabai -m config window_border_radius         12
 yabai -m config active_window_border_color   0xffff9966
 yabai -m config normal_window_border_color   0xff534c9b
 #+end_src
 
+** Animations
+We got sexy animations in version 5---the borders look a little worst but its
+absolutely worth it
+#+begin_src sh
+yabai -m config window_opacity_duration 0.2
+yabai -m config window_animation_duration 0.2
+#+end_src
 ** Closing Windows
 Most of the time, closing windows isn't an issue, but some of them don't play
 very nice. The following code makes it so that when you close a window, it
