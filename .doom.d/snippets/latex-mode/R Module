@@ -4,4 +4,4 @@
 # key: rmod
 # condition: t
 # --
-\$R\$-module
+\\(R\\)-module

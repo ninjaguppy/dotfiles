@@ -17,8 +17,8 @@ sketchybar --clone     system.label       label_template                        
                                           script="$PLUGIN_DIR/window_title.sh"          \
            --subscribe system.label       front_app_switched                            \
                                                                                         \
-           --add       alias              "Better Battery 2" e                    \
-           --set "Better Battery 2"       update_freq=2                                 \
+           --add       alias              "AlDente" e                    \
+           --set       "AlDente"          update_freq=2                                 \
                                           drawing=$HAS_BATTERY                          \
                                           label.drawing=off                             \
                                           background.padding_right=-3                   \
@@ -26,7 +26,7 @@ sketchybar --clone     system.label       label_template                        
                                           click_script="sketchybar -m --set \"\$NAME\" popup.drawing=toggle; sketchybar --trigger battery" \
                                           popup.align=right                             \
                                                                                         \
-           --add       item               battery.details popup."Better Battery 2"\
+           --add       item               battery.details popup."AlDente"\
            --set       battery.details    updates=$HAS_BATTERY                          \
                                           script="$PLUGIN_DIR/battery.sh"               \
                                           label.padding_right=8                         \

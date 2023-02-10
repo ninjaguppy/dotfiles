@@ -29,6 +29,7 @@
   - [[#cd-latex][CD-Latex]]
   - [[#folding][Folding]]
   - [[#pdf][PDF]]
+  - [[#quiver][Quiver]]
 - [[#dashboard][Dashboard]]
 - [[#dired-ibuffer-sidebar][Dired-iBuffer sidebar]]
 - [[#smaller-packages][Smaller Packages]]
@@ -40,6 +41,7 @@
   - [[#openers][Openers]]
   - [[#rainbow-mode][Rainbow Mode]]
   - [[#evil-snipe][Evil Snipe]]
+  - [[#discord][Discord]]
   - [[#other][Other]]
 
 * Intro
@@ -144,8 +146,8 @@ Break lines (in general text-based documents) automatically at 80-ish lines
 ** Transparency
 Set the default transparency for active and inactive frames
 #+begin_src elisp
-(set-frame-parameter (selected-frame) 'alpha '(90 . 75))
-(add-to-list 'default-frame-alist '(alpha . (90 . 75)))
+(set-frame-parameter (selected-frame) 'alpha '(80 . 65))
+(add-to-list 'default-frame-alist '(alpha . (80 . 65)))
 #+end_src
 
 ** Icons
@@ -1279,6 +1281,49 @@ And it woud be cool to get synctex up and running
     TeX-command-list)))
 (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
 #+end_src
+
+** Quiver
+I use quiver for a lot of my commutative diagrams. This little snippet allows me
+to edit the thing in a nice way?
+[taken from https://github.com/varkor/quiver/issues/148]
+#+begin_src elisp
+(defun replace-quiver-diagram ()
+  "Extracts the quiver URL from the diagram under cursor and runs it in browser. Selects the diagram."
+  (interactive)
+        (let ((start 0)
+              (end 0)
+              (url-start 0)
+              (url-end 0)
+              (url ""))
+    (save-excursion
+      (save-excursion
+        (re-search-backward "% https://q.uiver.app" nil)
+        (setq url-start (+ 2 (point)))
+        (beginning-of-line)
+        (setq start (point))
+      (save-excursion
+	    (re-search-forward "\\\\end{tikzcd}" nil)
+        (setq end (point)))
+      (save-excursion
+        (goto-char url-start)
+        (re-search-forward "\n" nil)
+        (setq url-end (- (point) 1))
+        (skip-chars-forward " ")
+        ;; If the next two symbols after new line, up to whitespace,
+        ;; are "\[", modify the `end` value to be after \].
+        (when (string= "[" (string (char-after (+ 1 (point)))))
+          (setq end (+ 2 end))))
+      (setq url (buffer-substring-no-properties url-start url-end))
+      (start-process "" nil
+                     ;; Edit this line to change the browser.
+                     "flatpak" "run" "org.chromium.Chromium" url)))
+    (goto-char start)
+    (push-mark end t t)))
+
+(add-hook 'TeX-mode-hook (lambda ()
+                           (interactive)
+                           (define-key TeX-mode-map (kbd "C-x q") 'replace-quiver-diagram)))
+#+end_src
 * Dashboard
 This package makes a nice(r) splash screen than the one that comes with the
 default doom. Just in case, let's set the ~doom-dashboard~ image to the one we
@@ -1455,6 +1500,14 @@ the buffer but I want a little larger range for my sniping
         evil-snipe-spillover-scope 'whole-visible))
 #+end_src
 
+** Discord
+The package =elcord= allows integration with the Discord /Rich Context/ feature (or
+whatever its called). Lets turn that on
+#+begin_src elisp
+;(require 'elcord)
+;(elcord-mode)
+;(setq elcord-use-major-mode-as-icon t)
+#+end_src
 ** Other
 These are things that I added at one point but I'm really not sure what is going
 on

@@ -6,9 +6,9 @@
 - [[#introduction][Introduction]]
 - [[#setup][Setup]]
   - [[#scripting-addition][Scripting Addition]]
-  - [[#layout][Layout]]
   - [[#spaces][Spaces]]
   - [[#appliction-settings][Appliction Settings]]
+  - [[#layout][Layout]]
 - [[#global-config][Global Config]]
   - [[#mouse][Mouse]]
   - [[#child--splits][Child + Splits]]
@@ -25,8 +25,11 @@ Just in case this is needed
 * Setup
 We start with the weird thing at the top of every shell script just in case we
 need it
+- Then we add a quick bit of code that ignores the built in window manager...
+  surely that won't ever go wrong
 #+begin_src sh
 #!/usr/bin/env sh
+launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist
 #+end_src
 
 ** Scripting Addition
@@ -35,12 +38,6 @@ whenever yabai start
 #+begin_src sh
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
-#+end_src
-
-** Layout
-We want the general fallback to me binary space partitioning
-#+begin_src sh
-yabai -m config layout bsp
 #+end_src
 
 ** Spaces
@@ -61,7 +58,8 @@ yabai -m space 6 --label music
 There are certain applications that I want to work a specific way -- this
 ensures that they play nice
 #+begin_src sh
-yabai -m rule --add app="^System Preferences$" sticky=on layer=above manage=off
+yabai -m rule --add app="^System Settings$" sticky=on layer=above manage=off
+#yabai -m rule --add app="^Timery$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Karabiner-Elements$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
@@ -70,7 +68,6 @@ yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
 yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Timery$" sticky=on manage=off
 yabai -m rule --add app="^CleanShot X$" layer=above manage=off border=off
 yabai -m rule --add app="^Path Finder$" manage=off sticky=on layer=above
 yabai -m rule --add app="^TeamViewer$" sticky=off layer=above manage=off
@@ -92,6 +89,13 @@ yabai -m rule --add app="^Logi Options$" manage=off
 yabai -m rule --add app="^Cisco Webex Start$" manage=off
 yabai -m rule --add app="^Private Internet Access$" manage=off
 yabai -m rule --add app="^TV$" opacity=1
+yabai -m rule --add app="^Detexify$" opacity=1 manage=off
+#+end_src
+
+** Layout
+We want the general fallback to me binary space partitioning
+#+begin_src sh
+yabai -m config layout bsp
 #+end_src
 
 * Global Config
@@ -101,7 +105,7 @@ Set the mouse behavior
 yabai -m config focus_follows_mouse off
 yabai -m config mouse_follows_focus off
 ## set mouse interaction modifier key (default: fn)
-yabai -m config mouse_modifier ctrl
+yabai -m config mouse_modifier fn
 ## set modifier + right-click drag to resize window (default: resize)
 yabai -m config mouse_action2 resize
 ## set modifier + left-click drag to resize window (default: move)
@@ -126,7 +130,7 @@ yabai -m config right_padding 8
 yabai -m config window_gap 6
 #+end_src
 
-As well as space for a bar on the /bottom/ and the /top/of the screen
+As well as space for a bar on the /bottom/ and the /top/ of the screen
 #+begin_src sh
 yabai -m config external_bar all:32:0
 #+end_src
@@ -155,9 +159,11 @@ yabai -m config normal_window_border_color   0xff534c9b
 ** Animations
 We got sexy animations in version 5---the borders look a little worst but its
 absolutely worth it
+
+- Unfortunately these are very busted right now :(
 #+begin_src sh
-yabai -m config window_opacity_duration 0.2
-yabai -m config window_animation_duration 0.2
+ #yabai -m config window_opacity_duration 0.2
+ #yabai -m config window_animation_duration 0.2
 #+end_src
 ** Closing Windows
 Most of the time, closing windows isn't an issue, but some of them don't play

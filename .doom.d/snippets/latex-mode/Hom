@@ -4,4 +4,4 @@
 # key: hom
 # condition: t
 # --
-\\text{Hom}_{$1}($2,$3)
+\\Hom_{$1}($2,$3)

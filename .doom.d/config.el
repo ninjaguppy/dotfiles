@@ -53,8 +53,8 @@
 (add-hook 'text-mode-hook  'auto-fill-mode)
 (setq-default fill-column 80)
 
-(set-frame-parameter (selected-frame) 'alpha '(90 . 75))
-(add-to-list 'default-frame-alist '(alpha . (90 . 75)))
+(set-frame-parameter (selected-frame) 'alpha '(80 . 65))
+(add-to-list 'default-frame-alist '(alpha . (80 . 65)))
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -1118,6 +1118,43 @@ Such special cases should be remapped to another value, as given in `string-offs
     TeX-command-list)))
 (add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
 
+(defun replace-quiver-diagram ()
+  "Extracts the quiver URL from the diagram under cursor and runs it in browser. Selects the diagram."
+  (interactive)
+        (let ((start 0)
+              (end 0)
+              (url-start 0)
+              (url-end 0)
+              (url ""))
+    (save-excursion
+      (save-excursion
+        (re-search-backward "% https://q.uiver.app" nil)
+        (setq url-start (+ 2 (point)))
+        (beginning-of-line)
+        (setq start (point))
+      (save-excursion
+	    (re-search-forward "\\\\end{tikzcd}" nil)
+        (setq end (point)))
+      (save-excursion
+        (goto-char url-start)
+        (re-search-forward "\n" nil)
+        (setq url-end (- (point) 1))
+        (skip-chars-forward " ")
+        ;; If the next two symbols after new line, up to whitespace,
+        ;; are "\[", modify the `end` value to be after \].
+        (when (string= "[" (string (char-after (+ 1 (point)))))
+          (setq end (+ 2 end))))
+      (setq url (buffer-substring-no-properties url-start url-end))
+      (start-process "" nil
+                     ;; Edit this line to change the browser.
+                     "flatpak" "run" "org.chromium.Chromium" url)))
+    (goto-char start)
+    (push-mark end t t)))
+
+(add-hook 'TeX-mode-hook (lambda ()
+                           (interactive)
+                           (define-key TeX-mode-map (kbd "C-x q") 'replace-quiver-diagram)))
+
 (setq fancy-splash-image "~/.doom.d/cute-doom/doom_512.png")
 
 (use-package dashboard
@@ -1231,6 +1268,10 @@ List of keybindings (SPC h b b)")
 (after! evil-snipe
   (setq evil-snipe-scope 'visible
         evil-snipe-spillover-scope 'whole-visible))
+
+;(require 'elcord)
+;(elcord-mode)
+;(setq elcord-use-major-mode-as-icon t)
 
 (setq projectile-project-search-path '("~/Dropbox/math/"
                                        "~/Dropbox/PhD Applications/"
