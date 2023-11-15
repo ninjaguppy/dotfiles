@@ -8,29 +8,29 @@ if [ "$wantFuzz" == 0 ];
 then
     currHour=$(($(date '+%-I') % 12))
     minute_phrase[0]=" o'clock"
-    minute_phrase[1]="five past "
-    minute_phrase[2]="ten past "
-    minute_phrase[3]="quarter past "
-    minute_phrase[4]="twenty past "
-    minute_phrase[5]="twenty-five past "
-    minute_phrase[6]="half past "
-    minute_phrase[7]="twenty-five til "
-    minute_phrase[8]="twenty til "
-    minute_phrase[9]="quarter til "
-    minute_phrase[10]="ten til "
-    minute_phrase[11]="five til "
-    hour_phrase[0]="twelve"
-    hour_phrase[1]="one"
-    hour_phrase[2]="two"
-    hour_phrase[3]="three"
-    hour_phrase[4]="four"
-    hour_phrase[5]="five"
-    hour_phrase[6]="six"
-    hour_phrase[7]="seven"
-    hour_phrase[8]="eight"
-    hour_phrase[9]="nine"
-    hour_phrase[10]="ten"
-    hour_phrase[11]="eleven"
+    minute_phrase[1]="Five past "
+    minute_phrase[2]="Ten past "
+    minute_phrase[3]="Quarter past "
+    minute_phrase[4]="Twenty past "
+    minute_phrase[5]="Twenty-five past "
+    minute_phrase[6]="Half past "
+    minute_phrase[7]="Twenty-five til "
+    minute_phrase[8]="Twenty til "
+    minute_phrase[9]="Quarter til "
+    minute_phrase[10]="Ten til "
+    minute_phrase[11]="Five til "
+    hour_phrase[0]="Twelve"
+    hour_phrase[1]="One"
+    hour_phrase[2]="Two"
+    hour_phrase[3]="Three"
+    hour_phrase[4]="Four"
+    hour_phrase[5]="Five"
+    hour_phrase[6]="Six"
+    hour_phrase[7]="Seven"
+    hour_phrase[8]="Eight"
+    hour_phrase[9]="Nine"
+    hour_phrase[10]="Ten"
+    hour_phrase[11]="Eleven"
     #Handle the rounding of the time
     roundedMinute=$((((($(date '+%-M') +2) / 5)*5)%60))
     exactMinute=$(date '+%-M')
@@ -51,10 +51,10 @@ then
         theString+=${hour_phrase[$currHour]}
     fi
     sketchybar --set $NAME label="$theString"
-    sketchybar --set $NAME update_freq=45
+    sketchybar --set $NAME update_freq=120
 else
-    theString=$(date '+%I:%M:%S')
+    theString=$(date '+%I:%M')
     sketchybar --set $NAME label="$theString"
-    sketchybar --set $NAME update_freq=1
+    sketchybar --set $NAME update_freq=30
 fi
 # Send shetchybar the string

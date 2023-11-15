@@ -1,17 +1,28 @@
-#!/usr/bin/env bash
-#!/usr/bin/env bash
+#!/bin/bash
 
-args=()
-if [ "$NAME" != "space_template" ]; then
-  args+=(--set $NAME label=$NAME \
-                     icon.highlight=$SELECTED)
-fi
+update() {
+  source "$CONFIG_DIR/colors.sh"
+  COLOR=$BACKGROUND_2
+  if [ "$SELECTED" = "true" ]; then
+    COLOR=$GREY
+  fi
+  sketchybar --set $NAME icon.highlight=$SELECTED \
+                         label.highlight=$SELECTED \
+                         background.border_color=$COLOR
+}
 
-if [ "$SELECTED" = "true" ]; then
-  args+=(--set spaces_$DID.label label=${NAME#"spaces_$DID."})
-  args+=(--set $NAME icon.background.y_offset=-12)
-else
-  args+=(--set $NAME icon.background.y_offset=-20)
-fi
+mouse_clicked() {
+  if [ "$BUTTON" = "right" ]; then
+    yabai -m space --destroy $SID
+    sketchybar --trigger windows_on_spaces --trigger space_change
+  else
+    yabai -m space --focus $SID 2>/dev/null
+  fi
+}
 
-sketchybar -m --animate tanh 20 "${args[@]}"
+case "$SENDER" in
+  "mouse.clicked") mouse_clicked
+  ;;
+  *) update
+  ;;
+esac

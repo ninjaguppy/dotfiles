@@ -29,7 +29,7 @@ need it
   surely that won't ever go wrong
 #+begin_src sh
 #!/usr/bin/env sh
-launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist
+launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist > /dev/null 2>&1 &
 #+end_src
 
 ** Scripting Addition
@@ -68,7 +68,8 @@ yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
 yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
-yabai -m rule --add app="^CleanShot X$" layer=above manage=off border=off
+yabai -m rule --add app="^CleanShot X$" layer=above manage=off
+yabai -m rule --add app="^CleanMyMac X$" layer=above manage=off
 yabai -m rule --add app="^Path Finder$" manage=off sticky=on layer=above
 yabai -m rule --add app="^TeamViewer$" sticky=off layer=above manage=off
 yabai -m rule --add app="^Font Book$" sticky=off layer=above manage=off
@@ -115,7 +116,7 @@ yabai -m config mouse_action1 move
 ** Child + Splits
 #+begin_src sh
 yabai -m config window_placement second_child
-yabai -m config window_topmost off
+## yabai -m config window_topmost off
 yabai -m config auto_balance off
 yabai -m config split_ratio 0.50
 #+end_src
@@ -127,7 +128,7 @@ yabai -m config top_padding 8
 yabai -m config bottom_padding 8
 yabai -m config left_padding 8
 yabai -m config right_padding 8
-yabai -m config window_gap 6
+yabai -m config window_gap 10
 #+end_src
 
 As well as space for a bar on the /bottom/ and the /top/ of the screen
@@ -141,7 +142,7 @@ to treat emacs a little bit differently
 #+begin_src sh
 yabai -m config window_opacity on
 yabai -m config active_window_opacity 1.0
-yabai -m config normal_window_opacity 0.75
+yabai -m config normal_window_opacity 0.8
 yabai -m config window_shadow float
 yabai -m rule --add app="Emacs" opacity=0.75
 #+end_src
@@ -149,11 +150,11 @@ yabai -m rule --add app="Emacs" opacity=0.75
 We also want a nice little border around every window with a slightly different
 color on the active window
 #+begin_src sh
-yabai -m config window_border                on
-yabai -m config window_border_width          4
-yabai -m config window_border_radius         12
-yabai -m config active_window_border_color   0xffff9966
-yabai -m config normal_window_border_color   0xff534c9b
+#yabai -m config window_border                on
+#yabai -m config window_border_width          4
+#yabai -m config window_border_radius         12
+#yabai -m config active_window_border_color   0xffff9966
+#yabai -m config normal_window_border_color   0xff534c9b
 #+end_src
 
 ** Animations
@@ -161,9 +162,11 @@ We got sexy animations in version 5---the borders look a little worst but its
 absolutely worth it
 
 - Unfortunately these are very busted right now :(
+  -- on the fork [[https://github.com/FelixKratz/yabai][here]] they are not broken. As of right now I am running this
+  fork of yabai
 #+begin_src sh
- #yabai -m config window_opacity_duration 0.2
- #yabai -m config window_animation_duration 0.2
+ yabai -m config window_opacity_duration 0.2
+ yabai -m config window_animation_duration 0.2
 #+end_src
 ** Closing Windows
 Most of the time, closing windows isn't an issue, but some of them don't play
@@ -176,22 +179,24 @@ yabai -m signal --add event=application_terminated action="yabai -m query --wind
 #+end_src
 
 ** Signals
-These first two I understand. We want =sketcybar= to update whenever yabai
+These first two I understand. We want =sketchybar= to update whenever yabai
 messes with a window
 #+begin_src sh
-yabai -m signal --add event=window_focused action="sketchybar -m --trigger window_focus"
-yabai -m signal --add event=window_resized action="sketchybar -m --trigger window_focus"
+yabai -m signal --add event=window_focused action="sketchybar --trigger window_focus"
+yabai -m signal --add event=window_created action="sketchybar --trigger windows_on_spaces"
+yabai -m signal --add event=window_destroyed action="sketchybar --trigger windows_on_spaces"
 #+end_src
 
 The following two scripts didn't work but I am leaving them in the off chance
 that I need them again one day.
 #+begin_src sh
-#yabai -m signal --add event=window_destroyed action="bash ~/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
+## yabai -m signal --add event=window_destroyed action="bash ~/CustomScripts/SwitchSpaces/window-focus-on-destroy.sh"
 #+end_src
 
 * End
 Lastly, we echo a little thing so that if run from a terminal we know that it
 all worked
 #+begin_src sh
+borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0 2>/dev/null 1>&2 &
 echo "yabai configuration loaded.."
 #+end_src

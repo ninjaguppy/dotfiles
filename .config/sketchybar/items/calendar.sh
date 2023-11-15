@@ -1,57 +1,30 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
-sketchybar --add       item               messages right                                \
-           --set       messages           update_freq=10                                \
-                                          script="$PLUGIN_DIR/messages.sh"              \
-                                          drawing=on                                    \
-                                                                                        \
-#          #--add       item               mailIndicator right
-#          #--set       mailIndicator      update_freq=30                                \
-#          #                               script="$PLUGIN_DIR/mailIndicator.sh"         \
-#          #                               icon.font="$FONT:Bold:16.0"                   \
-#          #                               icon=􀍜                                       \
-#          #                               label.padding_right=8                         \
-#          #                               background.padding_right=0                    \
-#          #                               label=!                                       \
-#          #                                                                             \
-#          #--add       event              bluetooth_change "com.apple.bluetooth.status" \
-#          #--add       item               headphones right                              \
-#          #--set       headphones         icon=􀪷                                       \
-#          #                              script="$PLUGIN_DIR/airpods_battery.sh"       \
-#          #--subscribe headphones         bluetooth_change                              \
-#          #                                                                            \
-sketchybar --add       alias              MeetingBar right                              \
-           --set       MeetingBar         background.padding_right=-8                   \
-                                          background.padding_left=-6                    \
-                                          update_freq=10                                \
-                                                                                        \
-           --clone     fuzztime           label_template                                 \
-           --set       fuzztime           position=right                                \
-                                          update_freq=1                                 \
-                                          label.font="$FONT:Semibold:13.0"              \
-                                          label=test                                     \
-                                          drawing=on                                    \
-                                          background.padding_right=0                    \
-                                          background.padding_left=-2                    \
-                                          script="$PLUGIN_DIR/fuzzytime.bash"             \
-           --subscribe fuzztime           timechange \
-#      #    --add       item               calendar.time right
-#      #    --set       calendar.time      update_freq=15                                \
-#      #                                   icon.drawing=off                              \
-#      #                                   script="$PLUGIN_DIR/time.sh"                  \
-sketchybar --clone     calendar.date      label_template                                \
-           --set       calendar.date      update_freq=60                                \
-                                          position=right                                \
-                                          label.font="$FONT:Semibold:13.0"              \
-                                          label=cal                                     \
-                                          drawing=on                                    \
-                                          background.padding_right=0                    \
-                                          script="$PLUGIN_DIR/date.sh"                  \
-                                                                                        \
-                                                                                       \
-           --add       bracket            calendar                                      \
-                                          messages                                      \
-                                          MeetingBar                                    \
-                                          calendar.date                                 \
-                                                                                        \
-           --set       calendar           background.drawing=on
+calendar=(
+  icon=cal
+  icon.font="$FONT:Black:12.0"
+  icon.padding_right=0
+  label.width=0
+  label.align=right
+  background.padding_right=0                    \
+  padding_left=15
+  update_freq=30
+  script="$PLUGIN_DIR/calendar.sh"
+  click_script="$PLUGIN_DIR/zen.sh"
+)
+fuzzytime=(
+  icon.padding_right=2
+  label.align=left
+  label.padding_right=2
+  background.padding_right=0
+  background.padding_left=0
+  update_freq=1
+  script="$PLUGIN_DIR/fuzzytime.bash"
+)
+
+sketchybar --add item fuzzytime right       \
+           --set fuzzytime "${fuzzytime[@]}" \
+           --subscribe fuzzytime timechange \
+           --add item calendar right       \
+           --set calendar "${calendar[@]}" \
+           --subscribe calendar system_woke\

@@ -59,7 +59,7 @@ hyper - y : yabai -m space --mirror y-axis
 hyper - x : yabai -m space --mirror x-axis
 
 ## toggle window fullscreen zoom
-hyper - j : yabai -m window --toggle zoom-fullscreen
+hyper - j : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window_focus
 
 ## Get name of current window
 hyper - w : yabai -m query --windows --window | jq .title
