@@ -67,6 +67,14 @@ Focus next space by mission-control index if one exists, otherwise go to the oth
 #+begin_src conf
 rcmd + rshift + ralt + rctrl - h : yabai -m space --focus next || yabai -m space --focus first
 rcmd + rshift + ralt + rctrl - k : yabai -m space --focus prev || yabai -m space --focus last
+
+rcmd + rshift + ralt + rctrl - 1 : yabai -m space --focus 1
+rcmd + rshift + ralt + rctrl - 2 : yabai -m space --focus 2
+rcmd + rshift + ralt + rctrl - 3 : yabai -m space --focus 3
+rcmd + rshift + ralt + rctrl - 4 : yabai -m space --focus 4
+rcmd + rshift + ralt + rctrl - 5 : yabai -m space --focus 5
+rcmd + rshift + ralt + rctrl - 6 : yabai -m space --focus 6
+rcmd + rshift + ralt + rctrl - 7 : yabai -m space --focus 7
 #+end_src
 
 Send window to monitor and follow focus
@@ -121,7 +129,10 @@ hyper - y : yabai -m space --mirror y-axis
 hyper - x : yabai -m space --mirror x-axis
 
 ## toggle window fullscreen zoom
-hyper - j : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window_focus
+# hyper - j : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window_focus
+#hyper - j : keyboardmaestro "Hyper + J Maximize"
+hyper - j : osascript -e 'tell application "Keyboard Maestro Engine" to do script "Hyper + J Maximize"'
+
 
 ## Get name of current window
 hyper - w : yabai -m query --windows --window | jq .title

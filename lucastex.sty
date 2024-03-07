@@ -1,0 +1,129 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{lucastex.sty}[2022/09/02 Personal Style Package]
+
+%load packages
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{mathtools}
+\RequirePackage{mathrsfs}
+\RequirePackage{faktor}
+\RequirePackage{bbm}
+\RequirePackage{wrapfig}
+\RequirePackage{array}
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\RequirePackage{tikz-cd}
+\RequirePackage{enumerate}
+\RequirePackage[margin=1.0in]{geometry}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{esint}
+
+\RequirePackage{import}
+\RequirePackage{xifthen}
+\RequirePackage{pdfpages}
+\RequirePackage{transparent}
+\RequirePackage{comment}
+
+
+\usepackage{/Users/lucaskerbs/Library/CloudStorage/Dropbox/math/Automation/style/quiver}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+
+\newcommand{\incfig}[1]{%
+\def\svgwidth{0.5\columnwidth}
+\import{./img/}{#1.pdf_tex}
+}
+\newcommand\restr[2]{{% we make the whole thing an ordinary symbol
+  \left.\kern-\nulldelimiterspace % automatically resize the bar with \right
+  #1 % the function
+  \vphantom{\big|} % pretend it's a little taller at normal size
+  \right|_{#2} % this is the delimiter
+  }}
+%General shortcuts
+\renewcommand{\AA}{\mathbb{A}}
+\renewcommand{\S}{\mathbb{S}}
+\newcommand{\BB}{\mathbb{B}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\Id}{\mathbbm{1}}
+\newcommand{\wms}{\textsc{wms} }
+\newcommand{\wma}{\textsc{wma} }
+\newcommand{\wwlog}{\textsc{wlog} }
+\DeclareMathOperator{\aut}{Aut}
+\DeclareMathOperator{\pr}{pr}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\bor}{Bor}
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\spt}{spt}
+\DeclareMathOperator{\fab}{FAb}
+\DeclareMathOperator{\Ima}{Im}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Gall}{Gal}
+\DeclareMathOperator{\trdeg}{tr.deg}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\ddiv}{div}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Res}{Res}
+
+
+%This allows you to explain your equals sign with some text above is---the text
+%is ignored by =align= spacing
+\newcommand{\exeq}[2][=]{\stackrel{\mathclap{\normalfont\mbox{\tiny #2}}}{#1}}
+
+\newcommand{\gal}[1][]{\Gall_{#1}}
+
+\newcommand{\ds}{\displaystyle}
+
+\newcommand{\ie}{i.\,e.}
+\newcommand{\Ie}{I.\,e.}
+\newcommand{\eg}{e.\,g.}
+\newcommand{\Eg}{E.\,g.}
+\renewcommand\qedsymbol{$\blacksquare$}
+\let\emptyset\varnothing
+
+%%% The code below makes it so that \abs and \norm both work and scale to the
+%%% size of the arguement
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+%% This makes those nice cirled numbers
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+% Swap the definition of \abs* and \norm*, so that \abs
+% and \norm resizes the size of the brackets, and the
+% starred version does not.
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother
+
+% Dagger footnote
+\newcounter{daggerfootnote}
+\newcommand*{\daggerfootnote}[1]{%
+    \setcounter{daggerfootnote}{\value{footnote}}%
+    \renewcommand*{\thefootnote}{\fnsymbol{footnote}}%
+    \footnote[2]{#1}%
+    \setcounter{footnote}{\value{daggerfootnote}}%
+    \renewcommand*{\thefootnote}{\arabic{footnote}}%
+    }
+
+%Table of Contents: Include paragraph in the TOC but don't number them
+\RequirePackage[bookmarksopen=true,bookmarksopenlevel=5]{hyperref}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{5}

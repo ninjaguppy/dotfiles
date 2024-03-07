@@ -35,7 +35,7 @@
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        indent-guides     ; highlighted indent columns
-       ;ligatures         ; ligatures and symbols to make your code pretty again
+                                        ;ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink cursor line after big motions
@@ -73,7 +73,7 @@
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
-       ;;eshell            ; the elisp shell that works everywhere
+       eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
        vterm             ; the best terminal emulation in Emacs
@@ -192,7 +192,9 @@
 
 
 ;; Need to load the colemak layout *before* you initialize evil-colemak-basics
-(setq evil-colemak-basics-layout-mod 'mod-dh)
+  (setq evil-colemak-basics-char-jump-commands 'evil-snipe)
+  (setq evil-colemak-basics-layout-mod 'mod-dh)
+;;(global-evil-colemak-basics-mode)
 
 ;; This one tries to fix my stupid focus issue -- it did not work.
 (setq server-raise-frame nil)

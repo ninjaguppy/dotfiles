@@ -12,7 +12,7 @@ yabai -m space 5 --label idle
 yabai -m space 6 --label music
 
 yabai -m rule --add app="^System Settings$" sticky=on layer=above manage=off
-#yabai -m rule --add app="^Timery$" sticky=on layer=above manage=off
+yabai -m rule --add app="^Timery$" layer=above manage=off
 yabai -m rule --add app="^Karabiner-Elements$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
 yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
@@ -32,6 +32,9 @@ yabai -m rule --add app="^FaceTime$" manage=off sticky=on opacity=0.95
 yabai -m rule --add app="^Rocket$" manage=off
 yabai -m rule --add app="^Discord$" opacity=1
 yabai -m rule --add title="Emacs Everywhere" manage=off opacity=0.95
+yabai -m rule --add title="^CustomFileSearch$" manage=off opacity=0.95
+yabai -m rule --add app="Emacs" opacity=0.95
+#yabai -m rule --add title=".*YouTube" opacity=1
 yabai -m rule --add title="capture" manage=off opacity=1
 yabai -m rule --add app="^Flux$" manage=off
 yabai -m rule --add app="^Time Out$" manage=off
@@ -73,7 +76,6 @@ yabai -m config window_opacity on
 yabai -m config active_window_opacity 1.0
 yabai -m config normal_window_opacity 0.8
 yabai -m config window_shadow float
-yabai -m rule --add app="Emacs" opacity=0.75
 
 #yabai -m config window_border                on
 #yabai -m config window_border_width          4

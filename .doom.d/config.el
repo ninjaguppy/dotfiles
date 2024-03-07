@@ -19,7 +19,7 @@
 (setq doom-font (font-spec :family "JuliaMono" :size 15)
       doom-big-font (font-spec :family "JuliaMono" :size 24)
       doom-variable-pitch-font (font-spec :family "Ubuntu" :size 15)
-      doom-unicode-font (font-spec :family "JuliaMono")
+      doom-symbol-font (font-spec :family "JuliaMono")
       doom-serif-font (font-spec :family "IBM Plex Mono" :size 22 :weight 'light))
 (after! doom-themes
   (setq doom-themes-enable-bold t
@@ -39,7 +39,7 @@
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 (defun doom-modeline-conditional-buffer-encoding ()
-  "We expect the encoding to be LF UTF-8, so only show the modeline when this is not the case"
+  "We expect the encoding to be LF UTF-8, so only show when not the case"
   (setq-local doom-modeline-buffer-encoding
               (unless (and (memq (plist-get (coding-system-plist buffer-file-coding-system) :category)
                                  '(coding-category-undecided coding-category-utf-8))
@@ -53,8 +53,8 @@
 (add-hook 'text-mode-hook  'auto-fill-mode)
 (setq-default fill-column 80)
 
-(set-frame-parameter (selected-frame) 'alpha '(80 . 65))
-(add-to-list 'default-frame-alist '(alpha . (80 . 65)))
+;(set-frame-parameter (selected-frame) 'alpha '(80 . 65))
+;(add-to-list 'default-frame-alist '(alpha . (80 . 65)))
 
 (use-package all-the-icons
   :if (display-graphic-p))
@@ -68,27 +68,37 @@
                                   'evil-tex-m-functions)))
 
 (require 'evil-colemak-basics)
-(use-package evil-colemak-basics
-  :config
-  (global-evil-colemak-basics-mode)
-  )
-  (define-key evil-window-map "n" 'evil-window-down)
-  (define-key evil-window-map "N" 'evil-window-move-very-bottom)
-  (define-key evil-window-map (kbd "C-S-n") 'evil-window-move-very-bottom)
-  (define-key evil-window-map "e" 'evil-window-up)
-  (define-key evil-window-map "E" 'evil-window-move-very-top)
-  (define-key evil-window-map (kbd "C-S-e") 'evil-window-move-very-top)
-  (define-key evil-window-map "m" 'evil-window-left)
-  (define-key evil-window-map "M" 'evil-window-move-far-left)
-  (define-key evil-window-map (kbd "C-S-m") 'evil-window-move-far-left)
-  (define-key evil-window-map "i" 'evil-window-right)
-  (define-key evil-window-map "I" 'evil-window-move-far-right)
-  (define-key evil-window-map (kbd "C-S-i") 'evil-window-move-far-right)
-  ;; Kreate new window
-  (define-key evil-window-map "k" 'evil-window-new)
-  (define-key evil-window-map "\C-k" 'evil-window-new)
-  ;; Maximie window with SPC-w-J (this makes sense with my yabai/skhd config)
-  (define-key evil-window-map "J" 'doom/window-maximize-buffer)
+(global-evil-colemak-basics-mode)
+(define-key evil-window-map "n" 'evil-window-down)
+(define-key evil-window-map "N" 'evil-window-move-very-bottom)
+(define-key evil-window-map (kbd "C-S-n") 'evil-window-move-very-bottom)
+(define-key evil-window-map "e" 'evil-window-up)
+(define-key evil-window-map "E" 'evil-window-move-very-top)
+(define-key evil-window-map (kbd "C-S-e") 'evil-window-move-very-top)
+(define-key evil-window-map "m" 'evil-window-left)
+(define-key evil-window-map "M" 'evil-window-move-far-left)
+(define-key evil-window-map (kbd "C-S-m") 'evil-window-move-far-left)
+(define-key evil-window-map "i" 'evil-window-right)
+(define-key evil-window-map "I" 'evil-window-move-far-right)
+(define-key evil-window-map (kbd "C-S-i") 'evil-window-move-far-right)
+;; Kreate new window
+(define-key evil-window-map "k" 'evil-window-new)
+(define-key evil-window-map "\C-k" 'evil-window-new)
+;; Maximie window with SPC-w-J (this makes sense with my yabai/skhd config)
+(define-key evil-window-map "J" 'doom/window-maximize-buffer)
+;; Maybe this will work for PDF's
+;(define-key pdf-view-mode-map "n" 'pdf-view-next-line-or-next-page)
+;(define-key pdf-view-mode-map "e" 'pdf-view-previous-line-or-previous-page)
+;(add-hook 'pdf-view-mode-hook
+;        (lambda ()
+;          (local-set-key "e" 'pdf-view-previous-line-or-previous-page)
+;          (local-set-key "n" 'pdf-view-next-line-or-next-page)))
+(add-hook 'pdf-view-mode-hook
+  (lambda ()
+    (define-key evil-normal-state-local-map
+      (kbd "n") 'pdf-view-next-line-or-next-page)
+    (define-key evil-normal-state-local-map
+      (kbd "e") 'pdf-view-previous-line-or-previous-page)))
 
 (after! org
   (setq org-ellipsis " ▼ "
@@ -124,6 +134,7 @@
           ;("kmtrigger" . "")
          ( "wiki" . "https://en.wikipedia.org/wiki/")))
     (org-link-set-parameters "kmtrigger"  :follow (lambda (test) (browse-url (concat "kmtrigger://" test))))
+    (org-link-set-parameters "omnifocus"  :follow (lambda (test) (browse-url (concat "omnifocus://" test))))
 )
 
 (after! org
@@ -157,7 +168,7 @@
     (save-excursion
       (save-restriction
 	(org-narrow-to-subtree)
-	(org-show-subtree)
+	(org-fold-show-subtree)
 	(goto-char (point-min))
         (beginning-of-line 2)
         (narrow-to-region (point) (point-max))
@@ -609,8 +620,8 @@ If NO-RECURSION is non-nil don't count the words in subsections."
  `(("\\\\[]()[]" 0 'unimportant-latex-face prepend))
  'end)
 
-(after! latex
-  (setcar (assoc "⋆" LaTeX-fold-math-spec-list) "★")) ;; make \star bigger
+;;(after! latex
+;;  (setcar (assoc "⋆" LaTeX-fold-math-spec-list) "★")) ;; make \star bigger
 (setq TeX-fold-math-spec-list
       `(;; missing/better symbols
         ("≤" ("le"))
@@ -769,7 +780,7 @@ Such special cases should be remapped to another value, as given in `string-offs
     '("latexmk" "latexmk -pvc -synctex=1 -pdf %s" TeX-run-TeX nil t
       :help "Run latexmk on file")
     TeX-command-list)))
-(add-hook 'TeX-mode-hook '(lambda () (setq TeX-command-default "latexmk")))
+(add-hook 'TeX-mode-hook #'(lambda () (setq TeX-command-default "latexmk")))
 
 (add-hook 'pdf-view-mode-hook #'pdf-view-themed-minor-mode)
 
@@ -812,38 +823,37 @@ Such special cases should be remapped to another value, as given in `string-offs
 
 (setq fancy-splash-image "~/.doom.d/cute-doom/doom_512.png")
 
-(use-package dashboard
-  :init      ;; tweak dashboard config before loading it
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-set-navigator t)
-  (setq dashboard-banner-logo-title "\nKEYBINDINGS:\
-\nFind file               (SPC .)     \
-Open buffer list    (SPC b i)\
-\nFind recent files       (SPC f r)   \
-\nOpen dired file manager (SPC d d)   \
-List of keybindings (SPC h b b)")
-  ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
-  (setq dashboard-startup-banner "~/.doom.d/cute-doom/doom_512.png")
-  (setq dashboard-banner-logo-title "Journey Before Destination!")
-  (setq dashboard-center-content nil) ;; set to 't' for centered content
-  (setq dashboard-items '((recents . 5)
-                          (bookmarks . 5)
-                          (projects . 3)
-                          (registers . 5)))
-   :config
-   (dashboard-setup-startup-hook)
-   (dashboard-modify-heading-icons '((recents . "file-text")
-                                     (bookmarks . "book"))))
+;(use-package dashboard
+;  :init      ;; tweak dashboard config before loading it
+;  (setq dashboard-set-heading-icons t)
+;  (setq dashboard-set-file-icons t)
+;  (setq dashboard-set-navigator t)
+;  (setq dashboard-banner-logo-title "\nKEYBINDINGS:\
+;\nFind file               (SPC .)     \
+;Open buffer list    (SPC b i)\
+;\nFind recent files       (SPC f r)   \
+;\nOpen dired file manager (SPC d d)   \
+;List of keybindings (SPC h b b)")
+;  (setq dashboard-startup-banner "~/.doom.d/cute-doom/doom_512.png")
+;  (setq dashboard-banner-logo-title "Journey Before Destination!")
+;  (setq dashboard-center-content nil) ;; set to 't' for centered content
+;  (setq dashboard-items '((recents . 5)
+;                          (bookmarks . 5)
+;                          (projects . 3)
+;                          (registers . 5)))
+;   :config
+;   (dashboard-setup-startup-hook)
+;   (dashboard-modify-heading-icons '((recents . "file-text")
+;                                    (bookmarks . "book"))))
 
-(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-(setq doom-fallback-buffer-master "*dashboard*")
+;;(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+;;(setq doom-fallback-buffer-master "*dashboard*")
 
-(defun new-workspace ()
-  "Open a new workspace and open the dashboard at the same time"
-  (interactive)
-  (+workspace/new)
-  (dashboard-refresh-buffer))
+; (defun new-workspace ()
+;   "Open a new workspace and open the dashboard at the same time"
+;   (interactive)
+;   (+workspace/new)
+;   (dashboard-refresh-buffer))
 
 (use-package ibuffer-sidebar
   :load-path "~/.emacs.d/fork/ibuffer-sidebar"
@@ -916,9 +926,9 @@ List of keybindings (SPC h b b)")
        :desc "Open inbox.org" "n" #'(lambda () (interactive) (find-file "~/Dropbox/Slipbox/gtd/inbox.org"))
        :desc "Open review.org" "r" #'(lambda () (interactive) (find-file "~/Dropbox/Slipbox/gtd/review.org"))))
 
-(define-globalized-minor-mode global-rainbow-mode rainbow-mode
-  (lambda () (rainbow-mode 1)))
-(global-rainbow-mode 1 )
+;;(define-globalized-minor-mode my-global-rainbow-mode rainbow-mode
+;;  (lambda () (rainbow-mode 1)))
+;;(my-global-rainbow-mode 1)
 
 (after! evil-snipe
   (setq evil-snipe-scope 'visible

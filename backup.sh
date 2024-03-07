@@ -18,8 +18,7 @@ cp -r $HOME/.config/sketchybar/ ./.config/sketchybar/
 cp -r $HOME/.config/skhd/ ./.config/skhd/
 cp -r $HOME/.config/yabai/ ./.config/yabai/
 cp -r $HOME/.doom.d/ ./.doom.d/
-
-
+cp -r $HOME/Library/CloudStorage/Dropbox/math/Automation/style/lucastex.sty .
 
 # Check git status
 gs="$(git status | grep -i "modified")"

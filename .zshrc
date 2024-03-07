@@ -118,6 +118,7 @@ prompt pure
 export PATH=$PATH:~/.emacs.d/bin/
 export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH=$PATH:/opt/homebrew/Cellar/python@3.9/3.9.10/Frameworks/Python.framework/Versions/3.9/bin/
+export PATH=$PATH:/Users/lucaskerbs/Library/Python/3.11/bin
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
