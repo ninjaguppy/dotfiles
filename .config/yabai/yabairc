@@ -11,21 +11,21 @@ yabai -m space 4 --label todo
 yabai -m space 5 --label idle
 yabai -m space 6 --label music
 
-yabai -m rule --add app="^System Settings$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Timery$" layer=above manage=off
-yabai -m rule --add app="^Karabiner-Elements$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Keka$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Alfred Preferences$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Disk Utility$" sticky=on layer=above manage=off
-yabai -m rule --add app="^System Information$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Activity Monitor$" sticky=on layer=above manage=off
-yabai -m rule --add app="^CleanShot X$" layer=above manage=off
-yabai -m rule --add app="^CleanMyMac X$" layer=above manage=off
-yabai -m rule --add app="^Path Finder$" manage=off sticky=on layer=above
-yabai -m rule --add app="^TeamViewer$" sticky=off layer=above manage=off
-yabai -m rule --add app="^Font Book$" sticky=off layer=above manage=off
+yabai -m rule --add app="^System Settings$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Timery$" sub-layer=above manage=off
+yabai -m rule --add app="^Karabiner-Elements$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Finder$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Keka$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Alfred Preferences$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Disk Utility$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^System Information$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^Activity Monitor$" sticky=on sub-layer=above manage=off
+yabai -m rule --add app="^CleanShot X$" sub-layer=above manage=off
+yabai -m rule --add app="^CleanMyMac X$" sub-layer=above manage=off
+yabai -m rule --add app="^Path Finder$" manage=off sticky=on sub-layer=above
+yabai -m rule --add app="^TeamViewer$" sticky=off sub-layer=above manage=off
+yabai -m rule --add app="^Font Book$" sticky=off sub-layer=above manage=off
 yabai -m rule --add app="Fantastical" manage=off opacity=0.95
 yabai -m rule --add app="^FaceTime$" manage=off sticky=on opacity=0.95
 #yabai -m rule --add app="^Spotify$" manage=off

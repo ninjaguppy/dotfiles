@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -81,7 +88,7 @@ plugins=(
   rand-quote
   sudo
   yarn
-  z
+ # z
   #emacs
   colored-man-pages
   colorize
@@ -111,7 +118,7 @@ autoload -U promptinit; promptinit
 #zstyle ':prompt:pure:prompt:*' color cyan
 
 # turn on git stash status
-#zstyle :prompt:pure:git:stash show yes
+zstyle :prompt:pure:git:stash show yes
 
 prompt pure
 
@@ -166,17 +173,23 @@ function push() {
 }
 
 
-alias clear="clear && neofetch && quote"
+#alias clear="clear && neofetch && quote"
 alias backdots="cd ~/Projects/dotfiles/ && ./backup.sh && cd ~/"
 alias mt="cd ~/Dropbox/ModernTiresias && hugo server -D && cd ~/"
-#neofetch
 
-GEN=$(shuf -i 1-2 -n 1)
 
-if [[ $GEN -eq 1 ]]
-then
-  pokemon-colorscripts -r
-else
-  neofetch
-fi
+#GEN=$(shuf -i 1-2 -n 1)
+
+#if [[ $GEN -eq 1 ]]
+#then
+  #pokemon-colorscripts -r
+#else
+  #neofetch
+#fi
 export PATH="/opt/homebrew/opt/node@18/bin:$PATH"
+export PATH="/Applications/Alacritty.app/Contents/MacOS/alacritty:$PATH"
+eval "$(zoxide init --cmd cd zsh)"
+source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
