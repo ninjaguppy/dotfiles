@@ -17,6 +17,7 @@ cp -r $HOME/.config/karabiner/ ./.config/karabiner/
 cp -r $HOME/.config/sketchybar/ ./.config/sketchybar/
 cp -r $HOME/.config/skhd/ ./.config/skhd/
 cp -r $HOME/.config/yabai/ ./.config/yabai/
+cp -r $HOME/.config/nvim/ ./.config/nvim/
 cp -r $HOME/.doom.d/ ./.doom.d/
 cp -r $HOME/Library/CloudStorage/Dropbox/math/Automation/style/lucastex.sty .
 
