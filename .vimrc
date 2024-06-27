@@ -12,6 +12,7 @@ syntax on
 "
 " The t-f-j rotation is enabled by default but can be disabled using:
 "let g:colemak_basics_rotate_t_f_j = 0
+
 if get(g:, 'colemak_basics_rotate_t_f_j', 1)
   set langmap=nN;jJ,eE;kK,iI;lL,kK;nN,uU;iI,lL;uU,fF;eE,tT;fF,jJ;tT,mM;hH
 else

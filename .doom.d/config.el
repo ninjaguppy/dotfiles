@@ -1,6 +1,7 @@
 (setq user-full-name "Lucas Kerbs"
       user-mail-address "lucaskerbs@gmail.com")
 (setq default-directory "~/Library/CloudStorage/Dropbox/math")
+(setq frame-title-format '((:eval buffer-file-name)))
 
 (setq undo-limit 100000000                         ; Raise undo-limit to 80Mb
       evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
@@ -488,6 +489,12 @@
   (add-to-list 'org-latex-packages-alist '("" "/Users/lucaskerbs/Library/CloudStorage/Dropbox/math/Automation/style/lucastex" t))
 )
 
+(after! org
+  (use-package! zotxt)
+  (add-hook 'org-mode-hook 'org-zotxt-mode)
+  (require 'org-zotxt-noter)
+)
+
 (use-package! org-auto-tangle
   :defer t
         :hook (org-mode . org-auto-tangle-mode))
@@ -933,6 +940,45 @@ Such special cases should be remapped to another value, as given in `string-offs
 (after! evil-snipe
   (setq evil-snipe-scope 'visible
         evil-snipe-spillover-scope 'whole-visible))
+
+(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+
+(defun arXiv-print-entry (entry)
+  "Pretty print arXiv entries.
+Implementation mostly stolen from elfeed's default printing
+function; i.e., `elfeed-search-print-entry--default'."
+  (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+
+         (title (or (elfeed-meta entry :title)
+                    (elfeed-entry-title entry) ""))
+         (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+         (title-column (elfeed-format-column title 80 :left))
+
+         (entry-authors (s-join ", "
+                                (--map (plist-get it :name)
+                                       (elfeed-meta entry :authors))))
+         (authors-column (elfeed-format-column entry-authors 52 :left))
+
+         (score (elfeed-format-column
+                 (format "%s" (elfeed-score-scoring-get-score-from-entry entry))
+                 4 :left))
+
+         (feed (elfeed-entry-feed entry))
+         (feed-column (let ((ft (or (elfeed-meta feed :title)
+                                    (elfeed-feed-title feed))))
+                        (elfeed-format-column
+                         (cond ((s-matches? "math.AT" ft) "Algebraic Topology")
+                               ((s-matches? "math.CT" ft) "Category Theory")
+                               ((s-matches? "math.KT" ft) "Homological Algebra")
+                               ((s-matches? "math.QA" ft) "Quantum Algebra"))
+                         (length "Homological Algebra") :left))))
+    (insert (propertize date 'face 'elfeed-search-date-face) " ")
+    (insert (propertize title-column 'face title-faces 'kbd-help title) " ")
+    (insert (propertize feed-column 'face 'elfeed-search-feed-face) " ")
+    (insert (propertize authors-column 'kbd-help entry-authors) " ")
+    (insert score " ")))
+
+(setq elfeed-search-print-entry-function #'arXiv-print-entry)
 
 ;(require 'elcord)
 ;(elcord-mode)

@@ -120,7 +120,7 @@ autoload -U promptinit; promptinit
 # turn on git stash status
 zstyle :prompt:pure:git:stash show yes
 
-prompt pure
+#prompt pure
 
 export PATH=$PATH:~/.emacs.d/bin/
 export PATH="${PATH}:${HOME}/.local/bin/"
@@ -190,6 +190,9 @@ export PATH="/opt/homebrew/opt/node@18/bin:$PATH"
 export PATH="/Applications/Alacritty.app/Contents/MacOS/alacritty:$PATH"
 eval "$(zoxide init --cmd cd zsh)"
 source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
+
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

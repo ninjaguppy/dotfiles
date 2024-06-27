@@ -183,7 +183,7 @@
        ;;emms
        everywhere        ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize
-       ;;(rss +org)        ; emacs as an RSS reader
+       (rss +org)        ; emacs as an RSS reader
        ;;twitter           ; twitter client https://twitter.com/vnought
 
        :config
@@ -192,8 +192,8 @@
 
 
 ;; Need to load the colemak layout *before* you initialize evil-colemak-basics
-  (setq evil-colemak-basics-char-jump-commands 'evil-snipe)
-  (setq evil-colemak-basics-layout-mod 'mod-dh)
+(setq evil-colemak-basics-char-jump-commands 'evil-snipe)
+(setq evil-colemak-basics-layout-mod 'mod-dh)
 ;;(global-evil-colemak-basics-mode)
 
 ;; This one tries to fix my stupid focus issue -- it did not work.

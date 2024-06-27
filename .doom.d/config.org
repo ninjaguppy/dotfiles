@@ -21,6 +21,7 @@
   - [[#blogging][Blogging]]
   - [[#org-roam][Org-Roam]]
   - [[#org-latex][Org-Latex]]
+  - [[#zotero][Zotero]]
   - [[#auto-tangle][Auto-tangle]]
   - [[#org-chef][Org-Chef]]
   - [[#word-count][Word Count]]
@@ -42,6 +43,7 @@
   - [[#openers][Openers]]
   - [[#rainbow-mode][Rainbow Mode]]
   - [[#evil-snipe][Evil Snipe]]
+  - [[#elfeed][Elfeed]]
   - [[#discord][Discord]]
   - [[#other][Other]]
 
@@ -52,6 +54,7 @@ clients, file templates and snippets. It is optional.
 (setq user-full-name "Lucas Kerbs"
       user-mail-address "lucaskerbs@gmail.com")
 (setq default-directory "~/Library/CloudStorage/Dropbox/math")
+(setq frame-title-format '((:eval buffer-file-name)))
 #+end_src
 
 
@@ -681,6 +684,16 @@ switch to =imagemagick=
 )
 #+end_src
 
+** Zotero
+
+#+begin_src elisp
+(after! org
+  (use-package! zotxt)
+  (add-hook 'org-mode-hook 'org-zotxt-mode)
+  (require 'org-zotxt-noter)
+)
+#+end_src
+
 ** Auto-tangle
 =org-auto-tangle= allows you to add the option =#+auto_tangle: t= in your Org file so that it automatically tangles when you save the document.
 #+begin_src elisp
@@ -1270,6 +1283,50 @@ the buffer but I want a little larger range for my sniping
 (after! evil-snipe
   (setq evil-snipe-scope 'visible
         evil-snipe-spillover-scope 'whole-visible))
+#+end_src
+
+** Elfeed
+I've setup elfeed to view the arxiv! This forces elfeed to update the feed
+whenever I open it.
+#+begin_src elisp
+(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+
+(defun arXiv-print-entry (entry)
+  "Pretty print arXiv entries.
+Implementation mostly stolen from elfeed's default printing
+function; i.e., `elfeed-search-print-entry--default'."
+  (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+
+         (title (or (elfeed-meta entry :title)
+                    (elfeed-entry-title entry) ""))
+         (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+         (title-column (elfeed-format-column title 80 :left))
+
+         (entry-authors (s-join ", "
+                                (--map (plist-get it :name)
+                                       (elfeed-meta entry :authors))))
+         (authors-column (elfeed-format-column entry-authors 52 :left))
+
+         (score (elfeed-format-column
+                 (format "%s" (elfeed-score-scoring-get-score-from-entry entry))
+                 4 :left))
+
+         (feed (elfeed-entry-feed entry))
+         (feed-column (let ((ft (or (elfeed-meta feed :title)
+                                    (elfeed-feed-title feed))))
+                        (elfeed-format-column
+                         (cond ((s-matches? "math.AT" ft) "Algebraic Topology")
+                               ((s-matches? "math.CT" ft) "Category Theory")
+                               ((s-matches? "math.KT" ft) "Homological Algebra")
+                               ((s-matches? "math.QA" ft) "Quantum Algebra"))
+                         (length "Homological Algebra") :left))))
+    (insert (propertize date 'face 'elfeed-search-date-face) " ")
+    (insert (propertize title-column 'face title-faces 'kbd-help title) " ")
+    (insert (propertize feed-column 'face 'elfeed-search-feed-face) " ")
+    (insert (propertize authors-column 'kbd-help entry-authors) " ")
+    (insert score " ")))
+
+(setq elfeed-search-print-entry-function #'arXiv-print-entry)
 #+end_src
 
 ** Discord

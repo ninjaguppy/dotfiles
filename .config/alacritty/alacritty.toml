@@ -1,5 +1,8 @@
+[shell]
+program = "/bin/zsh"
+args = ["-l"]
 [colors]
-draw_bold_text_with_bright_colors = true
+draw_bold_text_with_bright_colors = false
 
 [colors.bright]
 black = "0x72696a"
@@ -32,10 +35,13 @@ unfocused_hollow = true
 [font]
 size = 15
 
+[font.normal]
+family = "JuliaMono"
+style = "RegularLatin"
+
 [font.bold]
 family = "JuliaMono"
-style = "Bold"
-
+style = "BoldLatin"
 
 [font.glyph_offset]
 x = 0
@@ -43,11 +49,7 @@ y = 0
 
 [font.italic]
 family = "JuliaMono"
-style = "Italic"
-
-[font.normal]
-family = "JuliaMono"
-style = "Regular"
+style = "RegularItalic"
 
 [font.offset]
 x = 0
