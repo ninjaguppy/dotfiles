@@ -33,32 +33,27 @@ style = "Block"
 unfocused_hollow = true
 
 [font]
-size = 15
+size = 18
 
 [font.normal]
-family = "JuliaMono"
-style = "RegularLatin"
+family = "IosevkaSS 14 Nerd Font"
+style = "Extended"
 
 [font.bold]
-family = "JuliaMono"
-style = "BoldLatin"
+family = "IosevkaSS 14 Nerd Font"
+style = "Extended Bold"
 
 [font.glyph_offset]
 x = 0
 y = 0
 
 [font.italic]
-family = "JuliaMono"
-style = "RegularItalic"
+family = "IosevkaSS 14 Nerd Font"
+style = "Extended Italic"
 
 [font.offset]
 x = 0
 y = 0
-
-[[keyboard.bindings]]
-action = "SpawnNewInstance"
-key = "N"
-mods = "Control"
 
 [scrolling]
 history = 10000
@@ -66,8 +61,9 @@ multiplier = 3
 
 [window]
 decorations = "buttonless"
-opacity = 0.8
+opacity = 0.95
 dynamic_title = true
+blur = true
 
 [window.dimensions]
 columns = 250

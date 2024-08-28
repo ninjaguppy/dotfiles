@@ -12,12 +12,13 @@ fi
 
 # copy other dot files
 cp  $HOME/{.zshrc,.vimrc} .
+cp -r $HOME/.config/aerospace/ ./.config/aerospace/
 cp -r $HOME/.config/alacritty/ ./.config/alacritty/
+cp -r $HOME/.config/iterm2/ ./.config/iterm2/
 cp -r $HOME/.config/karabiner/ ./.config/karabiner/
 cp -r $HOME/.config/sketchybar/ ./.config/sketchybar/
 cp -r $HOME/.config/skhd/ ./.config/skhd/
 cp -r $HOME/.config/yabai/ ./.config/yabai/
-cp -r $HOME/.config/nvim/ ./.config/nvim/
 cp -r $HOME/.doom.d/ ./.doom.d/
 cp -r $HOME/Library/CloudStorage/Dropbox/math/Automation/style/lucastex.sty .
 

@@ -126,7 +126,10 @@ export PATH=$PATH:~/.emacs.d/bin/
 export PATH="${PATH}:${HOME}/.local/bin/"
 export PATH=$PATH:/opt/homebrew/Cellar/python@3.9/3.9.10/Frameworks/Python.framework/Versions/3.9/bin/
 export PATH=$PATH:/Users/lucaskerbs/Library/Python/3.11/bin
+export PATH=$PATH:/Applications/Alacritty.app/Contents/MacOS/alacritty
 # User configuration
+
+EDITOR='nvim'
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -176,6 +179,7 @@ function push() {
 #alias clear="clear && neofetch && quote"
 alias backdots="cd ~/Projects/dotfiles/ && ./backup.sh && cd ~/"
 alias mt="cd ~/Dropbox/ModernTiresias && hugo server -D && cd ~/"
+alias convim=" cd ~/.config/nvim && nvim"
 
 
 #GEN=$(shuf -i 1-2 -n 1)

@@ -10,11 +10,6 @@ sketchybar --add event aerospace_workspace_change
 
 for m in $(aerospace list-monitors | awk '{print $1}'); do
   for i in $(aerospace list-workspaces --monitor $m); do
-    if ["$m" = "1"]; then 
-      a=2
-    else
-      a=1
-    fi
     sid=$i
     space=(
       space="$sid"

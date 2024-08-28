@@ -41,5 +41,5 @@ sketchybar --add slider volume right            \
            --add item volume_icon right         \
            --set volume_icon "${volume_icon[@]}"
 
-sketchybar --add bracket status brew github.bell volume_icon \
+sketchybar --add bracket status volume_icon battery calendar \
            --set status "${status_bracket[@]}"

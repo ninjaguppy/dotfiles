@@ -1,0 +1,271 @@
+# Place a copy of this config to ~/.aerospace.toml
+# After that, you can edit ~/.aerospace.toml to your liking
+
+# It's not necessary to copy all keys to your config.
+# If the key is missing in your config, "default-config.toml" will serve as a fallback
+
+# You can use it to add commands that run after login to macOS user session.
+# 'start-at-login' needs to be 'true' for 'after-login-command' to work
+# Available commands: https://nikitabobko.github.io/AeroSpace/commands
+after-login-command = []
+
+# You can use it to add commands that run after AeroSpace startup.
+# 'after-startup-command' is run after 'after-login-command'
+# Available commands : https://nikitabobko.github.io/AeroSpace/commands
+after-startup-command = [
+    'exec-and-forget /opt/homebrew/opt/sketchybar/bin/sketchybar',
+]
+
+exec-on-workspace-change = ['/bin/bash', '-c',
+'/opt/homebrew/opt/sketchybar/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE'
+]
+
+
+on-focus-changed = [
+  'exec-and-forget /opt/homebrew/opt/sketchybar/bin/sketchybar --trigger front_app_switched'
+]
+
+# Start AeroSpace at login
+start-at-login = true
+
+# Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# See: https://nikitabobko.github.io/AeroSpace/guide#layouts
+# The 'accordion-padding' specifies the size of accordion padding
+# You can set 0 to disable the padding feature
+accordion-padding = 20
+
+# Possible values: tiles|accordion
+default-root-container-layout = 'accordion'
+
+# Possible values: horizontal|vertical|auto
+# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
+#               tall monitor (anything higher than wide) gets vertical orientation
+default-root-container-orientation = 'auto'
+
+# Possible values: (qwerty|dvorak)
+# See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
+key-mapping.preset = 'qwerty'
+
+# Mouse follows focus when focused monitor changes
+# Drop it from your config, if you don't like this behavior
+# See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
+# See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+#on-focus-changed = ['move-mouse window-lazy-center']
+# Gaps between windows (inner-*) and between monitor edges (outer-*).
+# Possible values:
+# - Constant:     gaps.outer.top = 8
+# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
+#                 In this example, 24 is a default value when there is no match.
+#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
+#                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+[gaps]
+inner.horizontal = 10
+inner.vertical =   10
+outer.left =       10
+outer.bottom =     10
+#outer.top =        48
+outer.top =        10
+outer.right =      10
+
+
+# 'main' binding mode declaration
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+# 'main' binding mode must be always presented
+[mode.main.binding]
+
+# All possible keys:
+# - Letters.        a, b, c, ..., z
+# - Numbers.        0, 1, 2, ..., 9
+# - Keypad numbers. keypad0, keypad1, keypad2, ..., keypad9
+# - F-keys.         f1, f2, ..., f20
+# - Special keys.   minus, equal, period, comma, slash, backslash, quote, semicolon, backtick,
+#                   leftSquareBracket, rightSquareBracket, space, enter, esc, backspace, tab
+# - Keypad special. keypadClear, keypadDecimalMark, keypadDivide, keypadEnter, keypadEqual,
+#                   keypadMinus, keypadMultiply, keypadPlus
+# Arrows.         left, down, up, right
+
+# All possible modifiers: cmd, alt, ctrl, shift
+
+# All possible commands: https://nikitabobko.github.io/AeroSpace/commands
+
+# You can uncomment this line to open up terminal with alt + enter shortcut
+# See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
+# alt-enter = 'exec-and-forget open -n /System/Applications/Utilities/Terminal.app'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#layout
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#focus
+cmd-ctrl-alt-shift-m = 'focus left'
+cmd-ctrl-alt-shift-n = 'focus down'
+cmd-ctrl-alt-shift-e = 'focus up'
+cmd-ctrl-alt-shift-i = 'focus right'
+
+# Moving between spaces
+cmd-ctrl-alt-shift-h = 'workspace next --wrap-around'
+cmd-ctrl-alt-shift-k = 'workspace prev --wrap-around'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move
+# alt-shift-m = 'move left'
+# alt-shift-n = 'move down'
+# alt-shift-e = 'move up'
+# alt-shift-i = 'move right'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#resize
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
+
+# 
+alt-j = 'fullscreen'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-a = 'workspace A'
+alt-c = 'workspace C'
+alt-d = 'workspace D'
+alt-m = 'workspace M'
+alt-o = 'workspace O'
+alt-t = 'workspace T'
+
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-a = 'move-node-to-workspace A'
+alt-shift-c = 'move-node-to-workspace C'
+alt-shift-d = 'move-node-to-workspace D'
+alt-shift-m = 'move-node-to-workspace M'
+alt-shift-o = 'move-node-to-workspace O'
+alt-shift-t = 'move-node-to-workspace T'
+
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
+alt-tab = 'workspace-back-and-forth'
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#mode
+alt-space = ['mode foo', 'exec-and-forget borders active_color=0xff7f30cd', 'exec-and-forget sketchybar --bar border_color=0xff7f30cd']
+
+[mode.foo.binding]
+space = ['mode main', 'exec-and-forget borders active_color=0xffe1e3e4',
+    'exec-and-forget sketchybar --bar border_color=0xff494d64']
+backtick = ['reload-config', 'mode main', 'exec-and-forget borders active_color=0xffe1e3e4', 'exec-and-forget sketchybar --bar border_color=0xff494d64']
+
+minus = 'resize smart -64'
+equal = 'resize smart +64'
+slash = 'layout tiles horizontal vertical'
+comma = 'layout accordion horizontal vertical'
+
+m = 'focus left'
+n = 'focus down'
+e = 'focus up'
+i = 'focus right'
+cmd-ctrl-alt-shift-m = 'move left'
+cmd-ctrl-alt-shift-n = 'move down'
+cmd-ctrl-alt-shift-e = 'move up'
+cmd-ctrl-alt-shift-i = 'move right'
+
+c = ['move-mouse window-force-center']
+
+k = 'workspace prev'
+h = 'workspace next'
+cmd-ctrl-alt-shift-k = 'move-node-to-workspace prev'
+cmd-ctrl-alt-shift-h = 'move-node-to-workspace next'
+
+
+j = 'fullscreen'
+f = 'layout floating tiling'
+cmd-ctrl-alt-shift-r = 'flatten-workspace-tree'
+
+
+r = ['mode resize', 'exec-and-forget borders active_color=0xff65fdb6',
+    'exec-and-forget sketchybar --bar border_color=0xff65fdb6']
+o = ['mode spacial', 'exec-and-forget borders active_color=0xffe46c35',
+    'exec-and-forget sketchybar --bar border_color=0xffe46c35']
+
+[mode.resize.binding]
+space = ['mode main', 'exec-and-forget borders active_color=0xffe1e3e4',
+    'exec-and-forget sketchybar --bar border_color=0xff494d64']
+esc = ['mode foo', 'exec-and-forget borders active_color=0xff7f30cd', 'exec-and-forget sketchybar --bar border_color=0xff7f30cd']
+
+m = ['resize width -32']
+n = ['resize height -32']
+e = ['resize height +32']
+i = ['resize width +32']
+shift-m = ['resize width -8']
+shift-n = ['resize height -8']
+shift-e = ['resize height +8']
+shift-i = ['resize width +8']
+
+[mode.spacial.binding]
+space = ['mode main', 'exec-and-forget borders active_color=0xffe1e3e4',
+    'exec-and-forget sketchybar --bar border_color=0xff494d64']
+esc = ['mode foo', 'exec-and-forget borders active_color=0xff7f30cd', 'exec-and-forget sketchybar --bar border_color=0xff7f30cd']
+
+m = ['join-with left', 'mode foo', 'exec-and-forget borders active_color=0xff7f30cd', 'exec-and-forget sketchybar --bar border_color=0xff7f30cd']
+n = ['join-with down','mode foo', 'exec-and-forget borders active_color=0xff7f30cd', 'exec-and-forget sketchybar --bar border_color=0xff7f30cd']
+e = ['join-with up','mode foo', 'exec-and-forget borders active_color=0xff7f30cd', 'exec-and-forget sketchybar --bar border_color=0xff7f30cd']
+i = ['join-with right','mode foo', 'exec-and-forget borders active_color=0xff7f30cd', 'exec-and-forget sketchybar --bar border_color=0xff7f30cd']
+
+
+
+
+# 'service' binding mode declaration.
+# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+[mode.service.binding]
+
+
+[workspace-to-monitor-force-assignment]
+1 = 2
+2 = 2
+3 = 2
+4 = 2
+5 = 2
+6 = 2
+A = 2
+M = 2
+O = 2
+T = 2
+
+7 = 1
+8 = 1
+C = 1
+D = 1
+
+# Trying to get the iterm floating window thing to work:
+[[on-window-detected]]
+if.window-title-regex-substring = 'Hotkey Window'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.cocoatech.PathFinder-setapp'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = 'move-node-to-workspace D'
+
+
+[[on-window-detected]]
+if.app-id = 'com.stairways.keyboardmaestro.editor'
+run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
+if.app-id = 'com.omnigroup.OmniFocus'
+run = 'move-node-to-workspace T'
+

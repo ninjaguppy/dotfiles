@@ -33,6 +33,7 @@ yabai -m rule --add app="^Rocket$" manage=off
 yabai -m rule --add app="^Discord$" opacity=1
 yabai -m rule --add title="Emacs Everywhere" manage=off opacity=0.95
 yabai -m rule --add title="^CustomFileSearch$" manage=off opacity=0.95
+yabai -m rule --add title="^Quick Edits" manage=off opacity=0.95
 yabai -m rule --add app="Emacs" opacity=1
 #yabai -m rule --add title=".*YouTube" opacity=1
 yabai -m rule --add title="capture" manage=off opacity=1
