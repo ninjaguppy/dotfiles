@@ -69,7 +69,7 @@ hyper - return : osascript -e 'tell application "Keyboard Maestro Engine" to do 
 ## toggle window fullscreen zoom
 # hyper - j : yabai -m window --toggle zoom-fullscreen; sketchybar --trigger window_focus
 #hyper - j : keyboardmaestro "Hyper + J Maximize"
-hyper - j : osascript -e 'tell application "Keyboard Maestro Engine" to do script "Hyper + J Maximize"'
+#hyper - j : osascript -e 'tell application "Keyboard Maestro Engine" to do script "Hyper + J Maximize"'
 
 
 ## Get name of current window
