@@ -19,6 +19,7 @@
 \RequirePackage[margin=1.0in]{geometry}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{esint}
+\RequirePackage[english]{babel}
 
 \RequirePackage{import}
 \RequirePackage{xifthen}
@@ -29,8 +30,20 @@
 
 \usepackage{/Users/lucaskerbs/Library/CloudStorage/Dropbox/math/Automation/style/quiver}
 
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{cor}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\newcommand{\red}{\color{red}}
+\newcommand{\blue}{\color{blue}}
+\newcommand{\green}{\color{green}}
+
 
 \newcommand{\incfig}[1]{%
 \def\svgwidth{0.5\columnwidth}
@@ -76,6 +89,7 @@
 \DeclareMathOperator{\grad}{grad}
 \DeclareMathOperator{\dist}{dist}
 \DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\diam}{diam}
 
 
 %This allows you to explain your equals sign with some text above is---the text

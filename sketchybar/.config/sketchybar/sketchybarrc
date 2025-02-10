@@ -30,11 +30,11 @@ bar=(
   border_color=$BAR_BORDER_COLOR
   blur_radius=10
   shadow=off
-  position=top
+  position=bottom
   sticky=on
   padding_right=10
   padding_left=10
-  y_offset=-5
+  y_offset=0
   margin=10
 )
 
