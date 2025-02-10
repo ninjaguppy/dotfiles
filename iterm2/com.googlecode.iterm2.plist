@@ -716,10 +716,8 @@
 	<false/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
-	<key>HideFromDockAndAppSwitcher</key>
-	<true/>
 	<key>HideMenuBarInFullscreen</key>
-	<false/>
+	<true/>
 	<key>HideScrollbar</key>
 	<true/>
 	<key>HideTab</key>
@@ -1622,7 +1620,7 @@
 			<key>Name</key>
 			<string>Shell</string>
 			<key>Non Ascii Font</key>
-			<string>Menlo-Regular 11</string>
+			<string>JetBrainsMonoNF-Regular 12</string>
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Non-ASCII Ligatures</key>
@@ -1743,7 +1741,7 @@
 			<key>Title Components</key>
 			<integer>3</integer>
 			<key>Transparency</key>
-			<real>0.096625664893616903</real>
+			<real>0.09670877659574463</real>
 			<key>Unicode Normalization</key>
 			<integer>0</integer>
 			<key>Unicode Version</key>
@@ -2703,7 +2701,7 @@
 			<key>Name</key>
 			<string>Hotkey Window</string>
 			<key>Non Ascii Font</key>
-			<string>Menlo-Regular 11</string>
+			<string>JetBrainsMonoNF-Regular 12</string>
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Non-ASCII Ligatures</key>
@@ -2826,7 +2824,7 @@
 			<key>Title Components</key>
 			<integer>34</integer>
 			<key>Transparency</key>
-			<real>0.05318594858156029</real>
+			<real>0.050000000000000003</real>
 			<key>Unicode Normalization</key>
 			<integer>0</integer>
 			<key>Unicode Version</key>
@@ -5061,6 +5059,7 @@
 		<key>ssh</key>
 		<string>3C42FE4B-C5FA-4B77-A9F4-2D3FA7684E81</string>
 	</dict>
+	refs/remotes/origin/main
 	<key>UseBorder</key>
 	<false/>
 	<key>VisualIndicatorForEsc</key>
