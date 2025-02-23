@@ -117,7 +117,7 @@ cmd-ctrl-alt-shift-k = 'workspace prev --wrap-around'
 # alt-shift-e = 'move up'
 # alt-shift-i = 'move right'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#resize
+# See: https://nikitabobko.github.io/AeroSpace/commands#resizeaerospac
 alt-shift-minus = 'resize smart -50'
 alt-shift-equal = 'resize smart +50'
 
@@ -134,9 +134,10 @@ alt-6 = 'workspace 6'
 alt-a = 'workspace A'
 alt-c = 'workspace C'
 alt-d = 'workspace D'
-alt-m = 'workspace M'
+# alt-m = 'workspace M'
 alt-o = 'workspace O'
 alt-t = 'workspace T'
+cmd-alt-p = 'workspace nsp'
 
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
@@ -249,9 +250,9 @@ C = 1
 D = 1
 
 # Trying to get the iterm floating window thing to work:
-[[on-window-detected]]
-if.window-title-regex-substring = 'Hotkey Window'
-run = 'layout floating'
+#[[on-window-detected]]
+#if.window-title-regex-substring = 'Hotkey Window'
+#run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.cocoatech.PathFinder-setapp'
